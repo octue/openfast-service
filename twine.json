@@ -1,0 +1,165 @@
+{
+  "title": "Panel Codes FSI twine",
+  "description": "Uses potential theory to solve 2D airfoils",
+  "children": [
+  ],
+  "configuration_schema": {
+    "type": "object",
+    "properties": {
+      "analysis_program": {
+        "title": "Analysis Program",
+        "description": "The underlying program that will be run to determine aerofoil section properties",
+        "type": "string",
+        "default": "xfoil",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "xfoil"
+            ],
+            "title": "X-Foil"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "rfoil"
+            ],
+            "title": "RFoil"
+          }
+        ]
+      },
+      "alpha_range": {
+        "description": "The range of alpha values at which the solver will be run.",
+        "type": "array",
+        "title": "Alpha Range [min max step]",
+        "default": [-10, 10, 5],
+        "items": [
+          {
+            "type": "number",
+            "min": -30,
+            "max": 30
+          },
+          {
+            "type": "number",
+            "min": -30,
+            "max": 30
+          },
+          {
+            "type": "number",
+            "min": 0.1,
+            "max": 180
+          }
+        ],
+        "additionalItems": false
+      }
+    }
+  },
+  "credentials": [
+    {
+      "name": "OPEN_WEATHER_MAP_SECRET_KEY",
+      "purpose": "Token for accessing the weather API at openweathermap.org"
+    }
+  ],
+  "inputManifest": [
+    {
+      "key": "wind_tunnel_data",
+      "purpose": "A dataset containing wind tunnel data",
+      "filters": "tags:(subsystem_blade AND experiments) files:(extension:tnl AND sequence:>=0)"
+    },
+    {
+      "key": "aerofoil_shape_file",
+      "purpose": "A dataset containing a single shape file in csv or tab delimited open form, describing the aerofoil shape.",
+      "filters": "tags:(subsystem_blade AND aerofoil AND geometry) files:(extension:csv)"
+    }
+  ],
+  "input_values_schema": {
+    "title": "Input values schema",
+    "type": "object",
+    "properties": {
+      "inflow_speed": {
+        "title": "U",
+        "description": "Inflow speed U in m/s",
+        "type": "number",
+        "default": 1,
+        "minimum": 1e-6,
+        "maximum": 330
+      },
+      "kinematic_viscosity": {
+        "title": "Kinematic Viscosity",
+        "description": "Kinematic visosity nu",
+        "type": "number",
+        "minimum": 1e-6,
+        "maximum": 0.1
+      },
+      "characteristic_length": {
+        "title": "Characteristic aerofoil length",
+        "description": "Chord length l in m",
+        "type": "number",
+        "minimum": 1e-6,
+        "maximum": 10
+      },
+      "re_xtr": {
+        "title": "Critical Reynolds number for top and bottom of the airfoil",
+        "description": "Reynolds number at which the transition from laminar to turbulent flow occurs  [Top, Bottom]",
+        "type": "array",
+        "items": [
+          {
+            "type": "number",
+            "default": 5e5,
+            "minimum": 1e-6,
+            "maximum": 1e9
+          },
+          {
+            "type": "number",
+            "default": 5e5,
+            "minimum": 1e-6,
+            "maximum": 1e9
+          }
+         ],
+        "additionalItems": false
+      }
+    }
+  },
+  "output_manifest": [
+    {
+      "key": "results_file",
+      "purpose": "ASCII text file(s) containing header and tab delimited list of Alpha, Cl, Cd and Cm values suitable for use in aerodyn",
+      "tags": "subsystem_blade AND aerofoil AND results"
+    }
+  ],
+  "output_values_schema": {
+    "type": "object",
+    "properties": {
+      "reynolds_number": {
+        "description": "Reynolds number calculated from input parameters",
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1000000000000
+      },
+      "cl": {
+        "description": "Output Cl values corresponding to the input alpha values",
+        "type": "array",
+        "title": "Cl values",
+        "items": {
+          "type": "number"
+        }
+      },
+      "cd": {
+        "description": "Output Cd values corresponding to the input alpha values",
+        "type": "array",
+        "title": "Cd values",
+        "items": {
+          "type": "number"
+        }
+      },
+      "cm": {
+        "description": "Output Cm values corresponding to the input alpha values",
+        "type": "array",
+        "title": "Cl values",
+        "items": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

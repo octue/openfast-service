@@ -1,0 +1,30 @@
+from octue import analysis
+import json
+
+
+def create_figure_file(results):
+    """ Saves json file constructed from some analysis results. The json will be used later to create a figure. File can be saved to an arbitrary location, but by default is saved to the current directory
+        The result contains following vectors AoA, Cl, Cd, Cm, Cp
+    """
+
+    # Any plotly compliant dict or list that can be converted to json. You can use the Plotly python sdk to construct figures, by adding it to requirements.txt
+    fig = {"data": [{"x": results[0].tolist(),
+                     "y": results[1].tolist(),
+                     "type": "line"
+                     }]}
+
+    # Dump the dict to a plain text json file. Note that for more advanced data (e.g. including numpy arrays etc) you
+    # may wish to use the serialiser provided with the plotly library
+    name = analysis.output_dir + '/aoa_vs_cl.json'
+    with open(name, 'w') as outfile:
+        json.dump(fig, outfile)
+
+    # You can either do this here, or in your main run() function definition (or basically anywhere else you like)...
+    # but you need to add the created file (which is part of the analysis results) to the output results manifest. In
+    # this case we do it here, which has the advantage of keeping file creation and manifesting together; but has the
+    # disadvantage of needing to modify your code to pass the analysis around. If you're unable to alter the API of your
+    # code; no problem - just do all your manifest creation separately (e.g. at the end of the run function)
+    fig_data = {'name': name,
+                'short_caption': 'A shortened caption',
+                'caption': 'A longer caption, perhaps including some description of why on earth we would want to see a bar chart of different zoo animals'}
+    # TODO add_to_manifest('figure', name, fig_data)

@@ -1,0 +1,6 @@
+{
+  "inflow_speed": 15,
+  "kinematic_viscosity": 1.5e-5,
+  "characteristic_length": 1,
+  "re_xtr":[5e5,5e5]
+}
