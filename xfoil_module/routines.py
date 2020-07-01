@@ -1,20 +1,18 @@
 import numpy as np
 from xfoil import XFoil
 
-xf = XFoil()
+xf = XFoil() #create xfoil object
 
 
 def call(twine_config, twine_input_values):
     '''Calls Xfoil module'''
     print("Lets run Xfoil!")
-
-    xf.Re = set_input(twine_input_values)[0]
-    xf.Re = 1e5
+    xf.Re = set_input(twine_input_values)[0] #set reynolds number in xfoil
     # Force transition location based on Critical Reynolds
     # TODO implement as an input switch, to force the transition based on research for
     #      Critical Reynolds Number dependency from leading edge erosion
-    # xf.xtr = set_input(twine_input_values)[1]  # Set xtr value (xtr top, xtr bot)
-    xf.max_iter = 40
+    # xf.xtr = set_input(twine_input_values)[1]  # Set xtr value (xtr top, xtr bot), should be a tuple
+    xf.max_iter = 40  # Hardcoded for now
 
     # Hardcoded airfoil names for now
     # TODO add multi-threading, each section on a separate thread.
@@ -25,8 +23,10 @@ def call(twine_config, twine_input_values):
     result = xf.aseq(twine_config['alpha_range'][0],
                      twine_config['alpha_range'][1],
                      twine_config['alpha_range'][2])
+    # TODO results probably should be a dictionary
+    results = [airfoil_name, result]
 
-    return result
+    return results
 
 
 def set_input(_in):

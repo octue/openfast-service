@@ -25,7 +25,7 @@ def run():
     results = []
     # See what panel code will be used.
     if twine_config['analysis_program'] == 'xfoil':
-        results = xfoil_module.call(twine_config, twine_input_values)
+        results = xfoil_module.call(twine_config, twine_input_values)  # Pass the parsed input and configuration schema
     # elif analysis.config['analysis_program'] == 'rfoil':
         # call rfoil
 

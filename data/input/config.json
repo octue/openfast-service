@@ -1,4 +1,4 @@
 {
   "analysis_program": "xfoil",
-  "alpha_range": [14, 16, 1]
+  "alpha_range": [-15, 16, 1]
 }

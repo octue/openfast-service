@@ -19,7 +19,7 @@ click==7.1.2
 
 
 # Plotting tools to help create json based figure files (more powerful and better validation than creating the raw json yourself)
-#plotly==3.6.1
+plotly
 
 # A numerical manipulation library
 numpy
