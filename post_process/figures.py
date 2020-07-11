@@ -59,5 +59,6 @@ def create_figure_file(results):
     # code; no problem - just do all your manifest creation separately (e.g. at the end of the run function)
     fig_data = {'name': name,
                 'short_caption': 'A shortened caption',
-                'caption': 'A longer caption, perhaps including some description of why on earth we would want to see a bar chart of different zoo animals'}
+                'caption': 'A longer caption, perhaps including some description of why on earth we'
+                           ' would want to see a bar chart of different zoo animals'}
     # TODO add_to_manifest('figure', name, fig_data)

@@ -24,8 +24,9 @@ plotly
 # A numerical manipulation library
 numpy
 
-# XFOIL Python module by DARcorporation, uses Fortran library directly
-xfoil==1.1.1
+# XFOIL Python module by DARcorporation, uses Fortran library directly though api.
+xfoil==1.1.1 #Version 1.1.1 has a bug in setting mach number, add MINf1 = M
+             # after line 204 in src/api.f90!
 
 
 # A powerful database api library. Supply it with your db's uri (through environment variables - don't commit URIs to git!!!!) and read/add data to/from databases.

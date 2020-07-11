@@ -3,7 +3,8 @@ from twined import Twine
 import post_process
 import xfoil_module
 
-import os, sys
+import os
+import sys
 
 
 @octue_app.command()
@@ -32,7 +33,7 @@ def run():
     # Create a figure using the results. This function adds to the output file manifest at the same time as creating the
 
     post_process.create_figure_file(results)
-    print()
+    print("Done!")
 
 @octue_app.command()
 def version():

@@ -98,6 +98,14 @@
         "minimum": 1e-6,
         "maximum": 10
       },
+      "mach_number": {
+        "title": "Mach number",
+        "description": "",
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 0.8
+      },
       "re_xtr": {
         "title": "Critical Reynolds number for top and bottom of the airfoil",
         "description": "Reynolds number at which the transition from laminar to turbulent flow occurs  [Top, Bottom]",
