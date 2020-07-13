@@ -18,15 +18,14 @@ def call(twine_config, twine_input_values):
     xf.airfoil = load_airfoil(airfoil_name)
 
     xf.Re = set_input(twine_input_values)[0] #set reynolds number in xfoil
-    xf.Re = 6e6
     # Force transition location based on Critical Reynolds
     # TODO implement as an input switch, to force the transition based on research for
     #      Critical Reynolds Number dependency from leading edge erosion
     #      Default xtr is (1,1)
     # xf.xtr = set_input(twine_input_values)[1]  # Set xtr value (xtr top, xtr bot), should be a tuple
-    # n_crit Default value is 9 which corresponds to 7% TI level.
-    xf.n_crit = 9
-    xf.max_iter = 100  # Hardcoded for now
+    # n_crit from eN method. Default value is 9 which corresponds to 7% TI level
+    xf.n_crit = twine_input_values['n_critical']
+    xf.max_iter = twine_config['max_iterations']
 
     # Setting Mach number before assigning airfoil throws in the error.
     # BUG in xfoil-python 1.1.1 !! Changing Mach number has no effect on results!
@@ -40,8 +39,8 @@ def call(twine_config, twine_input_values):
                          twine_config['alpha_range'][1],
                          twine_config['alpha_range'][2])
 
-    # TODO results probably should be a dictionary
-    results = [airfoil_name, result]
+    # Results stored in a dictionary
+    results = {airfoil_name: result}
 
     return results
 
@@ -76,9 +75,8 @@ def stdchannel_redirected(std_channel, dest_filename):
     """
     A context manager to temporarily redirect stdout or stderr
     e.g.:
-    with stdchannel_redirected(sys.stderr, os.devnull):
-        if compiler.has_function('clock_gettime', libraries=['rt']):
-            libraries.append('rt')
+    with stdchannel_redirected(sys.stdout, os.devnull):
+        some_function()
     """
     try:
         old_std_channel = os.dup(std_channel.fileno())

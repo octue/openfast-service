@@ -51,6 +51,14 @@
           }
         ],
         "additionalItems": false
+      },
+      "max_iterations":{
+        "description": "Maxumum number of iterations",
+        "type": "integer",
+        "title": "Max Iterations",
+        "default": 20,
+        "minimum": 20,
+        "maximum": 10000
       }
     }
   },
@@ -105,6 +113,14 @@
         "default": 0,
         "minimum": 0,
         "maximum": 0.8
+      },
+      "n_critical": {
+        "title": "N critical",
+        "description": "N critical amplification factor from eN method ",
+        "type": "number",
+        "default": 9,
+        "minimum": 0,
+        "maximum": 20
       },
       "re_xtr": {
         "title": "Critical Reynolds number for top and bottom of the airfoil",

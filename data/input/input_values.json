@@ -3,5 +3,6 @@
   "kinematic_viscosity": 8.58e-6,
   "characteristic_length": 1,
   "mach_number": 0.15,
+  "n_critical": 7,
   "re_xtr":[5e5,5e5]
 }

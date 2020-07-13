@@ -1,4 +1,5 @@
 {
   "analysis_program": "xfoil",
-  "alpha_range": [0, 15, 1]
+  "alpha_range": [0, 15, 0.5],
+  "max_iterations":100
 }
