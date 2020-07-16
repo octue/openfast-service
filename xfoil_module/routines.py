@@ -17,21 +17,37 @@ def call(twine_config, twine_input_values):
     airfoil_name = 'naca_0012'
     xf.airfoil = load_airfoil(airfoil_name)
 
-    xf.Re = set_input(twine_input_values)[0] #set reynolds number in xfoil
-    # Force transition location based on Critical Reynolds
-    # TODO implement as an input switch, to force the transition based on research for
-    #      Critical Reynolds Number dependency from leading edge erosion
-    #      Default xtr is (1,1)
-    # xf.xtr = set_input(twine_input_values)[1]  # Set xtr value (xtr top, xtr bot), should be a tuple
-    # n_crit from eN method. Default value is 9 which corresponds to 7% TI level
+    # Reynolds number,
+    xf.Re = set_input(twine_input_values)[0]
+
+    # TODO Research for Critical Reynolds Number dependency from leading edge erosion, and force xtr or modify Ncrit.
+    #      Default xtr is (1,1), Default n_ctit is 9.
+
+    # Force transition location
+    # Set xtr value: a forced location of BL transition. Default xtr is (1,1): no forced transition
+    # (xtr top, xtr bot), should be a tuple
+    # xf.xtr = set_input(twine_input_values)[1]
+
+    # n_crit from eN method.
+    # References:
+    # [1] J.L. van Ingen, The eN method for transition prediction. Historical review of work at TU Delft
+    # [2] L. M. Mack, Transition and Laminar Instability
+    # Default value is 9 which predicts a transition for a flat plate at 7% TI level
+    # N =  -8.43 - 2.4*ln(0.01*TI) according to Mack
+    # Beginning and end of transition for TI>0.1%
+    # N_1 = 2.13 - 6.18 log10(TI)
+    # N_2 = 5    - 6.18 log10(TI)
     xf.n_crit = twine_input_values['n_critical']
-    xf.max_iter = twine_config['max_iterations']
 
     # Setting Mach number before assigning airfoil throws in the error.
     # BUG in xfoil-python 1.1.1 !! Changing Mach number has no effect on results!
     # There seems to be confusion between MINf and MINf1, adding a line MINf1 = M
     # after line 204 of the api.f90, seems to solve the issue.
     xf.M = twine_input_values['mach_number']
+
+    # Set the max number of iterations
+    xf.max_iter = twine_config['max_iterations']
+
     # Feed the AoA range to Xfoil and perfom the analysis
     # The result contains following vectors AoA, Cl, Cd, Cm, Cp
     with stdchannel_redirected(sys.stdout, os.devnull):  # redirects output to devnull

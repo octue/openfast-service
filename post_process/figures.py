@@ -6,19 +6,23 @@ import json
 
 
 def create_figure_file(results):
-    """ Saves json file constructed from some analysis results. The json will be used later to create a figure. File can be saved to an arbitrary location, but by default is saved to the current directory
-        The result contains following vectors Airfoil name, AoA, Cl, Cd, Cm, Cp
+    """ Saves json file constructed from some analysis results. The json will be used later to create a figure.
+        File can be saved to an arbitrary location, but by default is saved to the current directory
+        The results expected to contain following dictionary {Airfoil_name: [AoA, Cl, Cd, Cm, Cp]}
     """
-    # You can use the Plotly python sdk to construct figures, by adding it to requirements.txt
-    # For examples https://plotly.com/python/
 
     for airfoil in results:
-        plot_result(airfoil, results[airfoil])
-
+        figure = plot_result(airfoil, results[airfoil])
+        name = analysis.output_dir + '/' + airfoil + '.json'
+        with open(name, 'w') as outfile:
+            plotly.io.write_json(figure, outfile, pretty=True)
     return
 
 
 def plot_result(airfoil, result):
+    # You can use the Plotly python sdk to construct figures, by adding it to requirements.txt
+    # For examples https://plotly.com/python/
+
     fig = make_subplots(rows=2, cols=1,
                         subplot_titles=("Cl", "Cd"))  # Inititalize figure object
 
@@ -53,12 +57,8 @@ def plot_result(airfoil, result):
     with open(name, 'w') as outfile:
         json.dump(fig, outfile)
     '''
-    name = analysis.output_dir + '/'+airfoil+'_aoa_vs_cl.json'
 
-    with open(name, 'w') as outfile:
-        plotly.io.write_json(fig, outfile, pretty=True)
-
-    return
+    return fig
 
 # You can either do this here, or in your main run() function definition (or basically anywhere else you like)...
 # but you need to add the created file (which is part of the analysis results) to the output results manifest. In
