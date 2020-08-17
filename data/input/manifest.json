@@ -1,24 +1,32 @@
 {
   "id": "8ead7669-8162-4f64-8cd5-4abe92509e17",
-  "type": "dataset",
+  "type" : "dataset",
   "datasets": [
     {
       "id": "7ead7669-8162-4f64-8cd5-4abe92509e18",
       "name": "aerofoil_shape_data",
-      "tags": ["subsystem_blade", "aerofoil", "geometry"],
+      "tags": "subsystem:blade, aerofoil, geometry",
       "files": [
         {
-          "path": "input/datasets/aerofoil_shape_file/naca_2412.dat",
+          "path": "datasets/aerofoil_shape_file/naca_2412.dat",
           "cluster": 0,
           "sequence": 0,
           "extension": "dat",
           "tags": "",
-          "data_file": {
-            "id": "abff07bc-7c19-4ed5-be6d-a6546eae8f86",
-            "last_modified": "2019-02-28T22:40:30.533005Z",
-            "name": "naca_2412.dat",
-            "size_bytes": 59684813
-          }
+          "id": "abff07bc-7c19-4ed5-be6d-a6546eae8f86",
+          "last_modified": "2019-02-28T22:40:30.533005Z",
+          "name": "naca_2412.dat",
+          "size_bytes": 59684813
+        },
+        {
+          "path": "datasets/aerofoil_shape_file/naca_0012.dat",
+          "cluster": 0,
+          "sequence": 1,
+          "extension": "dat",
+          "tags": "naca_0012",
+          "id": "abff07bc-7c19-4ed5-be6d-a6546eae8f87",
+          "last_modified": "2019-02-28T22:40:30.533005Z",
+          "name": "naca_0012.dat"
         }
       ]
     }

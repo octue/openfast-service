@@ -1,19 +1,28 @@
 import numpy as np
 from xfoil import XFoil
+from vgfoil import VGFoil
+from octue import analysis
 
 import os
 import sys
 import contextlib
 
+# TODO properly code initialization of VGFoil or XFoil instance and property setters
+# xf = XFoil()  # create xfoil object
+xf = VGFoil()
+xf.print = 0 # Suppress terminal output: 0, enable output: 1
+xf.ctauvg = (0, 0, 0.25, 2.5)
+xf.xvg = (1, 0.8)
+xf.hvg = (0, 0.002)
 
-xf = XFoil()  # create xfoil object
-
+#xf.xtr = (1, 0.3)
 
 def call(twine_config, twine_input_values):
     '''Calls Xfoil module'''
     print("Lets run Xfoil!")
     # Hardcoded airfoil names for now
     # TODO add multi-processing, each section on a separate sub-process.
+
     airfoil_name = 'naca_0012'
     xf.airfoil = load_airfoil(airfoil_name)
 
@@ -50,10 +59,10 @@ def call(twine_config, twine_input_values):
 
     # Feed the AoA range to Xfoil and perfom the analysis
     # The result contains following vectors AoA, Cl, Cd, Cm, Cp
-    with stdchannel_redirected(sys.stdout, os.devnull):  # redirects output to devnull
-        result = xf.aseq(twine_config['alpha_range'][0],
-                         twine_config['alpha_range'][1],
-                         twine_config['alpha_range'][2])
+    #
+    result = xf.aseq(twine_config['alpha_range'][0],
+                     twine_config['alpha_range'][1],
+                     twine_config['alpha_range'][2])
 
     # Results stored in a dictionary
     results = {airfoil_name: result}
@@ -70,6 +79,7 @@ def set_input(_in):
 
 
 def load_airfoil(airfoil_name):
+    print(airfoil_name)
     with open('./data/input/datasets/aerofoil_shape_file/' + airfoil_name + '.dat') as f:
         content = f.readlines()
 

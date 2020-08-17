@@ -22,6 +22,13 @@
           {
             "type": "string",
             "enum": [
+              "vgfoil"
+            ],
+            "title": "VG-Foil"
+          },
+          {
+            "type": "string",
+            "enum": [
               "rfoil"
             ],
             "title": "RFoil"
@@ -68,7 +75,7 @@
       "purpose": "Token for accessing the weather API at openweathermap.org"
     }
   ],
-  "inputManifest": [
+  "input_manifest": [
     {
       "key": "wind_tunnel_data",
       "purpose": "A dataset containing wind tunnel data",
@@ -76,8 +83,8 @@
     },
     {
       "key": "aerofoil_shape_file",
-      "purpose": "A dataset containing a single shape file in csv or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(subsystem_blade AND aerofoil AND geometry) files:(extension:csv)"
+      "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
+      "filters": "tags:(subsystem:blade AND aerofoil AND geometry) files:(extension:dat)"
     }
   ],
   "input_values_schema": {
@@ -179,7 +186,7 @@
       "cm": {
         "description": "Output Cm values corresponding to the input alpha values",
         "type": "array",
-        "title": "Cl values",
+        "title": "Cm values",
         "items": {
           "type": "number"
         }

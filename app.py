@@ -20,6 +20,8 @@ def run():
     twine_config = panel_codes_twine.validate_configuration(file=analysis.input_dir+'/config.json')
     # Check if input is valid against the schema and load it up
     twine_input_values = panel_codes_twine.validate_input_values(file=analysis.input_dir + '/input_values.json')
+    # Validate Input manifest
+    panel_codes_twine.validate_input_manifest(file=analysis.input_dir + '/manifest.json')
     # Print statements will get logged (stdout and stderr are mirrored to the log files so you don't miss anything)...
     print('Good job, twine is valid!')
 
