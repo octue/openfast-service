@@ -84,7 +84,7 @@
     {
       "key": "aerofoil_shape_file",
       "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(subsystem:blade AND aerofoil AND geometry) files:(extension:dat)"
+      "filters": "tags:(naca_0012) files:(extension:dat)"
     }
   ],
   "input_values_schema": {

@@ -1,5 +1,5 @@
 {
-  "analysis_program": "xfoil",
-  "alpha_range": [19, 20, 0.5],
-  "max_iterations":100
+  "analysis_program": "viiflow",
+  "alpha_range": [-25, 25, 0.25],
+  "max_iterations":1000
 }

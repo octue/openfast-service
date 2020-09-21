@@ -8,14 +8,13 @@ import sys
 import contextlib
 
 # TODO properly code initialization of VGFoil or XFoil instance and property setters
-# xf = XFoil()  # create xfoil object
-xf = VGFoil()
-xf.print = 0 # Suppress terminal output: 0, enable output: 1
-xf.ctauvg = (0, 0, 0.25, 2.5)
-xf.xvg = (1, 0.8)
-xf.hvg = (0, 0.002)
-
-#xf.xtr = (1, 0.3)
+xf = XFoil()  # create xfoil object
+#xf = VGFoil()
+xf.print = 1 # Suppress terminal output: 0, enable output: 1
+#xf.ctauvg = (0, 0, 0.25, 2.5)
+#xf.xvg = (1, 0.8)
+#xf.hvg = (0, 0.002)
+#xf.xtr = (0.05, 0.1)
 
 def call(twine_config, twine_input_values):
     '''Calls Xfoil module'''
@@ -23,7 +22,7 @@ def call(twine_config, twine_input_values):
     # Hardcoded airfoil names for now
     # TODO add multi-processing, each section on a separate sub-process.
 
-    airfoil_name = 'naca_0012'
+    airfoil_name = 'airfoil_0_norm'
     xf.airfoil = load_airfoil(airfoil_name)
 
     # Reynolds number,

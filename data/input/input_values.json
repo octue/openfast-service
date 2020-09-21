@@ -1,8 +1,8 @@
 {
-  "inflow_speed": 51.4815,
-  "kinematic_viscosity": 8.58e-6,
+  "inflow_speed": 1,
+  "kinematic_viscosity": 1e-5,
   "characteristic_length": 1,
-  "mach_number": 0.15,
+  "mach_number": 0.06,
   "n_critical": 9,
   "re_xtr":[5e5,5e5]
 }

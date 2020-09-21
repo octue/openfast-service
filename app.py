@@ -1,7 +1,7 @@
 from octue import octue_app, analysis
 from twined import Twine
 import post_process
-import xfoil_module
+import xfoil_module, viiflow_module
 
 import os
 import sys
@@ -21,14 +21,20 @@ def run():
     # Check if input is valid against the schema and load it up
     twine_input_values = panel_codes_twine.validate_input_values(file=analysis.input_dir + '/input_values.json')
     # Validate Input manifest
-    panel_codes_twine.validate_input_manifest(file=analysis.input_dir + '/manifest.json')
+    filesrr = panel_codes_twine.validate_input_manifest(file=analysis.input_dir + '/manifest.json')
     # Print statements will get logged (stdout and stderr are mirrored to the log files so you don't miss anything)...
     print('Good job, twine is valid!')
 
     results = []
+    # files=analysis.input_manifest.from_dataset()
+    # print(files)
+    # blade_file = analysis.input_manifest.get_files('tag_exact', filter_value='naca_0012')
+    # print(blade_file)
     # See what panel code will be used.
     if twine_config['analysis_program'] == 'xfoil':
         results = xfoil_module.call(twine_config, twine_input_values)  # Pass the parsed input and configuration schema
+    elif analysis.config['analysis_program'] == 'viiflow':
+        results = viiflow_module.call(twine_config, twine_input_values)
     # elif analysis.config['analysis_program'] == 'rfoil':
         # call rfoil
 
