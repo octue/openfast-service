@@ -4,7 +4,7 @@ clint==0.5.1
 packaging==20.0
 pyparsing==2.4.6
 six==1.13.0
-octue==0.1.2
+octue
 twined==0.0.12a0
 click==7.1.2
 

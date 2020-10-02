@@ -3,7 +3,7 @@
   "description": "Uses potential theory to solve 2D airfoils",
   "children": [
   ],
-  "configuration_schema": {
+  "configuration_values_schema": {
     "type": "object",
     "properties": {
       "analysis_program": {
@@ -25,6 +25,13 @@
               "vgfoil"
             ],
             "title": "VG-Foil"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "viiflow"
+            ],
+            "title": "Viiflow"
           },
           {
             "type": "string",
@@ -75,7 +82,7 @@
       "purpose": "Token for accessing the weather API at openweathermap.org"
     }
   ],
-  "input_manifest": [
+  "input_manifest_filters": [
     {
       "key": "wind_tunnel_data",
       "purpose": "A dataset containing wind tunnel data",
@@ -84,7 +91,7 @@
     {
       "key": "aerofoil_shape_file",
       "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(naca_0012) files:(extension:dat)"
+      "filters": "tags:(naca_0012)"
     }
   ],
   "input_values_schema": {

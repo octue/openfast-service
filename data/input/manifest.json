@@ -8,7 +8,7 @@
       "tags": "naca_0012",
       "files": [
         {
-          "path": "datasets/aerofoil_shape_file/naca_2412.dat",
+          "path": "input/datasets/aerofoil_shape_file/naca_2412.dat",
           "cluster": 0,
           "sequence": 0,
           "extension": "dat",
@@ -19,11 +19,11 @@
           "size_bytes": 59684813
         },
         {
-          "path": "datasets/aerofoil_shape_file/naca_0012.dat",
+          "path": "input/datasets/aerofoil_shape_file/naca_0012.dat",
           "cluster": 0,
           "sequence": 1,
           "extension": "dat",
-          "tags": "",
+          "tags": "naca_0012",
           "id": "abff07bc-7c19-4ed5-be6d-a6546eae8f87",
           "last_modified": "2019-02-28T22:40:30.533005Z",
           "name": "naca_0012.dat"

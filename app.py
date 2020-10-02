@@ -15,21 +15,23 @@ def run():
     #  manifest and locations of input, tmp and output directories.
     print('Hello, app is running!')
     # Check if the twine.json is valid
-    panel_codes_twine = Twine(file='twine.json')
+    panel_codes_twine = Twine(source='twine.json')
     # Check if configuration is valid against the schema and load it up
-    twine_config = panel_codes_twine.validate_configuration(file=analysis.input_dir+'/config.json')
+    twine_config = panel_codes_twine.validate_configuration_values(source=analysis.input_dir+'/config.json')
     # Check if input is valid against the schema and load it up
-    twine_input_values = panel_codes_twine.validate_input_values(file=analysis.input_dir + '/input_values.json')
+    twine_input_values = panel_codes_twine.validate_input_values(source=analysis.input_dir + '/input_values.json')
     # Validate Input manifest
-    filesrr = panel_codes_twine.validate_input_manifest(file=analysis.input_dir + '/manifest.json')
+    files = panel_codes_twine.validate_input_manifest(source=analysis.input_dir + '/manifest.json')
     # Print statements will get logged (stdout and stderr are mirrored to the log files so you don't miss anything)...
     print('Good job, twine is valid!')
+    print("Input manifest:")
+    print(analysis.input_manifest.type)
+    print(analysis.input_manifest.files)
+    blade_file = analysis.input_manifest.get_files('tag_exact', filter_value='naca_0012')
+    print(blade_file)
 
     results = []
-    # files=analysis.input_manifest.from_dataset()
-    # print(files)
-    # blade_file = analysis.input_manifest.get_files('tag_exact', filter_value='naca_0012')
-    # print(blade_file)
+
     # See what panel code will be used.
     if twine_config['analysis_program'] == 'xfoil':
         results = xfoil_module.call(twine_config, twine_input_values)  # Pass the parsed input and configuration schema
