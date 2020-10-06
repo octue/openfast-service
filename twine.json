@@ -3,7 +3,7 @@
   "description": "Uses potential theory to solve 2D airfoils",
   "children": [
   ],
-  "configuration_values_schema": {
+  "configuration_schema": {
     "type": "object",
     "properties": {
       "analysis_program": {
@@ -31,7 +31,7 @@
             "enum": [
               "viiflow"
             ],
-            "title": "Viiflow"
+            "title": ""
           },
           {
             "type": "string",

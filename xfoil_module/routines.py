@@ -22,7 +22,7 @@ def call(twine_config, twine_input_values):
     # Hardcoded airfoil names for now
     # TODO add multi-processing, each section on a separate sub-process.
 
-    airfoil_name = 'airfoil_0_norm'
+    airfoil_name = 'naca_0012'
     xf.airfoil = load_airfoil(airfoil_name)
 
     # Reynolds number,
