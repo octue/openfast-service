@@ -1,7 +1,6 @@
 import numpy as np
 from xfoil import XFoil
-from vgfoil import VGFoil
-from octue import analysis
+#from vgfoil import VGFoil
 
 import os
 import sys
@@ -16,7 +15,8 @@ xf.print = 1 # Suppress terminal output: 0, enable output: 1
 #xf.hvg = (0, 0.002)
 #xf.xtr = (0.05, 0.1)
 
-def call(twine_config, twine_input_values):
+
+def call(analysis):
     '''Calls Xfoil module'''
     print("Lets run Xfoil!")
     # Hardcoded airfoil names for now
@@ -26,7 +26,7 @@ def call(twine_config, twine_input_values):
     xf.airfoil = load_airfoil(airfoil_name)
 
     # Reynolds number,
-    xf.Re = set_input(twine_input_values)[0]
+    xf.Re = set_input(analysis.input_values)[0]
 
     # TODO Research for Critical Reynolds Number dependency from leading edge erosion, and force xtr or modify Ncrit.
     #      Default xtr is (1,1), Default n_ctit is 9.
@@ -45,23 +45,23 @@ def call(twine_config, twine_input_values):
     # Beginning and end of transition for TI>0.1%
     # N_1 = 2.13 - 6.18 log10(TI)
     # N_2 = 5    - 6.18 log10(TI)
-    xf.n_crit = twine_input_values['n_critical']
+    xf.n_crit = analysis.input_values['n_critical']
 
     # Setting Mach number before assigning airfoil throws in the error.
     # BUG in xfoil-python 1.1.1 !! Changing Mach number has no effect on results!
     # There seems to be confusion between MINf and MINf1, adding a line MINf1 = M
     # after line 204 of the api.f90, seems to solve the issue.
-    xf.M = twine_input_values['mach_number']
+    xf.M = analysis.input_values['mach_number']
 
     # Set the max number of iterations
-    xf.max_iter = twine_config['max_iterations']
+    xf.max_iter = analysis.configuration_values['max_iterations']
 
     # Feed the AoA range to Xfoil and perfom the analysis
     # The result contains following vectors AoA, Cl, Cd, Cm, Cp
     #
-    result = xf.aseq(twine_config['alpha_range'][0],
-                     twine_config['alpha_range'][1],
-                     twine_config['alpha_range'][2])
+    result = xf.aseq(analysis.configuration_values['alpha_range'][0],
+                     analysis.configuration_values['alpha_range'][1],
+                     analysis.configuration_values['alpha_range'][2])
 
     # Results stored in a dictionary
     results = {airfoil_name: result}

@@ -1,4 +1,4 @@
-from octue import octue_app, analysis
+from octue import octue_cli, octue_run, octue_version
 from twined import Twine
 import post_process
 import xfoil_module, viiflow_module
@@ -7,40 +7,32 @@ import os
 import sys
 
 
-@octue_app.command()
-def run():
+@octue_run
+def run(analysis):
     """ Runs the application
     """
     # `analysis` is an instantiated Analysis class object which contains the analysis configuration, the input file
     #  manifest and locations of input, tmp and output directories.
     print('Hello, app is running!')
     # Check if the twine.json is valid
-    panel_codes_twine = Twine(file='twine.json')
-    # Check if configuration is valid against the schema and load it up
-    twine_config = panel_codes_twine.validate_configuration(file=analysis.input_dir+'/config.json')
-    # Check if input is valid against the schema and load it up
-    twine_input_values = panel_codes_twine.validate_input_values(file=analysis.input_dir + '/input_values.json')
-
-    # Print statements will get logged (stdout and stderr are mirrored to the log files so you don't miss anything)...
-    print('Good job, twine is valid!')
 
 
     results = []
 
     # See what panel code will be used.
-    if twine_config['analysis_program'] == 'xfoil':
-        results = xfoil_module.call(twine_config, twine_input_values)  # Pass the parsed input and configuration schema
-    elif twine_config['analysis_program'] == 'viiflow':
-        results = viiflow_module.call(twine_config, twine_input_values)
+    if analysis.configuration_values['analysis_program'] == 'xfoil':
+        results = xfoil_module.call(analysis)  # Pass the parsed input and configuration schema
+    elif analysis.configuration_values['analysis_program'] == 'viiflow':
+        results = viiflow_module.call(analysis)
     # elif analysis.config['analysis_program'] == 'rfoil':
         # call rfoil
 
     # Create a figure using the results. This function adds to the output file manifest at the same time as creating the
 
-    # post_process.create_figure_file(results)
+    # post_process.create_figure_file(analysis, results)
     print("Done!")
 
-@octue_app.command()
+@octue_version
 def version():
     """ Returns the version number of the application
     """
@@ -55,13 +47,10 @@ def version():
     return version_no
 
 
-# If running from an IDE or test console, you won't be using the command line... just run this file
-if __name__ == '__main__':
+# If running from an IDE or test console, it'll run this file rather than calling the application from the CLI...
+# In that case we pass arguments through the CLI just as if it were called from the command line.
+if __name__ == "__main__":
 
-    # Manual setup
-    data_dir = sys.argv[1] if len(sys.argv) > 1 else 'data'
-    analysis.setup(
-        id=None,
-        data_dir=data_dir
-    )
-    run()
+    # Invoke the CLI to process the arguments, set up an analysis and run it
+    args = sys.argv[1:] if len(sys.argv) > 1 else []
+    octue_cli(args)

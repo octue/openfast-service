@@ -1,11 +1,10 @@
-from octue import analysis
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.io
 import json
 
 
-def create_figure_file(results):
+def create_figure_file(analysis, results):
     """ Saves json file constructed from some analysis results. The json will be used later to create a figure.
         File can be saved to an arbitrary location, but by default is saved to the current directory
         The results expected to contain following dictionary {Airfoil_name: [AoA, Cl, Cd, Cm, Cp]}

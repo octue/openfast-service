@@ -1,9 +1,7 @@
 {
   "title": "Panel Codes FSI twine",
   "description": "Uses potential theory to solve 2D airfoils",
-  "children": [
-  ],
-  "configuration_schema": {
+  "configuration_values_schema": {
     "type": "object",
     "properties": {
       "analysis_program": {
@@ -76,12 +74,6 @@
       }
     }
   },
-  "credentials": [
-    {
-      "name": "OPEN_WEATHER_MAP_SECRET_KEY",
-      "purpose": "Token for accessing the weather API at openweathermap.org"
-    }
-  ],
   "input_manifest_filters": [
     {
       "key": "wind_tunnel_data",
