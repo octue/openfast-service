@@ -4,8 +4,7 @@ clint==0.5.1
 packaging==20.0
 pyparsing==2.4.6
 six==1.13.0
-octue==0.1.3
-twined==0.0.12
+octue==0.1.12
 click==7.1.2
 
 # ----------- Install the current app (as editable, so you can develop on it) ------------------------------------------
@@ -15,12 +14,6 @@ click==7.1.2
 
 # ----------- Some common libraries  -----------------------------------------------------------------------------------
 
-# You may wish to include these. Removing these may break the examples, but won't break the template :)
-
-
-# Plotting tools to help create json based figure files (more powerful and better validation than creating the raw json yourself)
-plotly
-
 # A numerical manipulation library
 numpy
 
@@ -29,7 +22,7 @@ numpy
              # after line 204 in src/api.f90!
 # VG-Foil Python - Modified version of xfoil-python, includes IWES modifications for vortex generators
 # https://github.com/time-trader/vgfoil-python
-#vgfoil
+# vgfoil
 
 
 # A powerful database api library. Supply it with your db's uri (through environment variables - don't commit URIs to git!!!!) and read/add data to/from databases.

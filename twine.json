@@ -29,7 +29,7 @@
             "enum": [
               "viiflow"
             ],
-            "title": ""
+            "title": "ViiFlow"
           },
           {
             "type": "string",
@@ -40,7 +40,28 @@
           }
         ]
       },
-      "alpha_range": {
+      "max_iterations":{
+        "description": "Maxumum number of iterations",
+        "type": "integer",
+        "title": "Max Iterations",
+        "default": 20,
+        "minimum": 20,
+        "maximum": 10000
+      }
+    }
+  },
+  "input_manifest_filters": [
+    {
+      "key": "aerofoil_shape_file",
+      "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
+      "filters": "tags:(naca_0012)"
+    }
+  ],
+  "input_values_schema": {
+    "title": "Input values schema",
+    "type": "object",
+    "properties": {
+        "alpha_range": {
         "description": "The range of alpha values at which the solver will be run.",
         "type": "array",
         "title": "Alpha Range [min max step]",
@@ -64,32 +85,6 @@
         ],
         "additionalItems": false
       },
-      "max_iterations":{
-        "description": "Maxumum number of iterations",
-        "type": "integer",
-        "title": "Max Iterations",
-        "default": 20,
-        "minimum": 20,
-        "maximum": 10000
-      }
-    }
-  },
-  "input_manifest_filters": [
-    {
-      "key": "wind_tunnel_data",
-      "purpose": "A dataset containing wind tunnel data",
-      "filters": "tags:(subsystem_blade AND experiments) files:(extension:tnl AND sequence:>=0)"
-    },
-    {
-      "key": "aerofoil_shape_file",
-      "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(naca_0012)"
-    }
-  ],
-  "input_values_schema": {
-    "title": "Input values schema",
-    "type": "object",
-    "properties": {
       "inflow_speed": {
         "title": "U",
         "description": "Inflow speed U in m/s",
@@ -150,13 +145,6 @@
       }
     }
   },
-  "output_manifest": [
-    {
-      "key": "results_file",
-      "purpose": "ASCII text file(s) containing header and tab delimited list of Alpha, Cl, Cd and Cm values suitable for use in aerodyn",
-      "tags": "subsystem_blade AND aerofoil AND results"
-    }
-  ],
   "output_values_schema": {
     "type": "object",
     "properties": {
@@ -189,6 +177,11 @@
         "items": {
           "type": "number"
         }
+      },
+      "cp": {
+        "description": "Cp values for x and y coordiante of the airfoil",
+        "title": "Cp values",
+        "type": "array"
       }
     }
   }

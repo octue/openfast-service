@@ -1,15 +1,12 @@
 import numpy as np
 from xfoil import XFoil
-#from vgfoil import VGFoil
+# from vgfoil import VGFoil
 
-import os
-import sys
-import contextlib
+
 
 # TODO properly code initialization of VGFoil or XFoil instance and property setters
 xf = XFoil()  # create xfoil object
-#xf = VGFoil()
-xf.print = 1 # Suppress terminal output: 0, enable output: 1
+xf.print = 1  # Suppress terminal output: 0, enable output: 1
 #xf.ctauvg = (0, 0, 0.25, 2.5)
 #xf.xvg = (1, 0.8)
 #xf.hvg = (0, 0.002)
@@ -59,14 +56,13 @@ def call(analysis):
     # Feed the AoA range to Xfoil and perfom the analysis
     # The result contains following vectors AoA, Cl, Cd, Cm, Cp
     #
-    result = xf.aseq(analysis.configuration_values['alpha_range'][0],
-                     analysis.configuration_values['alpha_range'][1],
-                     analysis.configuration_values['alpha_range'][2])
+    result = xf.aseq(analysis.input_values['alpha_range'][0],
+                               analysis.input_values['alpha_range'][1],
+                               analysis.input_values['alpha_range'][2])
 
-    # Results stored in a dictionary
-    results = {airfoil_name: result}
-
-    return results
+    analysis.output_values['cl'] = result[1]
+    analysis.output_values['cd'] = result[2]
+    analysis.output_values['cm'] = result[3]
 
 
 def set_input(_in):
@@ -94,21 +90,4 @@ def load_airfoil(airfoil_name):
     airfoilObj.y = np.array(y_coord)
 
     return airfoilObj
-
-@contextlib.contextmanager
-def stdchannel_redirected(std_channel, dest_filename):
-    """
-    A context manager to temporarily redirect stdout or stderr
-    e.g.:
-    with stdchannel_redirected(sys.stdout, os.devnull):
-        some_function()
-    """
-    try:
-        old_std_channel = os.dup(std_channel.fileno())
-        dest_file = open(dest_filename, 'w')
-        os.dup2(dest_file.fileno(), std_channel.fileno())
-        yield
-    finally:
-        if old_std_channel is not None: os.dup2(old_std_channel, std_channel.fileno())
-        if dest_file is not None: dest_file.close()
 
