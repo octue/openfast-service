@@ -68,6 +68,7 @@
         "default": [-10, 10, 5],
         "items": [
           {
+
             "type": "number",
             "min": -30,
             "max": 30

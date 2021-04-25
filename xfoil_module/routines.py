@@ -14,7 +14,7 @@ xf.print = 1  # Suppress terminal output: 0, enable output: 1
 
 
 def call(analysis):
-    '''Calls Xfoil module'''
+    '''Runs analysis using Xfoil'''
     print("Lets run Xfoil!")
     # Hardcoded airfoil names for now
     # TODO add multi-processing, each section on a separate sub-process.
@@ -74,6 +74,9 @@ def set_input(_in):
 
 
 def load_airfoil(airfoil_name):
+    """
+    Loads airfoil geometry data from .dat file
+    """
     print(airfoil_name)
     with open('./data/input/datasets/aerofoil_shape_file/' + airfoil_name + '.dat') as f:
         content = f.readlines()
