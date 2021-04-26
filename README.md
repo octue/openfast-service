@@ -1,5 +1,5 @@
 # panel-code-twine-python
-A simple twine that runs panel codes
+A simple twine that runs panel codes. This repository is mirrored to Google Cloud Source Repositories.
 
 ## Creating a twine
 
