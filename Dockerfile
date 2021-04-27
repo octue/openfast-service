@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED True
 ENV PROJECT_ROOT=/app
 WORKDIR $PROJECT_ROOT
 
-RUN apt-get update -y && apt-get install -y --fix-missing build-essential git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y --fix-missing build-essential gfortran git && rm -rf /var/lib/apt/lists/*
 
 COPY . .
 
