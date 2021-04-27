@@ -1,11 +1,5 @@
-appdirs==1.4.3
-args==0.1.0
-clint==0.5.1
-packaging==20.0
-pyparsing==2.4.6
-six==1.13.0
-octue>=0.1.15
-click==7.1.2
+octue @ https://github.com/octue/octue-sdk-python/archive/release/0.1.16.zip
+
 
 # ----------- Install the current app (as editable, so you can develop on it) ------------------------------------------
 
