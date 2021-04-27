@@ -1,27 +1,4 @@
-FROM debian:buster as builder
-
-RUN apt-get update -q && \
-    apt-get install -qy \
-        build-essential \
-        gfortran \
-        git \
-        libx11-dev \
-        vim \
-        wget \
-    && rm -rf /var/liv/apt/lists/*
-
-COPY setup_xfoil.sh xfoil.patch /
-
-RUN /setup_xfoil.sh
-
-ENV HOME /workspace
-WORKDIR /workspace
-
-VOLUME ["/workspace"]
-
-FROM python:3.7-slim-buster
-
-COPY --from=builder /usr/bin/xfoil/ /usr/bin/xfoil/
+FROM python:3.6.1-slim-buster
 
 # Allow statements and log messages to immediately appear in the Knative logs on Google Cloud.
 ENV PYTHONUNBUFFERED True
