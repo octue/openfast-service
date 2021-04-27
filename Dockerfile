@@ -6,9 +6,11 @@ ENV PYTHONUNBUFFERED True
 ENV PROJECT_ROOT=/app
 WORKDIR $PROJECT_ROOT
 
-RUN apt-get update -y && apt-get install -y --fix-missing build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y --fix-missing build-essential git && rm -rf /var/lib/apt/lists/*
 
 COPY . .
+
+RUN git clone https://github.com/daniel-de-vries/xfoil-python.git && pip install ./xfoil-python
 
 # Install requirements (supports requirements.txt, requirements-dev.txt, and setup.py; all will be run if all are present.)
 RUN if [ ! -f "requirements.txt" ] && [ ! -f "requirements-dev.txt" ] && [ ! -f "setup.py" ]; then exit 1; fi
