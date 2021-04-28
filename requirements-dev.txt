@@ -1,5 +1,6 @@
-octue @ https://github.com/octue/octue-sdk-python/archive/release/0.1.16.zip
-
+# Testing
+# ------------------------------------------------------------------------------
+coverage
 
 # ----------- Install the current app (as editable, so you can develop on it) ------------------------------------------
 
@@ -8,23 +9,10 @@ octue @ https://github.com/octue/octue-sdk-python/archive/release/0.1.16.zip
 
 # ----------- Some common libraries  -----------------------------------------------------------------------------------
 
-# A numerical manipulation library
-numpy
-
 # XFOIL Python module by DARcorporavgfoiltion, uses Fortran library directly though api.
 # xfoil==1.1.1 #Version 1.1.1 has a bug in setting mach number, add MINf1 = M
              # after line 204 in src/api.f90!
+
 # VG-Foil Python - Modified version of xfoil-python, includes IWES modifications for vortex generators
 # https://github.com/time-trader/vgfoil-python
 # vgfoil
-
-
-# A powerful database api library. Supply it with your db's uri (through environment variables - don't commit URIs to git!!!!) and read/add data to/from databases.
-# Note that results of analyses using externally managed databases as data sources cannot be guaranteed to be idempotent.
-#SQLAlchemy==1.0.12
-#SQLAlchemy-Utils==0.31.6
-
-
-# ----------- Octue internal use only. Do not uncomment. ---------------------------------------------------------------
-
-# --editable ../octue-sdk-python
