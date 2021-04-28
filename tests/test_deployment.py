@@ -25,5 +25,5 @@ class TestDeployment(TestCase):
         }
 
         subscription, _ = asker.ask(service_id=service_id, input_values=input_values)
-        answer = asker.wait_for_answer(subscription)
-        self.assertEqual(answer, {"output_values": [1, 2, 3, 4, 5], "output_manifest": None})
+        answer = asker.wait_for_answer(subscription, timeout=1000)
+        self.assertTrue(all(key in answer["output_values"] for key in ("cl", "cd", "cm")))
