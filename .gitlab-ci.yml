@@ -1,0 +1,16 @@
+default:
+  image: python:3.6
+
+build_and_test:
+  cache:
+    paths:
+      - requirements.txt
+    when: 'on_success'
+    key: 'build_and_test'
+  script:
+    - python3 -m venv test-venv
+    - bash test-venv/bin/activate
+    - pip install -r requirements.txt
+    - coverage run -m unittest
+    - coverage report
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
