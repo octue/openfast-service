@@ -15,6 +15,7 @@ setup(
     octue-app=app:octue_app
     ''',
     install_requires=[
-        "octue @ https://github.com/octue/octue-sdk-python/archive/release/0.1.16.zip",
+        "numpy",
+        "octue>=0.1.16",
     ]
 )
