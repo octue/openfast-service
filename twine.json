@@ -41,7 +41,7 @@
                 ]
             },
             "max_iterations":{
-                "description": "Maxumum number of iterations",
+                "description": "Maximum number of iterations",
                 "type": "integer",
                 "title": "Max Iterations",
                 "default": 20,
@@ -95,7 +95,7 @@
             },
             "kinematic_viscosity": {
                 "title": "Kinematic Viscosity",
-                "description": "Kinematic visosity nu",
+                "description": "Kinematic viscosity nu",
                 "type": "number",
                 "minimum": 1e-6,
                 "maximum": 0.1
@@ -179,7 +179,7 @@
                 }
             },
             "cp": {
-                "description": "Cp values for x and y coordiante of the airfoil",
+                "description": "Cp values for x and y coordinate of the airfoil",
                 "title": "Cp values",
                 "type": "array"
             }
