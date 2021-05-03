@@ -14,4 +14,8 @@ setup(
     [console_scripts]
     octue-app=app:octue_app
     ''',
+    install_requires=[
+        "numpy",
+        "octue>=0.1.16",
+    ]
 )
