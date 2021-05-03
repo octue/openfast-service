@@ -1,188 +1,192 @@
 {
-  "title": "Panel Codes FSI twine",
-  "description": "Uses potential theory to solve 2D airfoils",
-  "configuration_values_schema": {
-    "type": "object",
-    "properties": {
-      "analysis_program": {
-        "title": "Analysis Program",
-        "description": "The underlying program that will be run to determine aerofoil section properties",
-        "type": "string",
-        "default": "xfoil",
-        "anyOf": [
-          {
-            "type": "string",
-            "enum": [
-              "xfoil"
-            ],
-            "title": "X-Foil"
-          },
-          {
-            "type": "string",
-            "enum": [
-              "vgfoil"
-            ],
-            "title": "VG-Foil"
-          },
-          {
-            "type": "string",
-            "enum": [
-              "viiflow"
-            ],
-            "title": "ViiFlow"
-          },
-          {
-            "type": "string",
-            "enum": [
-              "rfoil"
-            ],
-            "title": "RFoil"
-          }
-        ]
-      },
-      "max_iterations":{
-        "description": "Maxumum number of iterations",
-        "type": "integer",
-        "title": "Max Iterations",
-        "default": 20,
-        "minimum": 20,
-        "maximum": 10000
-      }
-    }
-  },
-  "input_manifest_filters": [
-    {
-      "key": "aerofoil_shape_file",
-      "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(naca_0012)"
-    }
-  ],
-  "input_values_schema": {
-    "title": "Input values schema",
-    "type": "object",
-    "properties": {
-        "alpha_range": {
-        "description": "The range of alpha values at which the solver will be run.",
-        "type": "array",
-        "title": "Alpha Range [min max step]",
-        "default": [-10, 10, 5],
-        "items": [
-          {
-            "type": "number",
-            "min": -30,
-            "max": 30
-          },
-          {
-            "type": "number",
-            "min": -30,
-            "max": 30
-          },
-          {
-            "type": "number",
-            "min": 0.1,
-            "max": 180
-          }
-        ],
-        "additionalItems": false
-      },
-      "inflow_speed": {
-        "title": "U",
-        "description": "Inflow speed U in m/s",
-        "type": "number",
-        "default": 1,
-        "minimum": 1e-6,
-        "maximum": 330
-      },
-      "kinematic_viscosity": {
-        "title": "Kinematic Viscosity",
-        "description": "Kinematic visosity nu",
-        "type": "number",
-        "minimum": 1e-6,
-        "maximum": 0.1
-      },
-      "characteristic_length": {
-        "title": "Characteristic aerofoil length",
-        "description": "Chord length l in m",
-        "type": "number",
-        "minimum": 1e-6,
-        "maximum": 10
-      },
-      "mach_number": {
-        "title": "Mach number",
-        "description": "",
-        "type": "number",
-        "default": 0,
-        "minimum": 0,
-        "maximum": 0.8
-      },
-      "n_critical": {
-        "title": "N critical",
-        "description": "N critical amplification factor from eN method ",
-        "type": "number",
-        "default": 9,
-        "minimum": 0,
-        "maximum": 20
-      },
-      "re_xtr": {
-        "title": "Critical Reynolds number for top and bottom of the airfoil",
-        "description": "Reynolds number at which the transition from laminar to turbulent flow occurs  [Top, Bottom]",
-        "type": "array",
-        "items": [
-          {
-            "type": "number",
-            "default": 5e5,
-            "minimum": 1e-6,
-            "maximum": 1e9
-          },
-          {
-            "type": "number",
-            "default": 5e5,
-            "minimum": 1e-6,
-            "maximum": 1e9
-          }
-         ],
-        "additionalItems": false
-      }
-    }
-  },
-  "output_values_schema": {
-    "type": "object",
-    "properties": {
-      "reynolds_number": {
-        "description": "Reynolds number calculated from input parameters",
-        "type": "number",
-        "minimum": 0,
-        "maximum": 1000000000000
-      },
-      "cl": {
-        "description": "Output Cl values corresponding to the input alpha values",
-        "type": "array",
-        "title": "Cl values",
-        "items": {
-          "type": "number"
+    "title": "Panel Codes FSI twine",
+    "description": "Uses potential theory to solve 2D airfoils",
+    "configuration_values_schema": {
+        "type": "object",
+        "properties": {
+            "analysis_program": {
+                "title": "Analysis Program",
+                "description": "The underlying program that will be run to determine aerofoil section properties",
+                "type": "string",
+                "default": "xfoil",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "enum": [
+                            "xfoil"
+                        ],
+                        "title": "X-Foil"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "vgfoil"
+                        ],
+                        "title": "VG-Foil"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "viiflow"
+                        ],
+                        "title": "ViiFlow"
+                    },
+                    {
+                        "type": "string",
+                        "enum": [
+                            "rfoil"
+                        ],
+                        "title": "RFoil"
+                    }
+                ]
+            },
+            "max_iterations":{
+                "description": "Maximum number of iterations",
+                "type": "integer",
+                "title": "Max Iterations",
+                "default": 20,
+                "minimum": 20,
+                "maximum": 10000
+            }
         }
-      },
-      "cd": {
-        "description": "Output Cd values corresponding to the input alpha values",
-        "type": "array",
-        "title": "Cd values",
-        "items": {
-          "type": "number"
+    },
+    "input_manifest": [
+        {
+            "key": "aerofoil_shape_data",
+            "purpose": "A dataset containing shape files in .dat or tab delimited open form, describing the aerofoil shape.",
+            "filters": "tags:(series:naca)"
         }
-      },
-      "cm": {
-        "description": "Output Cm values corresponding to the input alpha values",
-        "type": "array",
-        "title": "Cm values",
-        "items": {
-          "type": "number"
+    ],
+    "input_values_schema": {
+        "title": "Input values schema",
+        "type": "object",
+        "properties": {
+            "airfoil_name": {
+                "title": "Airfoil name",
+                "type": "string"
+            },
+            "alpha_range": {
+                "description": "The range of alpha values at which the solver will be run.",
+                "type": "array",
+                "title": "Alpha Range [min max step]",
+                "default": [-10, 10, 5],
+                "items": [
+                    {
+                        "type": "number",
+                        "min": -30,
+                        "max": 30
+                    },
+                    {
+                        "type": "number",
+                        "min": -30,
+                        "max": 30
+                    },
+                    {
+                        "type": "number",
+                        "min": 0.1,
+                        "max": 180
+                    }
+                ],
+                "additionalItems": false
+            },
+            "inflow_speed": {
+                "title": "U",
+                "description": "Inflow speed U in m/s",
+                "type": "number",
+                "default": 1,
+                "minimum": 1e-6,
+                "maximum": 330
+            },
+            "kinematic_viscosity": {
+                "title": "Kinematic Viscosity",
+                "description": "Kinematic viscosity nu",
+                "type": "number",
+                "minimum": 1e-6,
+                "maximum": 0.1
+            },
+            "characteristic_length": {
+                "title": "Characteristic aerofoil length",
+                "description": "Chord length l in m",
+                "type": "number",
+                "minimum": 1e-6,
+                "maximum": 10
+            },
+            "mach_number": {
+                "title": "Mach number",
+                "description": "",
+                "type": "number",
+                "default": 0,
+                "minimum": 0,
+                "maximum": 0.8
+            },
+            "n_critical": {
+                "title": "N critical",
+                "description": "N critical amplification factor from eN method ",
+                "type": "number",
+                "default": 9,
+                "minimum": 0,
+                "maximum": 20
+            },
+            "re_xtr": {
+                "title": "Critical Reynolds number for top and bottom of the airfoil",
+                "description": "Reynolds number at which the transition from laminar to turbulent flow occurs  [Top, Bottom]",
+                "type": "array",
+                "items": [
+                    {
+                        "type": "number",
+                        "default": 5e5,
+                        "minimum": 1e-6,
+                        "maximum": 1e9
+                    },
+                    {
+                        "type": "number",
+                        "default": 5e5,
+                        "minimum": 1e-6,
+                        "maximum": 1e9
+                    }
+                ],
+                "additionalItems": false
+            }
         }
-      },
-      "cp": {
-        "description": "Cp values for x and y coordiante of the airfoil",
-        "title": "Cp values",
-        "type": "array"
-      }
+    },
+    "output_values_schema": {
+        "type": "object",
+        "properties": {
+            "reynolds_number": {
+                "description": "Reynolds number calculated from input parameters",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1000000000000
+            },
+            "cl": {
+                "description": "Output Cl values corresponding to the input alpha values",
+                "type": "array",
+                "title": "Cl values",
+                "items": {
+                    "type": "number"
+                }
+            },
+            "cd": {
+                "description": "Output Cd values corresponding to the input alpha values",
+                "type": "array",
+                "title": "Cd values",
+                "items": {
+                    "type": "number"
+                }
+            },
+            "cm": {
+                "description": "Output Cm values corresponding to the input alpha values",
+                "type": "array",
+                "title": "Cm values",
+                "items": {
+                    "type": "number"
+                }
+            },
+            "cp": {
+                "description": "Cp values for x and y coordinate of the airfoil",
+                "title": "Cp values",
+                "type": "array"
+            }
+        }
     }
-  }
 }
