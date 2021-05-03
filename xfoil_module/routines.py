@@ -78,8 +78,8 @@ def load_airfoil(airfoil_file):
     """
     Loads airfoil geometry data from .dat file
     """
-    print(airfoil_file.absolute_path)
-    with open(airfoil_file.absolute_path) as f:
+    print(airfoil_file.get_local_path())
+    with open(airfoil_file.get_local_path()) as f:
         content = f.readlines()
 
     x_coord = []
@@ -94,4 +94,3 @@ def load_airfoil(airfoil_file):
     airfoilObj.y = np.array(y_coord)
 
     return airfoilObj
-
