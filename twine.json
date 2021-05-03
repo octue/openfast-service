@@ -50,18 +50,22 @@
       }
     }
   },
-  "input_manifest_filters": [
+  "input_manifest": [
     {
-      "key": "aerofoil_shape_file",
-      "purpose": "A dataset containing a single shape file in .dat or tab delimited open form, describing the aerofoil shape.",
-      "filters": "tags:(naca_0012)"
+      "key": "aerofoil_shape_data",
+      "purpose": "A dataset containing shape files in .dat or tab delimited open form, describing the aerofoil shape.",
+      "filters": "tags:(series:naca)"
     }
   ],
   "input_values_schema": {
     "title": "Input values schema",
     "type": "object",
     "properties": {
-        "alpha_range": {
+      "airfoil_name": {
+        "title": "Airfoil name",
+        "type": "string"
+        },
+      "alpha_range": {
         "description": "The range of alpha values at which the solver will be run.",
         "type": "array",
         "title": "Alpha Range [min max step]",

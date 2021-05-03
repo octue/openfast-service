@@ -16,11 +16,12 @@ xf.print = 1  # Suppress terminal output: 0, enable output: 1
 def call(analysis):
     '''Runs analysis using Xfoil'''
     print("Lets run Xfoil!")
-    # Hardcoded airfoil names for now
-    # TODO add multi-processing, each section on a separate sub-process.
 
-    airfoil_name = 'naca_0012'
-    xf.airfoil = load_airfoil(airfoil_name)
+    # load airfoil shapefiles dataset
+    input_dataset = analysis.input_manifest.get_dataset("aerofoil_shape_data")
+    airfoil_file = input_dataset.get_file_by_tag("name:"+analysis.input_values["airfoil_name"])
+
+    xf.airfoil = load_airfoil(airfoil_file)
 
     # Reynolds number,
     xf.Re = set_input(analysis.input_values)[0]
@@ -73,12 +74,12 @@ def set_input(_in):
     return reynolds, x_transition
 
 
-def load_airfoil(airfoil_name):
+def load_airfoil(airfoil_file):
     """
     Loads airfoil geometry data from .dat file
     """
-    print(airfoil_name)
-    with open('./data/input/datasets/aerofoil_shape_file/' + airfoil_name + '.dat') as f:
+    print(airfoil_file.absolute_path)
+    with open(airfoil_file.absolute_path) as f:
         content = f.readlines()
 
     x_coord = []
