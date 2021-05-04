@@ -47,7 +47,7 @@ def test_deployment():
         "alpha_range": [-10, 10, 5],
         "inflow_speed": 1,
         "kinematic_viscosity": 1e-6,
-        "characteristic_length": 1e-6,
+        "characteristic_length": 1,
         "mach_number": 0,
         "n_critical": 9,
         "re_xtr": [5e5, 5e5]
