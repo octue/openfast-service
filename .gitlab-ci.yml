@@ -19,3 +19,21 @@ build_and_test:
     - coverage run -m unittest
     - coverage report
   coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+
+pages:
+  cache:
+    paths:
+      - docs/requirements.txt
+    when: 'on_success'
+    key: 'pages'
+  script:
+  - python3 -m venv docs-venv:Update .gitlab-ci.yml
+  - bash docs-venv/bin/activate
+  - pip install -r docs/requirements.txt
+  - sphinx-build -b html docs/source public
+  artifacts:
+    paths:
+    - public
+  only:
+    - master
+
