@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'panel_codes_twine'
+project = u'openfast_service'
 copyright = u'The Aerosense Research Partners'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -117,7 +117,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "openfast_twine: Short Description"
+html_title = "openfast_service: Short Description"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
@@ -196,7 +196,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'openfast_twine.tex', u'openfast_twine',
+  ('index', 'openfast_service.tex', u'openfast_service',
    u'OST Aerosense', 'manual'),
 ]
 
@@ -226,7 +226,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openfast_twine', u'openfast_twine',
+    ('index', 'openfast_service', u'openfast_service',
      [u'OST Aerosense'], 1)
 ]
 
@@ -240,8 +240,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'openfast_twine', u'openfast_twine',
-   u'OST Aerosense', 'openfast_twine', 'Octue wrapper for panel codes.',
+  ('index', 'openfast_service', u'openfast_service',
+   u'OST Aerosense', 'openfast_service', 'Octue wrapper for OpenFAST.',
    'Miscellaneous'),
 ]
 
