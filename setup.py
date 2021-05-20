@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(
-    name="openfast-twine",
+    name="openfast-service",
     version="0.0.0",
     py_modules=['app'],
     entry_points='''
