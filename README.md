@@ -1,5 +1,5 @@
-# openfast-twine-python
-A simple twine that runs OpenFAST. This repository is mirrored to Google Cloud Source Repositories.
+# openfast-service
+A simple wrapper around OpenFAST to run it as a cloud service. This repository is mirrored to Google Cloud Source Repositories.
 
 ## OpenFAST
 OpenFAST Docs: https://openfast.readthedocs.io
@@ -24,7 +24,7 @@ https://github.com/OpenFAST/python-toolbox
 ## Wrapper Documentation
 
 The docs are built automatically, and hosted at:
-https://windenergie-hsr.gitlab.io/aerosense/digital-twin/fsi-twins/openfast-twine/
+https://windenergie-hsr.gitlab.io/aerosense/digital-twin/fsi-twins/openfast-service/
 
 ### Building documents manually
 
