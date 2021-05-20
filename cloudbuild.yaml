@@ -37,11 +37,11 @@ options:
 substitutions:
   _GCR_HOSTNAME: eu.gcr.io
   _PLATFORM: managed
-  _SERVICE_NAME: panel-codes-twine
+  _SERVICE_NAME: openfast-service
   _LABELS: gcb-trigger-id=c11b2517-2b8b-435b-9a30-8213e322851b
   _TRIGGER_ID: c11b2517-2b8b-435b-9a30-8213e322851b
   _DEPLOY_REGION: europe-north1
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - panel-codes-twine
+  - openfast-service
