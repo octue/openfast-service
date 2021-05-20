@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(
-    name="panel-codes-twine",
+    name="openfast-twine",
     version="0.0.0",
     py_modules=['app'],
     entry_points='''

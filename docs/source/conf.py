@@ -117,7 +117,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "panel_codes_twine: Short Description"
+html_title = "openfast_twine: Short Description"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
@@ -196,7 +196,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'panel_codes_twine.tex', u'panel_codes_twine',
+  ('index', 'openfast_twine.tex', u'openfast_twine',
    u'OST Aerosense', 'manual'),
 ]
 
@@ -226,7 +226,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'panel_codes_twine', u'panel_codes_twine',
+    ('index', 'openfast_twine', u'openfast_twine',
      [u'OST Aerosense'], 1)
 ]
 
@@ -240,8 +240,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'panel_codes_twine', u'panel_codes_twine',
-   u'OST Aerosense', 'panel_codes_twine', 'Octue wrapper for panel codes.',
+  ('index', 'openfast_twine', u'openfast_twine',
+   u'OST Aerosense', 'openfast_twine', 'Octue wrapper for panel codes.',
    'Miscellaneous'),
 ]
 

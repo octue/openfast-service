@@ -1,4 +1,3 @@
 {
-  "analysis_program": "xfoil",
-  "max_iterations":1000
+  "turbine_model": "NREL_5MW"
 }

@@ -9,10 +9,14 @@ coverage
 
 # ----------- Some common libraries  -----------------------------------------------------------------------------------
 
-# XFOIL Python module by DARcorporavgfoiltion, uses Fortran library directly though api.
-# xfoil==1.1.1 #Version 1.1.1 has a bug in setting mach number, add MINf1 = M
-             # after line 204 in src/api.f90!
 
-# VG-Foil Python - Modified version of xfoil-python, includes IWES modifications for vortex generators
-# https://github.com/time-trader/vgfoil-python
-# vgfoil
+# ----------- App Specific Packages  -----------------------------------------------------------------------------------
+
+# OpenFAST
+
+# OpenFAST compiled executable
+# Can be compiled from source: https://github.com/OpenFAST/OpenFAST
+# or installed from conda forge: conda install -c conda-forge openfast
+
+# OpenFAST Tools
+# https://github.com/OpenFAST/python-toolbox

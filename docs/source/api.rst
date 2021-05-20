@@ -5,10 +5,10 @@ API
 ===
 
 
-.. _api_xfoil:
+.. _api_openfast:
 
-X-Foil Module
-=============
+OpenFAST Module
+===============
 
-.. automodule:: xfoil_module.routines
+.. automodule:: openfast_module.routines
     :members:
