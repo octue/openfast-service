@@ -2,7 +2,7 @@
     "app_dir": ".",
     "twine": "twine.json",
     "configuration_values": {
-      "turbine_model": "NREL_5MW",
-      "model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst"
+        "turbine_model": "NREL_5MW",
+        "model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst"
     }
 }

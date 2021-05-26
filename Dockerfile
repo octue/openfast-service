@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM rafmudaf/openfast-ubuntu:latest
 
 # Allow statements and log messages to immediately appear in the Knative logs on Google Cloud.
 ENV PYTHONUNBUFFERED True
@@ -6,16 +6,14 @@ ENV PYTHONUNBUFFERED True
 ENV PROJECT_ROOT=/app
 WORKDIR $PROJECT_ROOT
 
-RUN apt-get update -y && apt-get install -y --fix-missing build-essential gfortran git && rm -rf /var/lib/apt/lists/*
-
 # We can include python tools directly from NREL repo
-RUN pip install git+https://github.com/OpenFAST/python-toolbox.git
+RUN pip3 install --upgrade pip && pip3 install git+https://github.com/OpenFAST/python-toolbox.git
 
 COPY requirements-dev.txt .
 COPY setup.py .
 COPY . .
 
-RUN pip install --upgrade pip && pip install -r requirements-dev.txt
+RUN pip3 install -r requirements-dev.txt
 
 EXPOSE $PORT
 
