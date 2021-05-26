@@ -32,16 +32,17 @@ steps:
     entrypoint: gcloud
 images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+timeout: 1200s
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
+  _DEPLOY_REGION: europe-west1
   _GCR_HOSTNAME: eu.gcr.io
   _PLATFORM: managed
-  _SERVICE_NAME: openfast-service
-  _LABELS: gcb-trigger-id=c11b2517-2b8b-435b-9a30-8213e322851b
-  _TRIGGER_ID: c11b2517-2b8b-435b-9a30-8213e322851b
-  _DEPLOY_REGION: europe-north1
+  _LABELS: gcb-trigger-id=79017263-d539-4709-81cb-0ded181902d6
+  _TRIGGER_ID: 79017263-d539-4709-81cb-0ded181902d6
+  _SERVICE_NAME: openfast
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - openfast-service
+  - openfast
