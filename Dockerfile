@@ -1,5 +1,4 @@
-# xfoil-python only seems to work on python 3.6.
-FROM python:3.6-slim-buster
+FROM python:3.9-slim-buster
 
 # Allow statements and log messages to immediately appear in the Knative logs on Google Cloud.
 ENV PYTHONUNBUFFERED True
@@ -10,7 +9,7 @@ WORKDIR $PROJECT_ROOT
 RUN apt-get update -y && apt-get install -y --fix-missing build-essential gfortran git && rm -rf /var/lib/apt/lists/*
 
 # We can include python tools directly from NREL repo
-RUN https://github.com/OpenFAST/python-toolbox.git && pip install -e ./python-toolbox
+RUN pip install git+https://github.com/OpenFAST/python-toolbox.git
 
 COPY requirements-dev.txt .
 COPY setup.py .
