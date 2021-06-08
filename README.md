@@ -12,6 +12,16 @@ or installed from conda forge:
 Regression tests are currently at:
 https://github.com/OpenFAST/r-test
 
+**Controller DLLs:**
+
+Before running some tests, the controller DLL should be compiled for your system. 
+DISCON controller comes with source code and makefiles. 
+To build DISCON on the LINUX system use:
+
+```
+cmake DISCON
+make
+```
 
 ### OpenFAST Models of the wind turbines:
 NREL Wind Turbine Models can be found at:
