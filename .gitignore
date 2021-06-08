@@ -105,3 +105,5 @@ ENV/
 
 # airfoil data files (due to NDA's)
 *_afoils_*
+
+*.sum
