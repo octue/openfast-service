@@ -3,20 +3,4 @@
 coverage
 
 # ----------- Install the current app (as editable, so you can develop on it) ------------------------------------------
-
 --editable .
-
-
-# ----------- Some common libraries  -----------------------------------------------------------------------------------
-
-
-# ----------- App Specific Packages  -----------------------------------------------------------------------------------
-
-# OpenFAST
-
-# OpenFAST compiled executable
-# Can be compiled from source: https://github.com/OpenFAST/OpenFAST
-# or installed from conda forge: conda install -c conda-forge openfast
-
-# OpenFAST Tools
-# https://github.com/OpenFAST/python-toolbox
