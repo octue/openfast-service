@@ -1,7 +1,7 @@
 import os
 import subprocess
 import numpy as np
-import pyFAST
+from pyFAST.input_output import FASTInputFile
 
 from app import REPOSITORY_ROOT
 
@@ -17,15 +17,17 @@ def run_openfast(analysis):
 def run_turbsim(analysis):
     """
     Runs turbosim to generate input flow field
+    TODO maybe TurbSim should be a separate child service for OpenFAST?
     """
     turbine_model = analysis.configuration_values["turbine_model"]
-    subprocess.run(['turbsim',
-                    os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, "Wind", "TurbSim.inp")])
+    model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
+    subprocess.run(['turbsim', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models",
+                                            turbine_model, model_wind)])
 
 
 def turbine_model_configuration(analysis):
     """
-    TODO [?] use OpenFAST python-toolbox to change wind turbine configuration files
+    TODO use OpenFAST python-toolbox to change wind turbine configuration files
     """
     pass
 
@@ -43,3 +45,9 @@ def wind_input_configuration(analysis):
 
     # Lets just change Uref for now
     u_ref = analysis.input_values["u_ref"]
+    turbine_model = analysis.configuration_values["turbine_model"]
+    model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
+    turbsim_input = FASTInputFile(os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models",
+                                               turbine_model, model_wind))
+    turbsim_input['URef'] = u_ref
+    turbsim_input.write('TurbSim_configured.inp')
