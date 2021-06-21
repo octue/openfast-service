@@ -1,31 +1,137 @@
 {
-    "title": "OpenFAST twine",
-    "description": "Uses BEM theory to model wind turbines",
-    "configuration_values_schema": {
-        "type": "object",
-        "properties": {
-            "turbine_model":{
-                "title": "Wind Turbine Model",
-                "type": "string"
+    "definitions": {
+        "section_polar": {
+            "type": "array",
+            "items": [
+                {
+                    "title": "Angle of attack (AoA)",
+                    "description": "Angle of attack [degrees]",
+                    "type": "integer",
+                    "minimum": -179,
+                    "maximum": 180
+                },
+                {
+                    "title": "Section lift coefficient (cl)",
+                    "description": "Section coefficient of lift (per-unit-span) [no units]",
+                    "type": "number",
+                    "minimum": -5,
+                    "maximum": 5
+                },
+                {
+                    "title": "Section drag coefficient (cd)",
+                    "description": "Section coefficient of drag (per-unit-span) [no units]",
+                    "type": "number",
+                    "minimum": -5,
+                    "maximum": 5
+                }
+            ],
+            "uniqueItems": true
+        },
+        "blade_polars": {
+            "title": "Blade section performance polars",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "section_radius": {
+                        "type": "number",
+                        "title": "Nondimensional radius",
+                        "description": "Nondimensional radius (r/r_tip) of the section [no units]",
+                        "minimum": 0.001,
+                        "maximum": 1
+                    },
+                    "section_polar": {"$ref": "#/definitions/section_polar"}
+                }
             }
         }
     },
+    "title": "OpenFAST Service",
+    "description": "Use the OpenFAST service to model a wind turbine with BEM theory",
     "input_values_schema": {
-        "title": "Input values schema",
         "type": "object",
         "properties": {
-            "model_case":{
-                "title": "Model Case",
-                "description": "OpenFAST input file *.fst",
-                "type": "string"
+            "inflow": {
+                "title": "Inflow (wind parameters)",
+                "type": "object",
+                "properties": {
+                    "wind_speed": {
+                        "title": "Wind Speed",
+                        "description": "Steady inflow wind speed at the reference height [m/s]",
+                        "type": "number",
+                        "minimum": 1e-6,
+                        "maximum": 330
+                    },
+                    "reference_height": {
+                        "title": "Reference Height",
+                        "description": "The reference height above ground at which the inflow wind speed is defined [m]",
+                        "type": "number",
+                        "minimum": 1e-6,
+                        "maximum": 1000
+                    }
+                },
+                "required": ["wind_speed", "reference_height"]
             },
-            "u_ref": {
-                "title": "U",
-                "description": "Mean (total) velocity at the reference height [m/s]",
+            "blade_polars": {"$ref": "#/definitions/blade_polars"},
+            "monitoring_radii": {
+                "title": "Nondimensional monitoring radii",
+                "description": "Nondimensional radii (r/r_tip) at which the output (simulated) blade section quantities are given [no units]",
+                "type": "array",
+                "items": {
+                    "type": "number",
+                    "title": "Nondimensional radius",
+                    "minimum": 0.001,
+                    "maximum": 1
+                }
+            },
+            "required": ["inflow", "blade_polars", "monitoring_radii"]
+        }
+    },
+    "output_values_schema": {
+        "type": "object",
+        "properties": {
+            "sampling_period": {
+                "description": "Sampling period [s]",
                 "type": "number",
-                "default": 10,
-                "minimum": 1e-6,
-                "maximum": 330
+                "minimum": 0
+            },
+            "turbine_power_output": {
+                "title": "Turbine power and thrust coefficients",
+                "description": "Timeseries of turbine power and thrust coefficients (array of two-tuples CP and CT [no units])",
+                "type": "array",
+                "items": [
+                    {"type": "number"}, # add description + title
+                    {"type": "number"}
+                ]
+            },
+            "tower_base_bending_moments": {
+                "description": "Timeseries of tower base bending moments (array of six-tuples Fx, Fy, Fz, Mx, My, Mz [N])",
+                "type": "array",
+                # add description + title
+                "items": [
+                    {"type": "number"},
+                    {"type": "number"},
+                    {"type": "number"},
+                    {"type": "number"},
+                    {"type": "number"},
+                    {"type": "number"}
+                ]
+            },
+            "rotor_angle_averaged_angles_of_attack": {
+                "description": "Rotor-angle-averaged angles of attack (AoA) at sensor locations (for comparison with AoAs calculated)",
+                "type": "array",
+                "items": [
+                    {
+                        "type": "number",
+                        "exclusiveMinimum": -180,
+                        "maximum": 180
+                    },
+                    {
+
+                    }
+                ],
+                "minItems": 360,
+                "maxItems": 360,
+                "uniqueItems": true
             }
         }
     }
