@@ -99,14 +99,13 @@
                 "description": "Timeseries of turbine power and thrust coefficients (array of two-tuples CP and CT [no units])",
                 "type": "array",
                 "items": [
-                    {"type": "number"}, # add description + title
+                    {"type": "number"},
                     {"type": "number"}
                 ]
             },
             "tower_base_bending_moments": {
                 "description": "Timeseries of tower base bending moments (array of six-tuples Fx, Fy, Fz, Mx, My, Mz [N])",
                 "type": "array",
-                # add description + title
                 "items": [
                     {"type": "number"},
                     {"type": "number"},
