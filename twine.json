@@ -47,6 +47,11 @@
     },
     "title": "OpenFAST Service",
     "description": "Use the OpenFAST service to model a wind turbine with BEM theory",
+    "configuration_values_schema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+    },
     "input_values_schema": {
         "type": "object",
         "properties": {
