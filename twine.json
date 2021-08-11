@@ -87,9 +87,9 @@
                     "minimum": 0.001,
                     "maximum": 1
                 }
-            },
-            "required": ["inflow", "blade_polars", "monitoring_radii"]
-        }
+            }
+        },
+        "required": ["inflow", "blade_polars", "monitoring_radii"]
     },
     "output_values_schema": {
         "type": "object",
