@@ -11,6 +11,6 @@ setup(
     ''',
     install_requires=[
         "numpy",
-        "octue>=0.2.8",
+        "octue==0.2.9",
     ]
 )
