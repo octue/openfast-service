@@ -6,8 +6,8 @@ ENV PYTHONUNBUFFERED True
 ENV PROJECT_ROOT=/app
 WORKDIR $PROJECT_ROOT
 
-# We can include python tools directly from NREL repo
-RUN pip3 install --upgrade pip && pip3 install git+https://github.com/OpenFAST/python-toolbox.git
+# We have to install OpenFAST/python-toolbox from GitHub in this specific way for it to work.
+RUN git clone http://github.com/OpenFAST/python-toolbox && cd python-toolbox && python3 -m pip install -e .
 
 COPY requirements-dev.txt .
 COPY setup.py .
