@@ -3,8 +3,7 @@ from unittest import TestCase
 
 from octue import Runner
 from octue.resources import Analysis
-from openfast_module.routines import run_openfast, run_turbsim
-from app import REPOSITORY_ROOT
+from openfast_module.routines import run_openfast, run_turbsim, REPOSITORY_ROOT
 
 
 class TestOpenFast(TestCase):
@@ -29,4 +28,3 @@ class TestOpenFast(TestCase):
         # TODO NREL_5MW takes too long to generate
         # Some bug: the system cannot write to .sum file ???
         run_turbsim(analysis)
-

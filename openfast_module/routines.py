@@ -1,17 +1,18 @@
 import os
 import subprocess
-import numpy as np
 from pyFAST.input_output import FASTInputFile
 
-from app import REPOSITORY_ROOT
+
+REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 def run_openfast(analysis):
     turbine_model = analysis.configuration_values["turbine_model"]
     model_case = analysis.input_values["model_case"]
     #TODO introduce propper path variables... manifests???
-    subprocess.run(['openfast',
-                   os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)])
+    subprocess.run(
+        ['openfast', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)]
+    )
 
 
 def run_turbsim(analysis):
@@ -21,8 +22,9 @@ def run_turbsim(analysis):
     """
     turbine_model = analysis.configuration_values["turbine_model"]
     model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
-    subprocess.run(['turbsim', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models",
-                                            turbine_model, model_wind)])
+    subprocess.run(
+        ['turbsim', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)]
+    )
 
 
 def turbine_model_configuration(analysis):
@@ -47,7 +49,10 @@ def wind_input_configuration(analysis):
     u_ref = analysis.input_values["u_ref"]
     turbine_model = analysis.configuration_values["turbine_model"]
     model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
-    turbsim_input = FASTInputFile(os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models",
-                                               turbine_model, model_wind))
+
+    turbsim_input = FASTInputFile(
+        os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)
+    )
+
     turbsim_input['URef'] = u_ref
     turbsim_input.write('TurbSim_configured.inp')

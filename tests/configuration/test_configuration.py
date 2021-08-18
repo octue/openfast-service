@@ -3,8 +3,7 @@ from unittest import TestCase
 
 from octue import Runner
 from octue.resources import Analysis
-from openfast_module.routines import wind_input_configuration
-from app import REPOSITORY_ROOT
+from openfast_module.routines import wind_input_configuration, REPOSITORY_ROOT
 
 
 class TestConfiguration(TestCase):
@@ -16,4 +15,3 @@ class TestConfiguration(TestCase):
                             input_values={"u_ref": 10})
         wind_input_configuration(analysis)
         self.assertTrue(os.path.exists('TurbSim_configured.inp'))
-
