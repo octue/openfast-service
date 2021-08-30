@@ -1,0 +1,10 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-f'
+      - Dockerfile-openfast
+      - .
+    id: Build
+timeout: 18000s
