@@ -20,7 +20,17 @@ class TestDeployment(unittest.TestCase):
         PROJECT_NAME = os.environ["TEST_PROJECT_NAME"]
         SERVICE_ID = "octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873"
 
-        input_values = {}
+        input_values = {
+            "inflow": {"wind_speed": 1, "reference_height": 200},
+            "blade_polars": [
+                {
+                    "section_radius": 0.05,
+                    "section_polar": [0, 0, 0]
+                }
+            ],
+            "monitoring_radii": [0.05],
+            "model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst",
+        }
 
         asker = Service(backend=GCPPubSubBackend(project_name=PROJECT_NAME))
         subscription, _ = asker.ask(service_id=SERVICE_ID, input_values=input_values)
