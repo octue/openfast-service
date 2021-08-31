@@ -1,4 +1,4 @@
-import openfast_module
+import openfast
 
 
 def run(analysis):
@@ -7,4 +7,4 @@ def run(analysis):
     :param octue.resources.analysis.Analysis analysis:
     :return None:
     """
-    openfast_module.routines.run_openfast(analysis)
+    openfast.routines.run_openfast(analysis)

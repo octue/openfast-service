@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from octue import Runner
 from octue.resources import Analysis
-from openfast_module.routines import wind_input_configuration, REPOSITORY_ROOT
+from openfast.routines import wind_input_configuration, REPOSITORY_ROOT
 
 
 class TestConfiguration(TestCase):

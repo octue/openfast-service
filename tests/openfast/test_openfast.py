@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from octue import Runner
 from octue.resources import Analysis
-from openfast_module.routines import run_openfast, run_turbsim, REPOSITORY_ROOT
+from openfast.routines import run_openfast, run_turbsim, REPOSITORY_ROOT
 
 
 class TestOpenFast(TestCase):
