@@ -6,6 +6,6 @@ setup(
     version="0.0.0",
     py_modules=['app'],
     install_requires=[
-        "octue @ https://github.com/octue/octue-sdk-python/archive/fix/format-service-error-messages-correctly.zip",
+        "octue>=0.2.10",
     ]
 )

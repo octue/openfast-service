@@ -15,5 +15,5 @@ RUN mkdir build
 WORKDIR build
 
 RUN cmake ..
-
 RUN make -j openfast
+RUN make install
