@@ -17,8 +17,3 @@ WORKDIR build
 RUN cmake ..
 
 RUN make -j openfast
-
-# Try:
-# * Basing on latest ubuntu image
-# * Building on google cloud
-# * Look at other guides for building openfast

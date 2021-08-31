@@ -41,7 +41,7 @@ substitutions:
   _PLATFORM: managed
   _LABELS: gcb-trigger-id=79017263-d539-4709-81cb-0ded181902d6
   _TRIGGER_ID: 79017263-d539-4709-81cb-0ded181902d6
-  _SERVICE_NAME: openfast
+  _SERVICE_NAME: openfast-service
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed

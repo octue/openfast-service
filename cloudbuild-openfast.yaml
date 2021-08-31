@@ -1,10 +1,30 @@
 steps:
-  - name: gcr.io/cloud-builders/docker
+  - id: Build
+    name: gcr.io/cloud-builders/docker
     args:
       - build
       - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - '-f'
       - Dockerfile-openfast
       - .
-    id: Build
+  - id: Push
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+images:
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
 timeout: 18000s
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _DEPLOY_REGION: europe-west1
+  _GCR_HOSTNAME: eu.gcr.io
+  _PLATFORM: managed
+  _LABELS: gcb-trigger-id=135b6b79-7376-477d-8ba0-9a1cb621a9a5
+  _TRIGGER_ID: 135b6b79-7376-477d-8ba0-9a1cb621a9a5
+  _SERVICE_NAME: openfast
+tags:
+  - openfast
