@@ -1,18 +1,4 @@
-FROM conda/miniconda3
-
-# Allow statements and log messages to immediately appear in the Knative logs on Google Cloud.
-ENV PYTHONUNBUFFERED True
-
-ENV PROJECT_ROOT=/app
-WORKDIR $PROJECT_ROOT
-
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
-
-# Install openfast.
-RUN yes | conda create -n openfast_env && yes | conda install -c conda-forge openfast
-
-# We have to install OpenFAST/python-toolbox from GitHub in this specific way for it to work.
-RUN git clone http://github.com/OpenFAST/python-toolbox && cd python-toolbox && python3 -m pip install -e .
+FROM octue/openfast
 
 COPY requirements-dev.txt .
 COPY setup.py .
