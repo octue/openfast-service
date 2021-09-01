@@ -9,10 +9,14 @@ REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 def run_openfast(analysis):
     turbine_model = analysis.configuration_values["turbine_model"]
     model_case = analysis.input_values["model_case"]
-    #TODO introduce propper path variables... manifests???
-    subprocess.run(
-        ['openfast', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)]
-    )
+
+    # TODO introduce proper path variables... manifests???
+    openfast_file_path = os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)
+
+    if not os.path.exists(openfast_file_path):
+        raise FileNotFoundError(f"The openfast file at {openfast_file_path} was not found.")
+
+    subprocess.run(['openfast', openfast_file_path])
 
 
 def run_turbsim(analysis):
