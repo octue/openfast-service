@@ -9,7 +9,7 @@ steps:
       - _SERVICE_ID=$_SERVICE_ID
       - .
       - '-f'
-      - openfast-service.Dockerfile
+      - Dockerfile
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
