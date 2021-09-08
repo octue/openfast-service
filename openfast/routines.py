@@ -1,6 +1,7 @@
 import os
 import subprocess
 from pyFAST.input_output import FASTInputFile
+from octue.resources import Manifest
 
 
 REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -10,7 +11,6 @@ def run_openfast(analysis):
     turbine_model = analysis.configuration_values["turbine_model"]
     model_case = analysis.input_values["model_case"]
 
-    # TODO introduce proper path variables... manifests???
     openfast_file_path = os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)
 
     if not os.path.exists(openfast_file_path):
@@ -20,15 +20,18 @@ def run_openfast(analysis):
 
 
 def run_turbsim(analysis):
+    """Run turbsim to generate the input flow field.
+
+    :param octue.resources.analysis.Analysis analysis:
+    :return str: cloud path to turbsim output
     """
-    Runs turbosim to generate input flow field
-    TODO maybe TurbSim should be a separate child service for OpenFAST?
-    """
-    turbine_model = analysis.configuration_values["turbine_model"]
-    model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
-    subprocess.run(
-        ['turbsim', os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)]
+    input_manifest = Manifest(
+        datasets=[analysis.input_manifest.get_dataset("turbsim_input")],
+        keys={"turbsim_input": 0}
     )
+
+    answer = analysis.children["turbsim"].ask(input_values=None, input_manifest=input_manifest, timeout=1500)
+    return answer["output_manifest"].get_dataset("turbsim_output").get_file_by_label("turbsim").path
 
 
 def turbine_model_configuration(analysis):
