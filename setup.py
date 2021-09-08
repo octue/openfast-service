@@ -6,6 +6,6 @@ setup(
     version="0.0.0",
     py_modules=['app'],
     install_requires=[
-        "octue>=0.2.10",
+        "octue==0.3.3",
     ]
 )
