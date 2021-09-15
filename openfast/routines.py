@@ -1,37 +1,47 @@
+import tempfile
 import os
-import subprocess
+
+from octue.resources import Manifest, Datafile
+from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 from pyFAST.input_output import FASTInputFile
-from octue.resources import Manifest
 
 
 REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 def run_openfast(analysis):
-    turbine_model = analysis.configuration_values["turbine_model"]
-    model_case = analysis.input_values["model_case"]
+    run_turbsim(analysis)
 
-    openfast_file_path = os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_case)
+    with tempfile.TemporaryDirectory() as temporary_directory:
 
-    if not os.path.exists(openfast_file_path):
-        raise FileNotFoundError(f"The openfast file at {openfast_file_path} was not found.")
+        # Download all datasets' files so they're available for the openfast shell app.
+        for dataset in analysis.input_manifest.datasets:
+            dataset.download_all_files(local_directory=temporary_directory)
 
-    subprocess.run(['openfast', openfast_file_path])
+        openfast_file_path = os.path.join(
+            temporary_directory,
+            analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast")
+        )
+
+        run_subprocess_and_log_stdout_and_stderr(command=['openfast', openfast_file_path], logger=analysis.logger)
 
 
 def run_turbsim(analysis):
-    """Run turbsim to generate the input flow field.
+    """Run turbsim to generate the input flow field, adding the output file to the turbsim dataset in the analysis's
+    input manifest.
 
     :param octue.resources.analysis.Analysis analysis:
-    :return str: cloud path to turbsim output
+    :return None:
     """
-    input_manifest = Manifest(
-        datasets=[analysis.input_manifest.get_dataset("turbsim")],
-        keys={"turbsim_input": 0}
-    )
+    turbsim_input_dataset = analysis.input_manifest.get_dataset("turbsim")
+    turbsim_input_dataset.name = "turbsim_intput"
 
+    input_manifest = Manifest(datasets=[turbsim_input_dataset], keys={"turbsim_input": 0})
     answer = analysis.children["turbsim"].ask(input_values=None, input_manifest=input_manifest, timeout=1500)
-    return answer["output_manifest"].get_dataset("turbsim_output").get_file_by_label("turbsim").path
+
+    turbsim_output_path = answer["output_manifest"].get_dataset("turbsim_output").get_file_by_label("turbsim").path
+    turbsim_output = Datafile(path=turbsim_output_path, project_name=os.environ["PROJECT_NAME"])
+    analysis.input_manifest.get_dataset("turbsim").add(turbsim_output)
 
 
 def turbine_model_configuration(analysis):

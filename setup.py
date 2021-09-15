@@ -6,6 +6,6 @@ setup(
     version="0.0.0",
     py_modules=['app'],
     install_requires=[
-        "octue==0.3.7",
+        "octue @ https://github.com/octue/octue-sdk-python/archive/feature/allow-entire-manifest-or-dataset-to-be-downloaded-at-once.zip",
     ]
 )
