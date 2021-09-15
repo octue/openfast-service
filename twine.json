@@ -5,6 +5,12 @@
         "type": "object",
         "properties": {}
     },
+    "children": [
+		{
+			"key": "turbsim",
+			"purpose": "A service that runs turbulence simulations."
+		}
+	],
     "input_manifest": {
         "datasets": [
             {

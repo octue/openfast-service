@@ -26,7 +26,7 @@ def run_turbsim(analysis):
     :return str: cloud path to turbsim output
     """
     input_manifest = Manifest(
-        datasets=[analysis.input_manifest.get_dataset("turbsim_input")],
+        datasets=[analysis.input_manifest.get_dataset("turbsim")],
         keys={"turbsim_input": 0}
     )
 

@@ -1,8 +1,14 @@
 {
     "app_dir": ".",
     "twine": "twine.json",
-    "configuration_values": {
-        "turbine_model": "NREL_5MW",
-        "model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst"
-    }
+    "children": [
+        {
+            "key": "turbsim",
+            "id": "octue.services.c3b47b47-cdfa-433d-b5a8-47a58f3bf7cb",
+            "backend": {
+                "name": "GCPPubSubBackend",
+                "project_name": "aerosense-twined"
+            }
+        }
+    ]
 }
