@@ -23,97 +23,48 @@
             },
             {
                 "key": "elastodyn",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": ["up to 3 blade files"]
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "beamdyn",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": ["up to 3 beamdyn blade files"]
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "inflow",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": ["main inflow file", "u component of wind", "v component of wind", "w component of wind"]
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "aero",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": ["main aerodyn file", "any number of airfoil files", "up to 3 rotor blade property files"]
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "servo",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": ["main servodyn file", "dll file"]
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "hydro",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": "unknown"
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "sub",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": "unknown"
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "mooring",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": "unknown"
+                "purpose": "A dataset containing the main OpenFAST file."
             },
             {
                 "key": "ice",
-                "purpose": "A dataset containing the main OpenFAST file.",
-                "files": "unknown"
+                "purpose": "A dataset containing the main OpenFAST file."
             }
         ]
     },
-    "output_values_schema": {
-        "type": "object",
-        "properties": {
-            "sampling_period": {
-                "description": "Sampling period [s]",
-                "type": "number",
-                "minimum": 0
-            },
-            "turbine_power_output": {
-                "title": "Turbine power and thrust coefficients",
-                "description": "Timeseries of turbine power and thrust coefficients (array of two-tuples CP and CT [no units])",
-                "type": "array",
-                "items": [
-                    {"type": "number"},
-                    {"type": "number"}
-                ]
-            },
-            "tower_base_bending_moments": {
-                "description": "Timeseries of tower base bending moments (array of six-tuples Fx, Fy, Fz, Mx, My, Mz [N])",
-                "type": "array",
-                "items": [
-                    {"type": "number"},
-                    {"type": "number"},
-                    {"type": "number"},
-                    {"type": "number"},
-                    {"type": "number"},
-                    {"type": "number"}
-                ]
-            },
-            "rotor_angle_averaged_angles_of_attack": {
-                "description": "Rotor-angle-averaged angles of attack (AoA) at sensor locations (for comparison with AoAs calculated)",
-                "type": "array",
-                "items": [
-                    {
-                        "type": "number",
-                        "exclusiveMinimum": -180,
-                        "maximum": 180
-                    },
-                    {
-
-                    }
-                ],
-                "minItems": 360,
-                "maxItems": 360,
-                "uniqueItems": true
+    "output_manifest": {
+        "datasets": [
+            {
+                "key": "openfast",
+                "purpose": "A dataset containing the openfast output files."
             }
-        }
+        ]
     }
 }
