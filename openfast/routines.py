@@ -10,6 +10,7 @@ REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 def run_openfast(analysis):
+    # Run turbulence simulation and add output file to the analysis's turbsim input dataset.
     run_turbsim(analysis)
 
     with tempfile.TemporaryDirectory() as temporary_directory:
@@ -33,15 +34,14 @@ def run_turbsim(analysis):
     :param octue.resources.analysis.Analysis analysis:
     :return None:
     """
-    turbsim_input_dataset = analysis.input_manifest.get_dataset("turbsim")
-    turbsim_input_dataset.name = "turbsim_intput"
+    answer = analysis.children["turbsim"].ask(
+        input_manifest=Manifest(datasets=[analysis.input_manifest.get_dataset("turbsim")], keys={"turbsim": 0}),
+        timeout=1500
+    )
 
-    input_manifest = Manifest(datasets=[turbsim_input_dataset], keys={"turbsim_input": 0})
-    answer = analysis.children["turbsim"].ask(input_values=None, input_manifest=input_manifest, timeout=1500)
-
-    turbsim_output_path = answer["output_manifest"].get_dataset("turbsim_output").get_file_by_label("turbsim").path
-    turbsim_output = Datafile(path=turbsim_output_path, project_name=os.environ["PROJECT_NAME"])
-    analysis.input_manifest.get_dataset("turbsim").add(turbsim_output)
+    analysis.input_manifest.get_dataset("turbsim").add(
+        answer["output_manifest"].get_dataset("turbsim").get_file_by_label("output")
+    )
 
 
 def turbine_model_configuration(analysis):
