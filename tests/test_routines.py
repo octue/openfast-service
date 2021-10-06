@@ -1,9 +1,9 @@
 import os
 from unittest import TestCase
 
-from octue import Runner
 from octue.resources import Analysis
-from openfast.routines import run_openfast, run_turbsim, REPOSITORY_ROOT, wind_input_configuration
+
+from openfast.routines import REPOSITORY_ROOT, run_openfast, run_turbsim, wind_input_configuration
 
 
 class TestRoutines(TestCase):
@@ -12,9 +12,9 @@ class TestRoutines(TestCase):
         TODO get r-test from GitHub and compile DLL
         """
         analysis = Analysis(
-            twine=os.path.join(REPOSITORY_ROOT, 'twine.json'),
+            twine=os.path.join(REPOSITORY_ROOT, "twine.json"),
             configuration_values={"turbine_model": "NREL_5MW"},
-            input_values={"model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst"}
+            input_values={"model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst"},
         )
 
         run_openfast(analysis)
@@ -28,8 +28,7 @@ class TestRoutines(TestCase):
         """
 
         analysis = Analysis(
-            twine=os.path.join(REPOSITORY_ROOT, 'twine.json'),
-            configuration_values={"turbine_model": "NREL_5MW"}
+            twine=os.path.join(REPOSITORY_ROOT, "twine.json"), configuration_values={"turbine_model": "NREL_5MW"}
         )
 
         # TODO NREL_5MW takes too long to generate
@@ -39,10 +38,10 @@ class TestRoutines(TestCase):
     def test_wind_input_configuration(self):
         """Test if Python wrapper creates wind input configuration file"""
         analysis = Analysis(
-            twine=os.path.join(REPOSITORY_ROOT, 'twine.json'),
+            twine=os.path.join(REPOSITORY_ROOT, "twine.json"),
             configuration_values={"turbine_model": "NREL_5MW"},
-            input_values={"u_ref": 10}
+            input_values={"u_ref": 10},
         )
 
         wind_input_configuration(analysis)
-        self.assertTrue(os.path.exists('TurbSim_configured.inp'))
+        self.assertTrue(os.path.exists("TurbSim_configured.inp"))

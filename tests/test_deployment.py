@@ -1,14 +1,11 @@
-import json
 import os
 import unittest
-from octue.cloud import storage
+
 from octue.cloud.pub_sub.service import Service
-from octue.resources import Datafile, Dataset, Manifest
 from octue.resources.service_backends import GCPPubSubBackend
 
 
 class TestDeployment(unittest.TestCase):
-
     @unittest.skipUnless(
         condition=os.getenv("RUN_DEPLOYMENT_TESTS", "").lower() == "true",
         reason="'RUN_DEPLOYMENT_TESTS' environment variable is False or not present.",
@@ -22,12 +19,7 @@ class TestDeployment(unittest.TestCase):
 
         input_values = {
             "inflow": {"wind_speed": 1, "reference_height": 200},
-            "blade_polars": [
-                {
-                    "section_radius": 0.05,
-                    "section_polar": [0, 0, 0]
-                }
-            ],
+            "blade_polars": [{"section_radius": 0.05, "section_polar": [0, 0, 0]}],
             "monitoring_radii": [0.05],
             "model_case": "5MW_Land_DLL_WTurb/5MW_Land_DLL_WTurb.fst",
         }

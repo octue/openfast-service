@@ -1,7 +1,7 @@
-import tempfile
 import os
+import tempfile
 
-from octue.resources import Manifest, Datafile
+from octue.resources import Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 from pyFAST.input_output import FASTInputFile
 
@@ -20,11 +20,10 @@ def run_openfast(analysis):
             dataset.download_all_files(local_directory=temporary_directory)
 
         openfast_file_path = os.path.join(
-            temporary_directory,
-            analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast").name
+            temporary_directory, analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast").name
         )
 
-        run_subprocess_and_log_stdout_and_stderr(command=['openfast', openfast_file_path], logger=analysis.logger)
+        run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file_path], logger=analysis.logger)
 
 
 def run_turbsim(analysis):
@@ -36,7 +35,7 @@ def run_turbsim(analysis):
     """
     answer = analysis.children["turbsim"].ask(
         input_manifest=Manifest(datasets=[analysis.input_manifest.get_dataset("turbsim")], keys={"turbsim": 0}),
-        timeout=1500
+        timeout=1500,
     )
 
     analysis.input_manifest.get_dataset("turbsim").add(
@@ -52,7 +51,7 @@ def turbine_model_configuration(analysis):
 
 
 def wind_input_configuration(analysis):
-    """"
+    """
     Configure wind input for OpenFast
     Available options: CompInflow set to 1 - Uses TurbSim. 2 - External (OpenFOAM)
         1. TurbSim with primary .inp file
@@ -71,5 +70,5 @@ def wind_input_configuration(analysis):
         os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)
     )
 
-    turbsim_input['URef'] = u_ref
-    turbsim_input.write('TurbSim_configured.inp')
+    turbsim_input["URef"] = u_ref
+    turbsim_input.write("TurbSim_configured.inp")

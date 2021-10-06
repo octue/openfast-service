@@ -20,8 +20,8 @@ https://github.com/OpenFAST/r-test
 
 **Controller DLLs:**
 
-Before running some tests, the controller DLL should be compiled for your system. 
-DISCON controller comes with source code and makefiles. 
+Before running some tests, the controller DLL should be compiled for your system.
+DISCON controller comes with source code and makefiles.
 To build DISCON on the LINUX system use:
 
 ```
@@ -81,16 +81,16 @@ enabling the questions to be asked with varying parameters.
 
 - Inflow wind speed
     - TODO Determine `hub_height` parameter from the input model
-    
+
 - cl, cd polars
    - A polar is a graph, basically, of lift vs drag over a range of alpha (angle of attack)
    - Polars can come from 2d cfd, aerosense measurements, wind tunnel measurements
    - TODO if trying to drive openFAST with polars derived from aerosense, we only have three stations. This won't give a
      robust distribution of polars across the blade. Either we need to robustly interp/extrap within this service, or we
      need to interp/extrap from aerosense results prior to calling openFAST with them.
-      
+
 - Aerosense sensor radii locations for AoA measurement
-  
+
 
 - Turbulence generator input data
 
