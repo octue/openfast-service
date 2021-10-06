@@ -7,7 +7,8 @@
             "id": "octue.services.c3b47b47-cdfa-433d-b5a8-47a58f3bf7cb",
             "backend": {
                 "name": "GCPPubSubBackend",
-                "project_name": "aerosense-twined"
+                "project_name": "aerosense-twined",
+                "credentials_environment_variable": "GOOGLE_APPLICATION_CREDENTIALS"
             }
         }
     ]
