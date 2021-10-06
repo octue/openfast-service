@@ -6,7 +6,7 @@ steps:
       - '-t'
       - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       -  --build-arg
-      - _SERVICE_ID=$_SERVICE_ID
+      - SERVICE_ID=$_SERVICE_ID
       - .
       - '-f'
       - Dockerfile
@@ -42,6 +42,7 @@ substitutions:
   _LABELS: gcb-trigger-id=79017263-d539-4709-81cb-0ded181902d6
   _TRIGGER_ID: 79017263-d539-4709-81cb-0ded181902d6
   _SERVICE_NAME: openfast-service
+  _SERVICE_ID: octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
