@@ -10,18 +10,18 @@ REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 def run_openfast(analysis):
-    # Run turbulence simulation and add output file to the analysis's turbsim input dataset.
+    # Run turbulence simulation and add its output file to the analysis's input manifest.
     run_turbsim(analysis)
 
     with tempfile.TemporaryDirectory() as temporary_directory:
 
-        # Download all datasets' files so they're available for the openfast shell app.
+        # Download all the datasets' files so they're available for the openfast shell app.
         for dataset in analysis.input_manifest.datasets:
             dataset.download_all_files(local_directory=temporary_directory)
 
         openfast_file_path = os.path.join(
             temporary_directory,
-            analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast")
+            analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast").name
         )
 
         run_subprocess_and_log_stdout_and_stderr(command=['openfast', openfast_file_path], logger=analysis.logger)
