@@ -2,8 +2,12 @@ import os
 import unittest
 
 from octue.cloud.pub_sub.service import Service
+from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
 from octue.resources.service_backends import GCPPubSubBackend
+
+
+apply_log_handler()
 
 
 class TestDeployment(unittest.TestCase):
@@ -36,5 +40,5 @@ class TestDeployment(unittest.TestCase):
 
         asker = Service(backend=GCPPubSubBackend(project_name=PROJECT_NAME))
         subscription, _ = asker.ask(service_id=SERVICE_ID, input_manifest=input_manifest)
-        answer = asker.wait_for_answer(subscription, timeout=10)
+        answer = asker.wait_for_answer(subscription, timeout=50000)
         self.assertEqual(len(answer["output_values"]), 18)
