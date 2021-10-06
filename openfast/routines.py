@@ -1,5 +1,4 @@
 import os
-import tempfile
 
 from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
@@ -28,20 +27,19 @@ def run_openfast(analysis):
     # Run turbulence simulation and add its output file to the analysis's input manifest.
     run_turbsim(analysis)
 
-    with tempfile.TemporaryDirectory() as temporary_directory:
+    # Download all the datasets' files so they're available for the openfast shell app.
+    for dataset in analysis.input_manifest.datasets:
+        dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
+        analysis.logger.info(f"Downloaded {dataset.name} dataset.")
 
-        # Download all the datasets' files so they're available for the openfast shell app.
-        for dataset in analysis.input_manifest.datasets:
-            dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
-            analysis.logger.info(f"Downloaded {dataset.name} dataset.")
+    analysis.logger.info("Beginning openfast analysis.")
 
-        openfast_file_path = os.path.join(
-            temporary_directory, analysis.input_manifest.get_dataset("openfast").files.one().name
-        )
+    run_subprocess_and_log_stdout_and_stderr(
+        command=["openfast", analysis.input_manifest.get_dataset("openfast").files.one().local_path],
+        logger=analysis.logger,
+    )
 
-        analysis.logger.info("Beginning openfast analysis.")
-        run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file_path], logger=analysis.logger)
-        analysis.logger.info("Finished openfast analysis.")
+    analysis.logger.info("Finished openfast analysis.")
 
 
 def run_turbsim(analysis):
