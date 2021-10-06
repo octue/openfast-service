@@ -18,12 +18,15 @@ def run_openfast(analysis):
         # Download all the datasets' files so they're available for the openfast shell app.
         for dataset in analysis.input_manifest.datasets:
             dataset.download_all_files(local_directory=temporary_directory)
+            analysis.logger.debug(f"Downloaded {dataset.name} dataset.")
 
         openfast_file_path = os.path.join(
             temporary_directory, analysis.input_manifest.get_dataset("openfast").get_file_by_label("openfast").name
         )
 
+        analysis.logger.info("Beginning openfast analysis.")
         run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file_path], logger=analysis.logger)
+        analysis.logger.info("Finished openfast analysis.")
 
 
 def run_turbsim(analysis):
