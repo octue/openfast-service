@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from octue.resources import Manifest
+from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 from pyFAST.input_output import FASTInputFile
 
@@ -36,10 +36,24 @@ def run_turbsim(analysis):
     :param octue.resources.analysis.Analysis analysis:
     :return None:
     """
-    answer = analysis.children["turbsim"].ask(
-        input_manifest=Manifest(datasets=[analysis.input_manifest.get_dataset("turbsim")], keys={"turbsim": 0}),
-        timeout=1500,
+    # answer = analysis.children["turbsim"].ask(
+    #     input_manifest=Manifest(datasets=[analysis.input_manifest.get_dataset("turbsim")], keys={"turbsim": 0}),
+    #     timeout=1500,
+    # )
+
+    # Mock the turbsim service to speed up testing the openfast deployment.
+    mock_output_dataset = Dataset(
+        name="turbsim",
+        files=[
+            Datafile(
+                path="gs://openfast-data/turbsim/TurbSim-2021-10-06T15-35-05.176719.bts",
+                project_name="aerosense-twined",
+                labels=["turbsim", "output"],
+            )
+        ],
     )
+
+    answer = {"output_values": None, "output_manifest": Manifest(datasets=[mock_output_dataset], keys={"turbsim": 0})}
 
     analysis.input_manifest.get_dataset("turbsim").add(
         answer["output_manifest"].get_dataset("turbsim").get_file_by_label("output")
