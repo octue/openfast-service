@@ -9,6 +9,21 @@ from pyFAST.input_output import FASTInputFile
 REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
+DATASET_DOWNLOAD_LOCATIONS = {
+    "turbsim": ".",
+    "openfast": ".",
+    "elastodyn": "elastodyn",
+    "beamdyn": "beamdyn",
+    "inflow": "inflow",
+    "aero": "aero",
+    "servo": "servo",
+    "hydro": None,
+    "sub": None,
+    "mooring": None,
+    "ice": None,
+}
+
+
 def run_openfast(analysis):
     # Run turbulence simulation and add its output file to the analysis's input manifest.
     run_turbsim(analysis)
@@ -17,8 +32,8 @@ def run_openfast(analysis):
 
         # Download all the datasets' files so they're available for the openfast shell app.
         for dataset in analysis.input_manifest.datasets:
-            dataset.download_all_files(local_directory=temporary_directory)
-            analysis.logger.debug(f"Downloaded {dataset.name} dataset.")
+            dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
+            analysis.logger.info(f"Downloaded {dataset.name} dataset.")
 
         openfast_file_path = os.path.join(
             temporary_directory, analysis.input_manifest.get_dataset("openfast").files.one().name
