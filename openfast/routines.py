@@ -21,7 +21,7 @@ def run_openfast(analysis):
             analysis.logger.debug(f"Downloaded {dataset.name} dataset.")
 
         openfast_file_path = os.path.join(
-            temporary_directory, analysis.input_manifest.get_dataset("openfast").one().name
+            temporary_directory, analysis.input_manifest.get_dataset("openfast").files.one().name
         )
 
         analysis.logger.info("Beginning openfast analysis.")
