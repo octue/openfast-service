@@ -1,5 +1,6 @@
 import os
 import unittest
+import warnings
 
 from octue.cloud.pub_sub.service import Service
 from octue.log_handlers import apply_log_handler
@@ -23,14 +24,15 @@ class TestDeployment(unittest.TestCase):
         BUCKET_NAME = "openfast-data"
         SERVICE_ID = "octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873"
 
+        # Ensure unittest ignores ResourceWarnings (these are ignored in the octue SDK but unittest overrides this).
+        # This makes console output much more readable.
+        warnings.simplefilter("ignore", category=ResourceWarning)
+
         datasets = [
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/openfast"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/aero"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/beamdyn"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/elastodyn"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/inflow"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/servo"),
-            Dataset.from_cloud(project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/turbsim"),
+            Dataset.from_cloud(
+                project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{dataset_name}", recursive=True
+            )
+            for dataset_name in ("openfast", "aero", "beamdyn", "elastodyn", "inflow", "servo", "turbsim")
         ]
 
         input_manifest = Manifest(
