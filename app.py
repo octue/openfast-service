@@ -8,3 +8,4 @@ def run(analysis):
     :return None:
     """
     openfast.routines.run_openfast(analysis)
+    analysis.finalise()

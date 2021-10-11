@@ -34,9 +34,12 @@ def run_openfast(analysis):
 
     analysis.logger.info("Beginning openfast analysis.")
 
-    run_subprocess_and_log_stdout_and_stderr(
-        command=["openfast", analysis.input_manifest.get_dataset("openfast").files.one().local_path],
-        logger=analysis.logger,
+    openfast_file = analysis.input_manifest.get_dataset("openfast").files.one()
+    run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.local_path], logger=analysis.logger)
+
+    analysis.output_manifest.get_dataset("openfast").add(
+        Datafile(path=os.path.splitext(openfast_file)[-1] + ".out"),
+        Datafile(path=os.path.splitext(openfast_file)[-1] + ".outb"),
     )
 
     analysis.logger.info("Finished openfast analysis.")
