@@ -41,5 +41,10 @@ class TestDeployment(unittest.TestCase):
         asker = Child(
             name="openfast-service", id=SERVICE_ID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME}
         )
+
         answer = asker.ask(input_manifest=input_manifest, timeout=50000)
-        self.assertEqual(len(answer["output_values"]), 18)
+        self.assertEqual(len(answer["output_manifest"].datasets), 1)
+
+        output_dataset = answer["output_manifest"].get_dataset("openfast")
+        output_files = {datafile.name: datafile for datafile in output_dataset.files}
+        self.assertEqual(output_files.keys(), {"5MW_Land_DLL_WTurb.out", "5MW_Land_DLL_WTurb.outb"})
