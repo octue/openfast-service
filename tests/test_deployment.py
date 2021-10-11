@@ -2,10 +2,8 @@ import os
 import unittest
 import warnings
 
-from octue.cloud.pub_sub.service import Service
 from octue.log_handlers import apply_log_handler
-from octue.resources import Dataset, Manifest
-from octue.resources.service_backends import GCPPubSubBackend
+from octue.resources import Child, Dataset, Manifest
 
 
 apply_log_handler()
@@ -40,7 +38,8 @@ class TestDeployment(unittest.TestCase):
             keys={"openfast": 0, "aero": 1, "beamdyn": 2, "elastodyn": 3, "inflow": 4, "servo": 5, "turbsim": 6},
         )
 
-        asker = Service(backend=GCPPubSubBackend(project_name=PROJECT_NAME))
-        subscription, _ = asker.ask(service_id=SERVICE_ID, input_manifest=input_manifest)
-        answer = asker.wait_for_answer(subscription, timeout=50000)
+        asker = Child(
+            name="openfast-service", id=SERVICE_ID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME}
+        )
+        answer = asker.ask(input_manifest=input_manifest, timeout=50000)
         self.assertEqual(len(answer["output_values"]), 18)
