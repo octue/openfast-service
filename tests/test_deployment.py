@@ -26,7 +26,7 @@ class TestDeployment(unittest.TestCase):
         # This makes console output much more readable.
         warnings.simplefilter("ignore", category=ResourceWarning)
 
-        dataset_key_names = ("openfast", "aero", "beamdyn", "elastodyn", "inflow", "servo", "turbsim")
+        dataset_key_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
 
         datasets = [
             Dataset.from_cloud(

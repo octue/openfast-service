@@ -14,10 +14,10 @@ DATASET_DOWNLOAD_LOCATIONS = {
     "elastodyn": "elastodyn",
     "beamdyn": "beamdyn",
     "inflow": "inflow",
-    "aero": "aero",
-    "servo": "servo",
+    "aerodyn": "aerodyn",
+    "servodyn": "servodyn",
     "hydro": None,
-    "sub": None,
+    "subdyn": None,
     "mooring": None,
     "ice": None,
 }

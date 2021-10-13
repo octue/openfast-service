@@ -15,43 +15,43 @@
             },
             {
                 "key": "openfast",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing just the main OpenFAST file."
             },
             {
                 "key": "elastodyn",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing the files to run elastodyn."
             },
             {
                 "key": "beamdyn",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing the files to run beamdyn."
             },
             {
                 "key": "inflow",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing the files to run inflow."
             },
             {
-                "key": "aero",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "key": "aerodyn",
+                "purpose": "A dataset containing the files to run aerodyn."
             },
             {
-                "key": "servo",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "key": "servodyn",
+                "purpose": "A dataset containing the files to run servodyn"
             },
             {
                 "key": "hydro",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing hydro files."
             },
             {
-                "key": "sub",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "key": "subdyn",
+                "purpose": "A dataset containing the files to run subdyn."
             },
             {
                 "key": "mooring",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing mooring files."
             },
             {
                 "key": "ice",
-                "purpose": "A dataset containing the main OpenFAST file."
+                "purpose": "A dataset containing ice files."
             }
         ]
     },
