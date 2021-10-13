@@ -26,17 +26,16 @@ class TestDeployment(unittest.TestCase):
         # This makes console output much more readable.
         warnings.simplefilter("ignore", category=ResourceWarning)
 
+        dataset_key_names = ("openfast", "aero", "beamdyn", "elastodyn", "inflow", "servo", "turbsim")
+
         datasets = [
             Dataset.from_cloud(
-                project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{dataset_name}", recursive=True
+                project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{key_name}", recursive=True
             )
-            for dataset_name in ("openfast", "aero", "beamdyn", "elastodyn", "inflow", "servo", "turbsim")
+            for key_name in dataset_key_names
         ]
 
-        input_manifest = Manifest(
-            datasets=datasets,
-            keys={"openfast": 0, "aero": 1, "beamdyn": 2, "elastodyn": 3, "inflow": 4, "servo": 5, "turbsim": 6},
-        )
+        input_manifest = Manifest(datasets=datasets, keys={key_name: i for i, key_name in enumerate(dataset_key_names)})
 
         asker = Child(
             name="openfast-service", id=SERVICE_ID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME}
