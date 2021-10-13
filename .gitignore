@@ -107,3 +107,4 @@ ENV/
 *_afoils_*
 
 *.sum
+.DS_Store

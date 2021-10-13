@@ -3,14 +3,9 @@ from setuptools import setup
 
 setup(
     name="openfast-service",
-    version="0.0.0",
-    py_modules=['app'],
-    entry_points='''
-    [console_scripts]
-    octue-app=app:octue_app
-    ''',
+    version="0.1.0",
+    py_modules=["app"],
     install_requires=[
-        "numpy",
-        "octue>=0.1.18",
-    ]
+        "octue @ https://github.com/octue/octue-sdk-python/archive/0.4.0.zip",
+    ],
 )

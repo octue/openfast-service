@@ -1,32 +1,66 @@
 {
-    "title": "OpenFAST twine",
-    "description": "Uses BEM theory to model wind turbines",
-    "configuration_values_schema": {
-        "type": "object",
-        "properties": {
-            "turbine_model":{
-                "title": "Wind Turbine Model",
-                "type": "string"
-            }
-        }
-    },
-    "input_values_schema": {
-        "title": "Input values schema",
-        "type": "object",
-        "properties": {
-            "model_case":{
-                "title": "Model Case",
-                "description": "OpenFAST input file *.fst",
-                "type": "string"
+    "title": "OpenFAST Service",
+    "description": "Use the OpenFAST service to model a wind turbine with BEM theory",
+    "children": [
+		{
+			"key": "turbsim",
+			"purpose": "A service that runs turbulence simulations."
+		}
+	],
+    "input_manifest": {
+        "datasets": [
+            {
+                "key": "turbsim",
+                "purpose": "A dataset containing a single TurbSim.inp file."
             },
-            "u_ref": {
-                "title": "U",
-                "description": "Mean (total) velocity at the reference height [m/s]",
-                "type": "number",
-                "default": 10,
-                "minimum": 1e-6,
-                "maximum": 330
+            {
+                "key": "openfast",
+                "purpose": "A dataset containing just the main OpenFAST file."
+            },
+            {
+                "key": "elastodyn",
+                "purpose": "A dataset containing the files to run elastodyn."
+            },
+            {
+                "key": "beamdyn",
+                "purpose": "A dataset containing the files to run beamdyn."
+            },
+            {
+                "key": "inflow",
+                "purpose": "A dataset containing the files to run inflow."
+            },
+            {
+                "key": "aerodyn",
+                "purpose": "A dataset containing the files to run aerodyn."
+            },
+            {
+                "key": "servodyn",
+                "purpose": "A dataset containing the files to run servodyn"
+            },
+            {
+                "key": "hydro",
+                "purpose": "A dataset containing hydro files."
+            },
+            {
+                "key": "subdyn",
+                "purpose": "A dataset containing the files to run subdyn."
+            },
+            {
+                "key": "mooring",
+                "purpose": "A dataset containing mooring files."
+            },
+            {
+                "key": "ice",
+                "purpose": "A dataset containing ice files."
             }
-        }
+        ]
+    },
+    "output_manifest": {
+        "datasets": [
+            {
+                "key": "openfast",
+                "purpose": "A dataset containing the openfast output files."
+            }
+        ]
     }
 }
