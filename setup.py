@@ -6,6 +6,6 @@ setup(
     version="0.0.0",
     py_modules=["app"],
     install_requires=[
-        "octue @ https://github.com/octue/octue-sdk-python/archive/fix/ensure-cloud-directories-cannot-be-represented-as-datafiles.zip",
+        "octue==0.4.0",
     ],
 )
