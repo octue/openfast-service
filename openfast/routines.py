@@ -33,7 +33,7 @@ def run_openfast(analysis):
     # Download all the datasets' files so they're available for the openfast shell app.
     for dataset in analysis.input_manifest.datasets:
         dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
-        logger.info(f"Downloaded {dataset.name} dataset.")
+        logger.info("Downloaded %s dataset.", dataset.name)
 
     logger.info("Beginning openfast analysis.")
 
