@@ -55,12 +55,22 @@ class TestApp(unittest.TestCase):
             keys={"openfast": 0},
         )
 
-        with patch(
-            "octue.resources.child.Child.ask",
-            return_value={"output_values": None, "output_manifest": mock_turbsim_output_manifest},
-        ):
-            with patch("openfast.routines.run_subprocess_and_log_stdout_and_stderr"):
-                analysis = runner.run(input_manifest=input_manifest.serialise())
+        def mock_download_dataset(dataset, local_directory):
+            """Substitute downloading files from the cloud for using local test fixtures."""
+            for datafile in dataset:
+                datafile._local_path = os.path.join(
+                    REPOSITORY_ROOT, "data", "input", *datafile.path.split("openfast-data/")[-1].split(os.path.sep)
+                )
+
+        Dataset.download_all_files = mock_download_dataset
+
+        with patch("octue.resources.dataset.Dataset", Dataset):
+            with patch(
+                "octue.resources.child.Child.ask",
+                return_value={"output_values": None, "output_manifest": mock_turbsim_output_manifest},
+            ):
+                with patch("openfast.routines.run_subprocess_and_log_stdout_and_stderr"):
+                    analysis = runner.run(input_manifest=input_manifest.serialise())
 
         self.assertEqual(len(analysis.output_manifest.datasets), 1)
         self.assertEqual(len(analysis.output_manifest.datasets[0].files), 2)
