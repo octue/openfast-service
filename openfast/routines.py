@@ -1,3 +1,4 @@
+import logging
 import os
 
 from octue.resources import Datafile, Dataset, Manifest
@@ -5,8 +6,10 @@ from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 from pyFAST.input_output import FASTInputFile
 
 
-REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
+logger = logging.getLogger(__name__)
 
+
+REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DATASET_DOWNLOAD_LOCATIONS = {
     "turbsim": ".",
@@ -30,19 +33,19 @@ def run_openfast(analysis):
     # Download all the datasets' files so they're available for the openfast shell app.
     for dataset in analysis.input_manifest.datasets:
         dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
-        analysis.logger.info(f"Downloaded {dataset.name} dataset.")
+        logger.info(f"Downloaded {dataset.name} dataset.")
 
-    analysis.logger.info("Beginning openfast analysis.")
+    logger.info("Beginning openfast analysis.")
 
     openfast_file = analysis.input_manifest.get_dataset("openfast").files.one()
-    run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.local_path], logger=analysis.logger)
+    run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.local_path], logger=logger)
 
     analysis.output_manifest.get_dataset("openfast").add(
         Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"),
         Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".outb"),
     )
 
-    analysis.logger.info("Finished openfast analysis.")
+    logger.info("Finished openfast analysis.")
 
 
 def run_turbsim(analysis):
