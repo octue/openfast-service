@@ -25,7 +25,9 @@ class TestDeployment(unittest.TestCase):
 
         datasets = [
             Dataset.from_cloud(
-                project_name=PROJECT_NAME, cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{key_name}", recursive=True
+                project_name=PROJECT_NAME,
+                cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{key_name}",
+                recursive=True,
             )
             for key_name in dataset_key_names
         ]
@@ -33,10 +35,12 @@ class TestDeployment(unittest.TestCase):
         input_manifest = Manifest(datasets=datasets, keys={key_name: i for i, key_name in enumerate(dataset_key_names)})
 
         asker = Child(
-            name="openfast-service", id=SERVICE_ID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME}
+            name="openfast-service",
+            id=SERVICE_ID,
+            backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME},
         )
 
-        answer = asker.ask(input_manifest=input_manifest, timeout=50000)
+        answer = asker.ask(input_manifest=input_manifest, timeout=3600)
         self.assertEqual(len(answer["output_manifest"].datasets), 1)
 
         output_dataset = answer["output_manifest"].get_dataset("openfast")
