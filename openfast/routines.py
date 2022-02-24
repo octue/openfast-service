@@ -5,11 +5,11 @@ from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 from pyFAST.input_output import FASTInputFile
 
+from openfast import REPOSITORY_ROOT
+
 
 logger = logging.getLogger(__name__)
 
-
-REPOSITORY_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DATASET_DOWNLOAD_LOCATIONS = {
     "turbsim": ".",

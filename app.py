@@ -1,4 +1,4 @@
-import openfast
+import openfast.routines
 
 
 def run(analysis):
