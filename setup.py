@@ -6,6 +6,6 @@ setup(
     version="0.1.0",
     py_modules=["app"],
     install_requires=[
-        "octue==0.10.5",
+        "octue @ https://github.com/octue/octue-sdk-python/archive/enhancement/improve-start-command.zip",
     ],
 )
