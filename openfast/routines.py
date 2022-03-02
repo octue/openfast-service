@@ -56,7 +56,7 @@ def run_turbsim(analysis):
     :return None:
     """
     # answer = analysis.children["turbsim"].ask(
-    #     input_manifest=Manifest(datasets=[analysis.input_manifest.get_dataset("turbsim")], keys={"turbsim": 0}),
+    #     input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
     #     timeout=1500,
     # )
 
@@ -72,7 +72,7 @@ def run_turbsim(analysis):
         ],
     )
 
-    answer = {"output_values": None, "output_manifest": Manifest(datasets=[mock_output_dataset], keys={"turbsim": 0})}
+    answer = {"output_values": None, "output_manifest": Manifest(datasets={"turbsim": mock_output_dataset})}
 
     analysis.input_manifest.get_dataset("turbsim").add(
         answer["output_manifest"].get_dataset("turbsim").get_file_by_label("output")
