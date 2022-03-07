@@ -1,11 +1,9 @@
 import logging
 import os
+import tempfile
 
 from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
-from pyFAST.input_output import FASTInputFile
-
-from openfast import REPOSITORY_ROOT
 
 
 logger = logging.getLogger(__name__)
@@ -31,21 +29,29 @@ def run_openfast(analysis):
     run_turbsim(analysis)
 
     # Download all the datasets' files so they're available for the openfast shell app.
-    for dataset in analysis.input_manifest.datasets:
-        dataset.download_all_files(local_directory=DATASET_DOWNLOAD_LOCATIONS[dataset.name])
-        logger.info("Downloaded %s dataset.", dataset.name)
+    with tempfile.TemporaryDirectory() as temporary_directory:
+        for dataset in analysis.input_manifest.datasets.values():
+            download_location = DATASET_DOWNLOAD_LOCATIONS[dataset.name]
 
-    logger.info("Beginning openfast analysis.")
+            if not download_location:
+                continue
 
-    openfast_file = analysis.input_manifest.get_dataset("openfast").files.one()
-    run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.local_path], logger=logger)
+            dataset.download_all_files(local_directory=os.path.join(temporary_directory, download_location))
+            logger.info("Downloaded %s dataset.", dataset.name)
 
-    analysis.output_manifest.get_dataset("openfast").add(
-        Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"),
-        Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".outb"),
-    )
+        logger.info("Beginning openfast analysis.")
 
-    logger.info("Finished openfast analysis.")
+        openfast_file = analysis.input_manifest.get_dataset("openfast").files.one()
+
+        os.chdir(os.path.abspath(os.path.dirname(openfast_file.local_path)))
+        run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.name], logger=logger)
+
+        analysis.output_manifest.get_dataset("openfast").add(
+            Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"),
+            Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".outb"),
+        )
+
+        logger.info("Finished openfast analysis.")
 
 
 def run_turbsim(analysis):
@@ -86,25 +92,25 @@ def turbine_model_configuration(analysis):
     pass
 
 
-def wind_input_configuration(analysis):
-    """
-    Configure wind input for OpenFast
-    Available options: CompInflow set to 1 - Uses TurbSim. 2 - External (OpenFOAM)
-        1. TurbSim with primary .inp file
-            1.1. User defined time series (metmast)
-            1.2. User defined spectra series
-            1.3. User defined profile
-        2. TODO figure out how to hook up OpenFOAM
-    """
-
-    # Lets just change Uref for now
-    u_ref = analysis.input_values["u_ref"]
-    turbine_model = analysis.configuration_values["turbine_model"]
-    model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
-
-    turbsim_input = FASTInputFile(
-        os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)
-    )
-
-    turbsim_input["URef"] = u_ref
-    turbsim_input.write("TurbSim_configured.inp")
+# def wind_input_configuration(analysis):
+#     """
+#     Configure wind input for OpenFast
+#     Available options: CompInflow set to 1 - Uses TurbSim. 2 - External (OpenFOAM)
+#         1. TurbSim with primary .inp file
+#             1.1. User defined time series (metmast)
+#             1.2. User defined spectra series
+#             1.3. User defined profile
+#         2. TODO figure out how to hook up OpenFOAM
+#     """
+#
+#     # Lets just change Uref for now
+#     u_ref = analysis.input_values["u_ref"]
+#     turbine_model = analysis.configuration_values["turbine_model"]
+#     model_wind = os.path.join("5MW_Baseline", "Wind", "TurbSim.inp")
+#
+#     turbsim_input = FASTInputFile(
+#         os.path.join(REPOSITORY_ROOT, "data", "input", "turbine_models", turbine_model, model_wind)
+#     )
+#
+#     turbsim_input["URef"] = u_ref
+#     turbsim_input.write("TurbSim_configured.inp")
