@@ -2,7 +2,7 @@ import os
 import unittest
 
 from octue.log_handlers import apply_log_handler
-from octue.resources import Child, Dataset, Manifest
+from octue.resources import Child, Manifest
 
 
 apply_log_handler()
@@ -21,18 +21,9 @@ class TestDeployment(unittest.TestCase):
         BUCKET_NAME = "openfast-data"
         SERVICE_ID = "octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873"
 
-        dataset_key_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
+        dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
 
-        datasets = [
-            Dataset.from_cloud(
-                project_name=PROJECT_NAME,
-                cloud_path=f"gs://{BUCKET_NAME}/cloud_files/{key_name}",
-                recursive=True,
-            )
-            for key_name in dataset_key_names
-        ]
-
-        input_manifest = Manifest(datasets=datasets, keys={key_name: i for i, key_name in enumerate(dataset_key_names)})
+        input_manifest = Manifest(datasets={name: f"gs://{BUCKET_NAME}/cloud_files/{name}" for name in dataset_names})
 
         asker = Child(
             name="openfast-service",

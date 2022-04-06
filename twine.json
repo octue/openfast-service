@@ -39,19 +39,23 @@
             },
             {
                 "key": "hydro",
-                "purpose": "A dataset containing hydro files."
+                "purpose": "A dataset containing hydro files.",
+                "optional": true
             },
             {
                 "key": "subdyn",
-                "purpose": "A dataset containing the files to run subdyn."
+                "purpose": "A dataset containing the files to run subdyn.",
+                "optional": true
             },
             {
                 "key": "mooring",
-                "purpose": "A dataset containing mooring files."
+                "purpose": "A dataset containing mooring files.",
+                "optional": true
             },
             {
                 "key": "ice",
-                "purpose": "A dataset containing ice files."
+                "purpose": "A dataset containing ice files.",
+                "optional": true
             }
         ]
     },

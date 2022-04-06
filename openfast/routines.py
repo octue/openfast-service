@@ -46,10 +46,11 @@ def run_openfast(analysis):
         os.chdir(os.path.abspath(os.path.dirname(openfast_file.local_path)))
         run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.name], logger=logger)
 
-        analysis.output_manifest.get_dataset("openfast").add(
+        for datafile in (
             Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"),
             Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".outb"),
-        )
+        ):
+            analysis.output_manifest.get_dataset("openfast").add(datafile)
 
         logger.info("Finished openfast analysis.")
 
@@ -72,7 +73,6 @@ def run_turbsim(analysis):
         files=[
             Datafile(
                 path="gs://openfast-data/turbsim/TurbSim-2021-10-06T15-35-05.176719.bts",
-                project_name="aerosense-twined",
                 labels=["turbsim", "output"],
             )
         ],
