@@ -37,7 +37,6 @@ def run_openfast(analysis):
                 continue
 
             dataset.download_all_files(local_directory=os.path.join(temporary_directory, download_location))
-            logger.info("Downloaded %s dataset.", dataset.name)
 
         logger.info("Beginning openfast analysis.")
 
