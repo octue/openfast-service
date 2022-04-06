@@ -6,6 +6,6 @@ setup(
     version="0.1.0",
     py_modules=["app"],
     install_requires=[
-        "octue @ https://github.com/octue/octue-sdk-python/archive/feature/unify-local-and-deployed-configuration-process.zip",
+        "octue==0.17.0",
     ],
 )
