@@ -45,11 +45,8 @@ def run_openfast(analysis):
         os.chdir(os.path.abspath(os.path.dirname(openfast_file.local_path)))
         run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.name], logger=logger)
 
-        for datafile in (
-            Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"),
-            Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".outb"),
-        ):
-            analysis.output_manifest.get_dataset("openfast").add(datafile)
+        output_dataset = analysis.output_manifest.get_dataset("openfast")
+        output_dataset.add(Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"))
 
         logger.info("Finished openfast analysis.")
 
