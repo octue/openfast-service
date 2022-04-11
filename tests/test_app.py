@@ -58,4 +58,4 @@ class TestApp(unittest.TestCase):
                     analysis = runner.run(input_manifest=input_manifest.serialise())
 
         self.assertEqual(len(analysis.output_manifest.datasets), 1)
-        self.assertEqual(len(analysis.output_manifest.datasets["openfast"].files), 2)
+        self.assertEqual(len(analysis.output_manifest.datasets["openfast"].files), 1)
