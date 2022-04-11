@@ -2,6 +2,7 @@ import logging
 import os
 import tempfile
 
+from octue.cloud import storage
 from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 
@@ -47,6 +48,14 @@ def run_openfast(analysis):
 
         output_dataset = analysis.output_manifest.get_dataset("openfast")
         output_dataset.add(Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"))
+
+        output_dataset.to_cloud(
+            storage.path.generate_gs_path(
+                storage.path.split_bucket_name_from_gs_path(analysis.input_manifest.datasets["aerodyn"].path),
+                "output",
+                analysis.input_manifest.tags["datetime"],
+            )
+        )
 
         logger.info("Finished openfast analysis.")
 
