@@ -1,4 +1,10 @@
+import coolname
+from octue.cloud import storage
+
 import openfast.routines
+
+
+OUTPUT_LOCATION = "gs://openfast-data/output"
 
 
 def run(analysis):
@@ -8,4 +14,4 @@ def run(analysis):
     :return None:
     """
     openfast.routines.run_openfast(analysis)
-    analysis.finalise()
+    analysis.finalise(upload_output_datasets_to=storage.path.join(OUTPUT_LOCATION, coolname.generate_slug()))
