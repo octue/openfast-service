@@ -68,7 +68,7 @@ def run_turbsim(analysis):
         name="turbsim",
         files=[
             Datafile(
-                path="gs://openfast-data/turbsim/TurbSim-2021-10-06T15-35-05.176719.bts",
+                path="gs://openfast-aventa/testing/turbsim/TurbSim-2021-10-06T15-35-05.176719.bts",
                 labels=["turbsim", "output"],
             )
         ],
