@@ -2,11 +2,16 @@ import logging
 import os
 import tempfile
 
+import coolname
+from octue.cloud import storage
 from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 
 
 logger = logging.getLogger(__name__)
+
+
+OUTPUT_LOCATION = "gs://openfast-data/output"
 
 
 DATASET_DOWNLOAD_LOCATIONS = {
@@ -46,7 +51,10 @@ def run_openfast(analysis):
         run_subprocess_and_log_stdout_and_stderr(command=["openfast", openfast_file.name], logger=logger)
 
         output_dataset = analysis.output_manifest.get_dataset("openfast")
+        output_dataset.path = os.path.join(temporary_directory, "openfast")
         output_dataset.add(Datafile(path=os.path.splitext(openfast_file.local_path)[0] + ".out"))
+
+        analysis.finalise(upload_output_datasets_to=storage.path.join(OUTPUT_LOCATION, coolname.generate_slug()))
 
         logger.info("Finished openfast analysis.")
 
