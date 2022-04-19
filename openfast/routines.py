@@ -4,7 +4,7 @@ import tempfile
 
 import coolname
 from octue.cloud import storage
-from octue.resources import Datafile, Dataset, Manifest
+from octue.resources import Datafile, Dataset
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 
 
@@ -72,21 +72,9 @@ def run_turbsim(analysis):
     # )
 
     # Mock the turbsim service to speed up testing the openfast deployment.
-    mock_output_dataset = Dataset(
-        name="turbsim",
-        files=[
-            Datafile(
-                path="gs://openfast-aventa/testing/turbsim/TurbSim-2021-10-06T15-35-05.176719.bts",
-                labels=["turbsim", "output"],
-            )
-        ],
-    )
-
-    answer = {"output_values": None, "output_manifest": Manifest(datasets={"turbsim": mock_output_dataset})}
-
-    analysis.input_manifest.get_dataset("turbsim").add(
-        answer["output_manifest"].get_dataset("turbsim").get_file_by_label("output")
-    )
+    mock_output_dataset = Dataset.from_cloud("gs://openfast-aventa/testing/turbsim")
+    mock_output_dataset._name = "turbsim"
+    analysis.input_manifest.datasets["turbsim"] = mock_output_dataset
 
 
 def turbine_model_configuration(analysis):
