@@ -6,6 +6,6 @@ setup(
     version="0.1.0",
     py_modules=["app"],
     install_requires=[
-        "octue @ https://github.com/octue/octue-sdk-python/archive/dependencies/use-latest-twined.zip",
+        "octue==0.19.0",
     ],
 )
