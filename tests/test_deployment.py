@@ -2,7 +2,7 @@ import os
 import unittest
 
 from octue.log_handlers import apply_log_handler
-from octue.resources import Child, Manifest
+from octue.resources import Child, Dataset, Manifest
 
 
 apply_log_handler()
@@ -21,9 +21,10 @@ class TestDeployment(unittest.TestCase):
         BUCKET_NAME = "openfast-data"
         SERVICE_ID = "octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873"
 
-        dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
+        dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
 
         input_manifest = Manifest(datasets={name: f"gs://{BUCKET_NAME}/cloud_files/{name}" for name in dataset_names})
+        input_manifest.datasets["turbsim"] = Dataset.from_cloud("gs://openfast-aventa/testing/turbsim")
 
         asker = Child(
             name="openfast-service",
@@ -36,4 +37,4 @@ class TestDeployment(unittest.TestCase):
 
         output_dataset = answer["output_manifest"].get_dataset("openfast")
         output_files = {datafile.name: datafile for datafile in output_dataset.files}
-        self.assertEqual(output_files.keys(), {"5MW_Land_DLL_WTurb.out", "5MW_Land_DLL_WTurb.outb"})
+        self.assertEqual(output_files.keys(), {"5MW_Land_DLL_WTurb.out"})
