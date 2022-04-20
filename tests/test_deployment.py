@@ -10,8 +10,8 @@ apply_log_handler()
 
 class TestDeployment(unittest.TestCase):
     @unittest.skipUnless(
-        condition=os.getenv("RUN_DEPLOYMENT_TESTS", "").lower() == "true",
-        reason="'RUN_DEPLOYMENT_TESTS' environment variable is False or not present.",
+        condition=os.getenv("RUN_DEPLOYMENT_TESTS", "0").lower() == "1",
+        reason="'RUN_DEPLOYMENT_TESTS' environment variable is 0 or not present.",
     )
     def test_cloud_run_deployment(self):
         """Test that the Google Cloud Run integration works, providing a service that can be asked questions and send
