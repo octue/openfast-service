@@ -25,9 +25,8 @@ class TestApp(unittest.TestCase):
         """Test that the app takes in input in the correct format and returns an analysis with the correct output
         values.
         """
-        BUCKET_NAME = "openfast-data"
         dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
-        input_manifest = Manifest(datasets={name: f"gs://{BUCKET_NAME}/cloud_files/{name}" for name in dataset_names})
+        input_manifest = Manifest(datasets={name: f"gs://openfast-aventa/testing/{name}" for name in dataset_names})
 
         runner = Runner(app_src=REPOSITORY_ROOT, twine=TWINE_PATH, children=CHILDREN)
 
