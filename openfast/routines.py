@@ -13,13 +13,12 @@ logger = logging.getLogger(__name__)
 
 OUTPUT_LOCATION = "gs://openfast-data/output"
 
-
 DATASET_DOWNLOAD_LOCATIONS = {
-    "turbsim": ".",
     "openfast": ".",
     "elastodyn": "elastodyn",
     "beamdyn": "beamdyn",
     "inflow": "inflow",
+    "turbsim": "inflow",
     "aerodyn": "aerodyn",
     "servodyn": "servodyn",
     "hydro": None,
