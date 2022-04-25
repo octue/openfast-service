@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from octue import Runner
 from octue.log_handlers import apply_log_handler
-from octue.resources import Manifest
+from octue.resources import Dataset, Manifest
 
 from openfast import REPOSITORY_ROOT
 
@@ -29,9 +29,23 @@ class TestApp(unittest.TestCase):
 
         runner = Runner(app_src=REPOSITORY_ROOT, twine=TWINE_PATH, children=CHILDREN)
 
-        # Mock running an OpenFAST analysis by creating an empty output file.
-        with patch("openfast.routines.run_subprocess_and_log_stdout_and_stderr", self._create_mock_output_file):
-            analysis = runner.run(input_manifest=input_manifest.serialise())
+        # Mock the TurbSim child.
+        with patch(
+            "octue.resources.child.Child.ask",
+            return_value={
+                "output_values": None,
+                "output_manifest": Manifest(
+                    datasets={
+                        "turbsim": Dataset.from_cloud(
+                            "gs://openfast-aventa/testing/turbsim_output"
+                        ).generate_signed_url()
+                    }
+                ),
+            },
+        ):
+            # Mock running an OpenFAST analysis by creating an empty output file.
+            with patch("openfast.routines.run_subprocess_and_log_stdout_and_stderr", self._create_mock_output_file):
+                analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
         # manifest after serialisation.
