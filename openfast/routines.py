@@ -39,11 +39,11 @@ def run_openfast(analysis):
 
     # Download all the datasets' files so they're available for the openfast shell app.
     with tempfile.TemporaryDirectory() as temporary_directory:
-        for dataset in analysis.input_manifest.datasets.values():
-            download_location = DATASET_DOWNLOAD_LOCATIONS.get(dataset.name)
+        for name, dataset in analysis.input_manifest.datasets.items():
+            download_location = DATASET_DOWNLOAD_LOCATIONS.get(name)
 
             if not download_location:
-                logger.info("%r dataset not used.", dataset.name)
+                logger.info("%r dataset not used.", name)
                 continue
 
             dataset.download_all_files(local_directory=os.path.join(temporary_directory, download_location))
