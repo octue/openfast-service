@@ -8,63 +8,49 @@
 		}
 	],
     "input_manifest": {
-        "datasets": [
-            {
-                "key": "turbsim",
+        "datasets": {
+            "turbsim": {
                 "purpose": "A dataset containing a single TurbSim.inp file."
             },
-            {
-                "key": "openfast",
+            "openfast": {
                 "purpose": "A dataset containing just the main OpenFAST file."
             },
-            {
-                "key": "elastodyn",
+            "elastodyn":{
                 "purpose": "A dataset containing the files to run elastodyn."
             },
-            {
-                "key": "beamdyn",
+            "beamdyn": {
                 "purpose": "A dataset containing the files to run beamdyn."
             },
-            {
-                "key": "inflow",
+            "inflow": {
                 "purpose": "A dataset containing the files to run inflow."
             },
-            {
-                "key": "aerodyn",
+            "aerodyn": {
                 "purpose": "A dataset containing the files to run aerodyn."
             },
-            {
-                "key": "servodyn",
+            "servodyn": {
                 "purpose": "A dataset containing the files to run servodyn"
             },
-            {
-                "key": "hydro",
+            "hydro": {
                 "purpose": "A dataset containing hydro files.",
                 "optional": true
             },
-            {
-                "key": "subdyn",
+            "subdyn": {
                 "purpose": "A dataset containing the files to run subdyn.",
                 "optional": true
             },
-            {
-                "key": "mooring",
+            "mooring": {
                 "purpose": "A dataset containing mooring files.",
                 "optional": true
             },
-            {
-                "key": "ice",
+            "ice": {
                 "purpose": "A dataset containing ice files.",
                 "optional": true
             }
-        ]
+        }
     },
     "output_manifest": {
-        "datasets": [
-            {
-                "key": "openfast",
-                "purpose": "A dataset containing the openfast output files."
-            }
-        ]
+        "datasets": {
+            "openfast": {"purpose": "A dataset containing the openfast output files."}
+        }
     }
 }
