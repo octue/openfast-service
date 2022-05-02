@@ -11,8 +11,6 @@ from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 logger = logging.getLogger(__name__)
 
 
-OUTPUT_LOCATION = "gs://openfast-data/output"
-
 DATASET_DOWNLOAD_LOCATIONS = {
     "openfast": ".",
     "elastodyn": "elastodyn",
@@ -57,7 +55,10 @@ def run_openfast(analysis):
         analysis.output_manifest.datasets["openfast"] = Dataset(path=os.path.join(temporary_directory, "openfast"))
         analysis.output_manifest.datasets["openfast"].add(Datafile(path=output_file_path))
 
-        analysis.finalise(upload_output_datasets_to=storage.path.join(OUTPUT_LOCATION, coolname.generate_slug()))
+        analysis.finalise(
+            upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
+        )
+
         logger.info("Finished openfast analysis.")
 
 

@@ -8,5 +8,6 @@
         "project_name": "aerosense-twined"
       }
     }
-  ]
+  ],
+  "output_location": "gs://openfast-data/testing/test_outputs/openfast"
 }
