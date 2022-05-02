@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from octue import Runner
+from octue.cloud import storage
 from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
 
@@ -16,7 +17,7 @@ TWINE_PATH = os.path.join(REPOSITORY_ROOT, "twine.json")
 apply_log_handler()
 
 with open(os.path.join(REPOSITORY_ROOT, "app_configuration.json")) as f:
-    CHILDREN = json.load(f)["children"]
+    APP_CONFIGURATION = json.load(f)
 
 
 class TestApp(unittest.TestCase):
@@ -27,7 +28,12 @@ class TestApp(unittest.TestCase):
         dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
         input_manifest = Manifest(datasets={name: f"gs://openfast-aventa/testing/{name}" for name in dataset_names})
 
-        runner = Runner(app_src=REPOSITORY_ROOT, twine=TWINE_PATH, children=CHILDREN)
+        runner = Runner(
+            app_src=REPOSITORY_ROOT,
+            twine=TWINE_PATH,
+            children=APP_CONFIGURATION["children"],
+            output_location=storage.path.join(APP_CONFIGURATION["output_location"], "testing", "openfast"),
+        )
 
         # Mock the TurbSim child.
         with patch(

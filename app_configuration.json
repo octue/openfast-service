@@ -9,5 +9,5 @@
       }
     }
   ],
-  "output_location": "gs://openfast-data/testing/test_outputs/openfast"
+  "output_location": "gs://openfast-data/output"
 }
