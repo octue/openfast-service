@@ -70,6 +70,7 @@ def run_turbsim(analysis):
     """
     answer = analysis.children["turbsim"].ask(
         input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
+        question_uuid=analysis.id,
         timeout=86400,
     )
 
