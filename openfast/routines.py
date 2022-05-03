@@ -4,22 +4,19 @@ import tempfile
 
 import coolname
 from octue.cloud import storage
-from octue.resources import Datafile, Dataset
+from octue.resources import Datafile, Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 
 
 logger = logging.getLogger(__name__)
 
 
-OUTPUT_LOCATION = "gs://openfast-data/output"
-
-
 DATASET_DOWNLOAD_LOCATIONS = {
-    "turbsim": ".",
     "openfast": ".",
     "elastodyn": "elastodyn",
     "beamdyn": "beamdyn",
     "inflow": "inflow",
+    "turbsim": "inflow",
     "aerodyn": "aerodyn",
     "servodyn": "servodyn",
     "hydro": None,
@@ -39,11 +36,11 @@ def run_openfast(analysis):
 
     # Download all the datasets' files so they're available for the openfast shell app.
     with tempfile.TemporaryDirectory() as temporary_directory:
-        for dataset in analysis.input_manifest.datasets.values():
-            download_location = DATASET_DOWNLOAD_LOCATIONS.get(dataset.name)
+        for name, dataset in analysis.input_manifest.datasets.items():
+            download_location = DATASET_DOWNLOAD_LOCATIONS.get(name)
 
             if not download_location:
-                logger.info("%r dataset not used.", dataset.name)
+                logger.info("%r dataset not used.", name)
                 continue
 
             dataset.download_all_files(local_directory=os.path.join(temporary_directory, download_location))
@@ -58,23 +55,24 @@ def run_openfast(analysis):
         analysis.output_manifest.datasets["openfast"] = Dataset(path=os.path.join(temporary_directory, "openfast"))
         analysis.output_manifest.datasets["openfast"].add(Datafile(path=output_file_path))
 
-        analysis.finalise(upload_output_datasets_to=storage.path.join(OUTPUT_LOCATION, coolname.generate_slug()))
+        analysis.finalise(
+            upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
+        )
+
         logger.info("Finished openfast analysis.")
 
 
 def run_turbsim(analysis):
-    """Run turbsim on the `turbsim` input dataset to generate the input flow field, then add the output file to the
-    turbsim dataset in the analysis's input manifest.
+    """Run `turbsim` on the TurbSim input dataset to generate the input flow field, then replace the "turbsim" dataset
+    in the analysis's input manifest with the resulting output dataset.
 
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    # answer = analysis.children["turbsim"].ask(
-    #     input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
-    #     timeout=1500,
-    # )
+    answer = analysis.children["turbsim"].ask(
+        input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
+        question_uuid=analysis.id,
+        timeout=86400,
+    )
 
-    # Mock the turbsim service to speed up testing the openfast deployment.
-    mock_output_dataset = Dataset.from_cloud("gs://openfast-aventa/testing/turbsim")
-    mock_output_dataset._name = "turbsim"
-    analysis.input_manifest.datasets["turbsim"] = mock_output_dataset
+    analysis.input_manifest.datasets["turbsim"] = answer["output_manifest"].datasets["turbsim"]
