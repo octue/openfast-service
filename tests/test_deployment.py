@@ -23,7 +23,7 @@ class TestDeployment(unittest.TestCase):
         input_manifest = Manifest(
             datasets={
                 name: f"gs://openfast-aventa/testing/{name}"
-                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
+                for name in ("openfast", "turbsim", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
             }
         )
 
