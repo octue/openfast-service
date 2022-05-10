@@ -4,7 +4,7 @@ import tempfile
 
 import coolname
 from octue.cloud import storage
-from octue.resources import Datafile, Dataset, Manifest
+from octue.resources import Dataset, Manifest
 from octue.utils.processes import run_subprocess_and_log_stdout_and_stderr
 
 
@@ -51,13 +51,18 @@ def run_openfast(analysis):
         logger.info("Beginning openfast analysis.")
         run_subprocess_and_log_stdout_and_stderr(command=["openfast", main_openfast_input_file.name], logger=logger)
 
-        output_file_path = os.path.splitext(main_openfast_input_file.local_path)[0] + ".out"
-        analysis.output_manifest.datasets["openfast"] = Dataset(path=os.path.join(temporary_directory, "openfast"))
-        analysis.output_manifest.datasets["openfast"].add(Datafile(path=output_file_path))
+        output_filename = os.path.splitext(main_openfast_input_file.name)[0]
+        old_output_file_path = os.path.splitext(main_openfast_input_file.local_path)[0] + ".out"
 
-        analysis.finalise(
-            upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
-        )
+        with tempfile.TemporaryDirectory() as new_temporary_directory:
+            new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
+            os.rename(old_output_file_path, new_output_file_path)
+
+            analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
+
+            analysis.finalise(
+                upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
+            )
 
         logger.info("Finished openfast analysis.")
 
