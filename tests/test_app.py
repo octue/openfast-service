@@ -42,9 +42,7 @@ class TestApp(unittest.TestCase):
                 "output_values": None,
                 "output_manifest": Manifest(
                     datasets={
-                        "turbsim": Dataset.from_cloud(
-                            "gs://openfast-aventa/testing/turbsim_output"
-                        ).generate_signed_url()
+                        "turbsim": Dataset(path="gs://openfast-aventa/testing/turbsim_output").generate_signed_url()
                     }
                 ),
             },
