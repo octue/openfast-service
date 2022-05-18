@@ -2,7 +2,7 @@
   "children": [
     {
       "key": "turbsim",
-      "id": "octue.services.c3b47b47-cdfa-433d-b5a8-47a58f3bf7cb",
+      "id": "aerosense/turbsim-service",
       "backend": {
         "name": "GCPPubSubBackend",
         "project_name": "aerosense-twined"

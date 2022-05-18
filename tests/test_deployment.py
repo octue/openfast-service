@@ -18,7 +18,6 @@ class TestDeployment(unittest.TestCase):
         responses. Datasets from Google Cloud Storage are used for this test.
         """
         PROJECT_NAME = os.environ["TEST_PROJECT_NAME"]
-        SERVICE_ID = "octue.services.c32f9dbd-7ffb-48b1-8be5-a64495a71873"
 
         input_manifest = Manifest(
             datasets={
@@ -29,7 +28,7 @@ class TestDeployment(unittest.TestCase):
 
         asker = Child(
             name="openfast-service",
-            id=SERVICE_ID,
+            id="aerosense/openfast-service",
             backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME},
         )
 
