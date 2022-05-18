@@ -43,7 +43,7 @@ def run_openfast(analysis):
                 logger.info("%r dataset not used.", name)
                 continue
 
-            dataset.download_all_files(local_directory=os.path.join(temporary_directory, download_location))
+            dataset.download(local_directory=os.path.join(temporary_directory, download_location))
 
         main_openfast_input_file = analysis.input_manifest.get_dataset("openfast").files.one()
         os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
