@@ -17,8 +17,6 @@ class TestDeployment(unittest.TestCase):
         """Test that the Google Cloud Run integration works, providing a service that can be asked questions and send
         responses. Datasets from Google Cloud Storage are used for this test.
         """
-        PROJECT_NAME = os.environ["TEST_PROJECT_NAME"]
-
         input_manifest = Manifest(
             datasets={
                 name: f"gs://openfast-aventa/testing/{name}"
@@ -26,13 +24,13 @@ class TestDeployment(unittest.TestCase):
             }
         )
 
-        asker = Child(
+        child = Child(
             name="openfast-service",
             id="aerosense/openfast-service",
-            backend={"name": "GCPPubSubBackend", "project_name": PROJECT_NAME},
+            backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]},
         )
 
-        answer = asker.ask(input_manifest=input_manifest, timeout=3600)
+        answer = child.ask(input_manifest=input_manifest, timeout=3600)
         self.assertEqual(len(answer["output_manifest"].datasets), 1)
 
         output_dataset = answer["output_manifest"].get_dataset("openfast")
