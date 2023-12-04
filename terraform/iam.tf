@@ -191,6 +191,7 @@ resource "google_storage_bucket_iam_binding" "output_data_storage_admin" {
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
 }
 
@@ -199,7 +200,8 @@ resource "google_storage_bucket_iam_binding" "test_data_storage_admin" {
   bucket = google_storage_bucket.test_data.name
   role = "roles/storage.admin"
   members = [
-    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
+    "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
 }
