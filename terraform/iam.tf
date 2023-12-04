@@ -79,7 +79,7 @@ resource "google_project_iam_binding" "storage_objectadmin" {
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.github_actions_service_account.email}",
-    "serviceAccount:${var.project_number}@cloudbuild.gserviceaccount.com",
+#    "serviceAccount:${var.project_number}@cloudbuild.gserviceaccount.com",
   ]
 }
 
