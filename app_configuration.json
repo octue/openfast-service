@@ -2,10 +2,10 @@
   "children": [
     {
       "key": "turbsim",
-      "id": "aerosense/turbsim-service",
+      "id": "octue/turbsim-service:branch-refs-pull-1-merge",
       "backend": {
         "name": "GCPPubSubBackend",
-        "project_name": "aerosense-twined"
+        "project_name": "octue-openfast"
       }
     }
   ],
