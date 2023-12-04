@@ -9,5 +9,5 @@
       }
     }
   ],
-  "output_location": "gs://openfast-data/output"
+  "output_location": "gs://octue-openfast-data/openfast/output"
 }

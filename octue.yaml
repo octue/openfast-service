@@ -2,3 +2,4 @@ services:
   - name: openfast-service
     organisation: aerosense
     app_configuration_path: app_configuration.json
+    crash_diagnostics_cloud_path: gs://octue-openfast-service/diagnostics
