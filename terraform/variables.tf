@@ -28,9 +28,14 @@ variable "service_namespace" {
   default = "octue"
 }
 
-variable "service_name" {
+variable "openfast_service_name" {
   type    = string
   default = "openfast-service"
+}
+
+variable "turbsim_service_name" {
+  type    = string
+  default = "turbsim-service"
 }
 
 variable "environment" {

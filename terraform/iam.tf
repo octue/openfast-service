@@ -14,6 +14,14 @@ resource "google_service_account" "openfast_service_service_account" {
 }
 
 
+resource "google_service_account" "turbsim_service_service_account" {
+  account_id   = var.turbsim_service_name
+  display_name = var.turbsim_service_name
+  description  = "Operate the '${var.service_namespace}/${var.turbsim_service_name}' Cloud Run service."
+  project      = var.project
+}
+
+
 resource "google_service_account" "github_actions_service_account" {
     account_id   = "github-actions"
     description  = "Allow GitHub Actions to deploy code onto resources and run integration tests and jobs via reverse shelling."
@@ -45,6 +53,7 @@ resource "google_project_iam_binding" "pubsub_editor" {
   role    = "roles/pubsub.editor"
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}"
   ]
@@ -78,8 +87,20 @@ resource "google_project_iam_binding" "storage_objectadmin" {
   role = "roles/storage.objectAdmin"
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.github_actions_service_account.email}",
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
 #    "serviceAccount:${var.project_number}@cloudbuild.gserviceaccount.com",
+  ]
+}
+
+
+resource "google_project_iam_binding" "service_account_token_creator" {
+  project = var.project
+  role = "roles/iam.serviceAccountTokenCreator"
+  members = [
+    "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
   ]
 }
 
@@ -88,6 +109,7 @@ resource "google_project_iam_binding" "errorreporting_writer" {
   project = var.project
   role = "roles/errorreporting.writer"
   members = [
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
   ]
 }
@@ -140,4 +162,44 @@ data "google_iam_policy" "github_actions_workload_identity_pool_policy" {
 resource "google_service_account_iam_policy" "github_actions_workload_identity_service_account_policy" {
   service_account_id = google_service_account.github_actions_service_account.name
   policy_data        = data.google_iam_policy.github_actions_workload_identity_pool_policy.policy_data
+}
+
+
+### Storage bucket permissions ###
+
+resource "google_storage_bucket_iam_binding" "openfast_service_crash_diagnostics_storage_admin" {
+  bucket = google_storage_bucket.openfast_service_crash_diagnostics.name
+  role = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+  ]
+}
+
+
+resource "google_storage_bucket_iam_binding" "turbsim_service_crash_diagnostics_storage_admin" {
+  bucket = google_storage_bucket.turbsim_service_crash_diagnostics.name
+  role = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+  ]
+}
+
+
+resource "google_storage_bucket_iam_binding" "output_data_storage_admin" {
+  bucket = google_storage_bucket.output_data.name
+  role = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+  ]
+}
+
+
+resource "google_storage_bucket_iam_binding" "test_data_storage_admin" {
+  bucket = google_storage_bucket.test_data.name
+  role = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
+    "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+  ]
 }
