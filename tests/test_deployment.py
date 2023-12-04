@@ -19,14 +19,13 @@ class TestDeployment(unittest.TestCase):
         """
         input_manifest = Manifest(
             datasets={
-                name: f"gs://openfast-aventa/testing/{name}"
+                name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
                 for name in ("openfast", "turbsim", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
             }
         )
 
         child = Child(
-            name="openfast-service",
-            id="aerosense/openfast-service",
+            id="octue/openfast-service:pull-1",
             backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]},
         )
 
