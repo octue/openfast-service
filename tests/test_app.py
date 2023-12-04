@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 from octue import Runner
 from octue.cloud import storage
+from octue.cloud.emulators import ChildEmulator
 from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
 
@@ -13,11 +14,11 @@ from openfast import REPOSITORY_ROOT
 
 TWINE_PATH = os.path.join(REPOSITORY_ROOT, "twine.json")
 
-
-apply_log_handler()
-
 with open(os.path.join(REPOSITORY_ROOT, "app_configuration.json")) as f:
     APP_CONFIGURATION = json.load(f)
+
+
+apply_log_handler()
 
 
 class TestApp(unittest.TestCase):
@@ -26,7 +27,10 @@ class TestApp(unittest.TestCase):
         returns an output manifest with a signed URL to the dataset.
         """
         dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
-        input_manifest = Manifest(datasets={name: f"gs://openfast-aventa/testing/{name}" for name in dataset_names})
+
+        input_manifest = Manifest(
+            datasets={name: f"{os.environ['TEST_BUCKET_PATH']}/openfast/{name}" for name in dataset_names}
+        )
 
         runner = Runner(
             app_src=REPOSITORY_ROOT,
@@ -36,19 +40,29 @@ class TestApp(unittest.TestCase):
         )
 
         # Mock the TurbSim child.
-        with patch(
-            "octue.resources.child.Child.ask",
-            return_value={
-                "output_values": None,
-                "output_manifest": Manifest(
-                    datasets={
-                        "turbsim": Dataset(path="gs://openfast-aventa/testing/turbsim_output").generate_signed_url()
-                    }
-                ),
-            },
-        ):
+        emulated_children = [
+            ChildEmulator(
+                id="octue/turbsim-service:some-tag",
+                internal_service_name="octue/openfast-service:some-tag",
+                messages=[
+                    {
+                        "type": "result",
+                        "output_values": None,
+                        "output_manifest": Manifest(
+                            datasets={
+                                "turbsim": Dataset(
+                                    path=f"{os.environ['TEST_BUCKET_PATH']}/openfast/turbsim_output"
+                                ).generate_signed_url()
+                            }
+                        ),
+                    },
+                ],
+            )
+        ]
+
+        with patch("octue.runner.Child", side_effect=emulated_children):
             # Mock running an OpenFAST analysis by creating an empty output file.
-            with patch("openfast.routines.run_subprocess_and_log_stdout_and_stderr", self._create_mock_output_file):
+            with patch("openfast.routines.run_logged_subprocess", self._create_mock_output_file):
                 analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
