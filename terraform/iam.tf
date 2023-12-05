@@ -172,6 +172,7 @@ resource "google_storage_bucket_iam_binding" "openfast_service_crash_diagnostics
   role = "roles/storage.admin"
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
 }
 
@@ -181,6 +182,7 @@ resource "google_storage_bucket_iam_binding" "turbsim_service_crash_diagnostics_
   role = "roles/storage.admin"
   members = [
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+    "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
 }
 
