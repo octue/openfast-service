@@ -29,7 +29,7 @@ class TestApp(unittest.TestCase):
         dataset_names = ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
 
         input_manifest = Manifest(
-            datasets={name: f"{os.environ['TEST_BUCKET_PATH']}/openfast/{name}" for name in dataset_names}
+            datasets={name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}" for name in dataset_names}
         )
 
         runner = Runner(
@@ -51,7 +51,7 @@ class TestApp(unittest.TestCase):
                         "output_manifest": Manifest(
                             datasets={
                                 "turbsim": Dataset(
-                                    path=f"{os.environ['TEST_BUCKET_PATH']}/openfast/turbsim_output"
+                                    path=f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim_output"
                                 ).generate_signed_url()
                             }
                         ),
