@@ -2,7 +2,7 @@
   "children": [
     {
       "key": "turbsim",
-      "id": "octue/turbsim-service:branch-refs-pull-1-merge",
+      "id": "octue/turbsim-service:0.2.0",
       "backend": {
         "name": "GCPPubSubBackend",
         "project_name": "octue-openfast"
