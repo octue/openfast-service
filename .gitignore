@@ -109,3 +109,6 @@ ENV/
 *.sum
 .DS_Store
 .octue
+
+gcp-credentials.json
+.terraform*

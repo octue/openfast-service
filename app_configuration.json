@@ -2,12 +2,12 @@
   "children": [
     {
       "key": "turbsim",
-      "id": "aerosense/turbsim-service",
+      "id": "octue/turbsim-service:0.2.0",
       "backend": {
         "name": "GCPPubSubBackend",
-        "project_name": "aerosense-twined"
+        "project_name": "octue-openfast"
       }
     }
   ],
-  "output_location": "gs://openfast-data/output"
+  "output_location": "gs://octue-openfast-data/openfast/output"
 }
