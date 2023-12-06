@@ -25,7 +25,7 @@ class TestDeployment(unittest.TestCase):
         )
 
         child = Child(
-            id="octue/openfast-service:0.2.1",
+            id="octue/openfast-service:0.3.0",
             backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]},
         )
 
