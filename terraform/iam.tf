@@ -54,6 +54,7 @@ resource "google_project_iam_binding" "pubsub_editor" {
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
+    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}"
   ]
 }
