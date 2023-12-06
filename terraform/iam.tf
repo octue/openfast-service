@@ -7,9 +7,9 @@
 # and Permissions, with "Owner" level permission.
 
 resource "google_service_account" "openfast_service_service_account" {
-  account_id   = "openfast-service"
-  display_name = "openfast-service"
-  description  = "Operate the 'octue/openfast' Cloud Run service."
+  account_id   = var.openfast_service_name
+  display_name = var.openfast_service_name
+  description  = "Operate the '${var.service_namespace}/${var.openfast_service_name}' Cloud Run service."
   project      = var.project
 }
 
@@ -24,16 +24,16 @@ resource "google_service_account" "turbsim_service_service_account" {
 
 resource "google_service_account" "github_actions_service_account" {
     account_id   = "github-actions"
-    description  = "Allow GitHub Actions to deploy code onto resources and run integration tests and jobs via reverse shelling."
     display_name = "github-actions"
+    description  = "Allow GitHub Actions to deploy code onto resources and run integration tests and jobs via reverse shelling."
     project      = var.project
 }
 
 
 resource "google_service_account" "dev_cortadocodes_service_account" {
     account_id   = "dev-cortadocodes"
-    description  = "Allow cortadocodes to test the cloud run instance."
     display_name = "dev-cortadocodes"
+    description  = "Allow cortadocodes to test the cloud run instance."
     project      = var.project
 }
 
@@ -54,7 +54,6 @@ resource "google_project_iam_binding" "pubsub_editor" {
   members = [
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
-    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}"
   ]
 }
@@ -67,7 +66,6 @@ resource "google_project_iam_binding" "run_developer" {
   project = var.project
   role    = "roles/run.developer"
   members = [
-    "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.github_actions_service_account.email}",
   ]
 }
