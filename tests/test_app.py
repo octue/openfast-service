@@ -46,7 +46,7 @@ class TestApp(unittest.TestCase):
                 internal_service_name="octue/openfast-service:some-tag",
                 messages=[
                     {
-                        "type": "result",
+                        "kind": "result",
                         "output_values": None,
                         "output_manifest": Manifest(
                             datasets={
