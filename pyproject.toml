@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "openfast-service"
+version = "0.3.1"
+description = ""
+authors = ["Marcus Lugg <marcus@octue.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+octue = {git = "https://github.com/octue/octue-sdk-python.git", rev = "better-support-asynchronous-questions"}
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.2"
+coverage = "^7.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
