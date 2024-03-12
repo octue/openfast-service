@@ -9,7 +9,7 @@ from octue.cloud.emulators import ChildEmulator
 from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
 
-from openfast import REPOSITORY_ROOT
+from openfast_service import REPOSITORY_ROOT
 
 
 TWINE_PATH = os.path.join(REPOSITORY_ROOT, "twine.json")
@@ -62,7 +62,7 @@ class TestApp(unittest.TestCase):
 
         with patch("octue.runner.Child", side_effect=emulated_children):
             # Mock running an OpenFAST analysis by creating an empty output file.
-            with patch("openfast.routines.run_logged_subprocess", self._create_mock_output_file):
+            with patch("openfast_service.routines.run_logged_subprocess", self._create_mock_output_file):
                 analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
