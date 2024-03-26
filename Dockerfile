@@ -1,4 +1,4 @@
-FROM octue/openfast:3.1.0
+FROM octue/openfast:3.1.0.beta-0
 
 # Allow statements and log messages to immediately appear in the Knative logs on Google Cloud.
 ENV PYTHONUNBUFFERED True
