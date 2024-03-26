@@ -15,5 +15,5 @@ jobs:
           fetch-depth: 0
       - uses: octue/check-semantic-version@1.0.0.beta-9
         with:
-          path: setup.py
+          path: pyproject.toml
           breaking_change_indicated_by: minor
