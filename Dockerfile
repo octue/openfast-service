@@ -6,12 +6,12 @@ ENV PYTHONUNBUFFERED True
 ENV PROJECT_ROOT=/workspace
 WORKDIR $PROJECT_ROOT
 
-RUN apt-get update -y && apt-get install -y --fix-missing curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y --fix-missing curl python3.11 && rm -rf /var/lib/apt/lists/*
 
 # Install poetry.
 ENV POETRY_HOME=/root/.poetry
 ENV PATH "$POETRY_HOME/bin:$PATH"
-RUN curl -sSL https://install.python-poetry.org | python3 - && poetry config virtualenvs.create false;
+RUN curl -sSL https://install.python-poetry.org | python3.11 - && poetry config virtualenvs.create false;
 
 # Copy in dependency files for caching.
 COPY pyproject.toml poetry.lock ./
