@@ -6,6 +6,8 @@ from unittest.mock import patch
 from octue import Runner
 from octue.cloud import storage
 from octue.cloud.emulators import ChildEmulator
+from octue.cloud.emulators._pub_sub import MockTopic
+from octue.cloud.emulators.child import ServicePatcher
 from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
 
@@ -60,10 +62,14 @@ class TestApp(unittest.TestCase):
             )
         ]
 
-        with patch("octue.runner.Child", side_effect=emulated_children):
-            # Mock running an OpenFAST analysis by creating an empty output file.
-            with patch("openfast_service.routines.run_logged_subprocess", self._create_mock_output_file):
-                analysis = runner.run(input_manifest=input_manifest.serialise())
+        with ServicePatcher():
+            service_topic = MockTopic(name="octue.services", project_name="mock_project")
+            service_topic.create()
+
+            with patch("octue.runner.Child", side_effect=emulated_children):
+                # Mock running an OpenFAST analysis by creating an empty output file.
+                with patch("openfast_service.routines.run_logged_subprocess", self._create_mock_output_file):
+                    analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
         # manifest after serialisation.
