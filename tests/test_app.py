@@ -44,7 +44,7 @@ class TestApp(unittest.TestCase):
             ChildEmulator(
                 id="octue/turbsim-service:some-tag",
                 internal_service_name="octue/openfast-service:some-tag",
-                messages=[
+                events=[
                     {
                         "kind": "result",
                         "output_values": None,
