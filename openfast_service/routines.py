@@ -66,7 +66,7 @@ def run_turbsim(analysis):
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    answer = analysis.children["turbsim"].ask(
+    answer, question_uuid = analysis.children["turbsim"].ask(
         input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
         question_uuid=analysis.id,
         timeout=86400,
