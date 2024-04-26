@@ -170,6 +170,7 @@ resource "google_storage_bucket_iam_binding" "openfast_service_crash_diagnostics
   bucket = google_storage_bucket.openfast_service_crash_diagnostics.name
   role = "roles/storage.admin"
   members = [
+    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
@@ -180,6 +181,7 @@ resource "google_storage_bucket_iam_binding" "turbsim_service_crash_diagnostics_
   bucket = google_storage_bucket.turbsim_service_crash_diagnostics.name
   role = "roles/storage.admin"
   members = [
+    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
   ]
@@ -190,6 +192,7 @@ resource "google_storage_bucket_iam_binding" "output_data_storage_admin" {
   bucket = google_storage_bucket.output_data.name
   role = "roles/storage.admin"
   members = [
+    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
@@ -201,6 +204,7 @@ resource "google_storage_bucket_iam_binding" "test_data_storage_admin" {
   bucket = google_storage_bucket.test_data.name
   role = "roles/storage.admin"
   members = [
+    "serviceAccount:${google_service_account.github_actions_service_account.email}",
     "serviceAccount:${google_service_account.openfast_service_service_account.email}",
     "serviceAccount:${google_service_account.turbsim_service_service_account.email}",
     "serviceAccount:${google_service_account.dev_cortadocodes_service_account.email}",
