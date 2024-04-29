@@ -4,7 +4,7 @@ import tempfile
 
 import coolname
 from octue.cloud import storage
-from octue.resources import Dataset, Manifest
+from octue.resources import Dataset
 from octue.utils.processes import run_logged_subprocess
 
 
@@ -17,8 +17,6 @@ def run(analysis):
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    run_turbsim(analysis)
-
     # Download all the datasets' files so they're available for the openfast CLI.
     with tempfile.TemporaryDirectory() as temporary_directory:
         dataset_download_locations = {
@@ -57,19 +55,3 @@ def run(analysis):
             )
 
         logger.info("Finished openfast analysis.")
-
-
-def run_turbsim(analysis):
-    """Run `turbsim` on the TurbSim input dataset to generate the input flow field, then replace the "turbsim" dataset
-    in the analysis's input manifest with the resulting output dataset.
-
-    :param octue.resources.Analysis analysis:
-    :return None:
-    """
-    answer, question_uuid = analysis.children["turbsim"].ask(
-        input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
-        question_uuid=analysis.id,
-        timeout=86400,
-    )
-
-    analysis.input_manifest.datasets["turbsim"] = answer["output_manifest"].datasets["turbsim"]

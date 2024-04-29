@@ -1,12 +1,6 @@
 {
     "title": "OpenFAST Service",
     "description": "Use the OpenFAST service to model a wind turbine with BEM theory",
-    "children": [
-		{
-			"key": "turbsim",
-			"purpose": "A service that runs turbulence simulations."
-		}
-	],
     "input_manifest": {
         "datasets": {
             "turbsim": {
