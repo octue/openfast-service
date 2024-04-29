@@ -9,7 +9,7 @@ from octue.utils.processes import run_logged_subprocess
 logger = logging.getLogger(__name__)
 
 
-def run_openfast(analysis):
+def run(analysis):
     """Run an OpenFAST analysis on the files in the input manifest and upload the output file to the cloud.
 
     :param octue.resources.Analysis analysis:

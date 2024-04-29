@@ -73,7 +73,7 @@ class TestApp(unittest.TestCase):
 
             with patch("octue.runner.Child", side_effect=emulated_children):
                 # Mock running an OpenFAST analysis by creating an empty output file.
-                with patch("openfast_service.routines.run_logged_subprocess", self._create_mock_output_file):
+                with patch("octue.utils.processes.run_logged_subprocess", self._create_mock_output_file):
                     analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
