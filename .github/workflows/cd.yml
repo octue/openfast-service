@@ -16,4 +16,4 @@ jobs:
       gcp_resource_affix: octue
       gcp_service_name: openfast-service
       local_dockerfile: ./Dockerfile
-      cloud_run_flags: '--ingress=all --allow-unauthenticated --service-account=openfast-service@octue-openfast.iam.gserviceaccount.com --max-instances=10 --memory=2048Mi --concurrency=1'
+      cloud_run_flags: '--ingress=all --allow-unauthenticated --execution-environment=gen2 --max-instances=10 --memory=2048Mi --concurrency=1 --service-account=openfast-service@octue-openfast.iam.gserviceaccount.com'
