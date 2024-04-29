@@ -11,21 +11,6 @@ from octue.utils.processes import run_logged_subprocess
 logger = logging.getLogger(__name__)
 
 
-DATASET_DOWNLOAD_LOCATIONS = {
-    "openfast": ".",
-    "elastodyn": "elastodyn",
-    "beamdyn": "beamdyn",
-    "inflow": "inflow",
-    "turbsim": "inflow",
-    "aerodyn": "aerodyn",
-    "servodyn": "servodyn",
-    "hydro": None,
-    "subdyn": None,
-    "mooring": None,
-    "ice": None,
-}
-
-
 def run_openfast(analysis):
     """Run an OpenFAST analysis on the files in the input manifest and upload the output file to the cloud.
 
@@ -34,16 +19,23 @@ def run_openfast(analysis):
     """
     run_turbsim(analysis)
 
-    # Download all the datasets' files so they're available for the openfast shell app.
+    # Download all the datasets' files so they're available for the openfast CLI.
     with tempfile.TemporaryDirectory() as temporary_directory:
-        for name, dataset in analysis.input_manifest.datasets.items():
-            download_location = DATASET_DOWNLOAD_LOCATIONS.get(name)
+        dataset_download_locations = {
+            "openfast": temporary_directory,
+            "elastodyn": os.path.join(temporary_directory, "elastodyn"),
+            "beamdyn": os.path.join(temporary_directory, "beamdyn"),
+            "inflow": os.path.join(temporary_directory, "inflow"),
+            "turbsim": os.path.join(temporary_directory, "inflow"),
+            "aerodyn": os.path.join(temporary_directory, "aerodyn"),
+            "servodyn": os.path.join(temporary_directory, "servodyn"),
+            # "hydro": None,
+            # "subdyn": None,
+            # "mooring": None,
+            # "ice": None,
+        }
 
-            if not download_location:
-                logger.info("%r dataset not used.", name)
-                continue
-
-            dataset.download(local_directory=os.path.join(temporary_directory, download_location))
+        analysis.input_manifest.download(paths=dataset_download_locations, download_all=False)
 
         main_openfast_input_file = analysis.input_manifest.get_dataset("openfast").files.one()
         os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
@@ -74,7 +66,7 @@ def run_turbsim(analysis):
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    answer = analysis.children["turbsim"].ask(
+    answer, question_uuid = analysis.children["turbsim"].ask(
         input_manifest=Manifest(datasets={"turbsim": analysis.input_manifest.get_dataset("turbsim")}),
         question_uuid=analysis.id,
         timeout=86400,
