@@ -8,7 +8,7 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.4.0"
+SRUID = "octue/openfast-service:externalise-turb"
 
 
 class TestDeployment(unittest.TestCase):
@@ -22,8 +22,11 @@ class TestDeployment(unittest.TestCase):
         """
         input_manifest = Manifest(
             datasets={
-                name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
-                for name in ("openfast", "turbsim", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
+                "turbsim": f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim_output",
+                **{
+                    name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
+                    for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
+                },
             }
         )
 
