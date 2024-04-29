@@ -2,8 +2,6 @@ import logging
 import os
 import tempfile
 
-import coolname
-from octue.cloud import storage
 from octue.resources import Dataset, Manifest
 from octue.utils.processes import run_logged_subprocess
 
@@ -51,10 +49,6 @@ def run_openfast(analysis):
             os.rename(old_output_file_path, new_output_file_path)
 
             analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
-
-            analysis.finalise(
-                upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
-            )
 
         logger.info("Finished openfast analysis.")
 
