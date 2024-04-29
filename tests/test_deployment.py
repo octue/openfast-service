@@ -22,7 +22,7 @@ class TestDeployment(unittest.TestCase):
         """
         input_manifest = Manifest(
             datasets={
-                "turbsim": f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim_output",
+                "turbsim": f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim",
                 **{
                     name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
                     for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
