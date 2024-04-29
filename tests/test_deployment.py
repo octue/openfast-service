@@ -8,7 +8,7 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:refs-pull-7-merg"
+SRUID = "octue/openfast-service:0.4.0"
 
 
 class TestDeployment(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestDeployment(unittest.TestCase):
 
         child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]})
 
-        answer = child.ask(input_manifest=input_manifest, timeout=3600)
+        answer, question_uuid = child.ask(input_manifest=input_manifest, timeout=3600)
         self.assertEqual(len(answer["output_manifest"].datasets), 1)
 
         output_dataset = answer["output_manifest"].get_dataset("openfast")
