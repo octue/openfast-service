@@ -10,5 +10,5 @@ API
 OpenFAST Module
 ===============
 
-.. automodule:: openfast.routines
+.. automodule:: openfast_service.app
     :members:

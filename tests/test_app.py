@@ -1,26 +1,21 @@
-import json
 import os
 import unittest
 from unittest.mock import patch
 
 from octue import Runner
-from octue.cloud.emulators import ChildEmulator
 from octue.cloud.emulators._pub_sub import MockTopic
 from octue.cloud.emulators.child import ServicePatcher
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
-from octue.resources import Dataset, Manifest
+from octue.resources import Manifest
 
 from openfast_service import REPOSITORY_ROOT
 
 
-TWINE_PATH = os.path.join(REPOSITORY_ROOT, "twine.json")
-
-with open(os.path.join(REPOSITORY_ROOT, "app_configuration.json")) as f:
-    APP_CONFIGURATION = json.load(f)
-
-
 apply_log_handler()
+
+
+DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
 
 
 class TestApp(unittest.TestCase):
@@ -39,42 +34,23 @@ class TestApp(unittest.TestCase):
             service_id="octue/openfast-service:some-tag",
         )
 
-        # Mock the TurbSim child.
-        emulated_children = [
-            ChildEmulator(
-                id="octue/turbsim-service:some-tag",
-                internal_service_name="octue/openfast-service:some-tag",
-                events=[
-                    {
-                        "kind": "result",
-                        "output_values": None,
-                        "output_manifest": Manifest(
-                            datasets={
-                                "turbsim": Dataset(
-                                    path=f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim_output"
-                                ).generate_signed_url()
-                            }
-                        ),
-                    },
-                ],
-            )
-        ]
-
         input_manifest = Manifest(
             datasets={
-                name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
-                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn", "turbsim")
+                name: os.path.join(DATA_DIR, name)
+                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
             }
         )
+
+        for key, dataset in input_manifest.datasets.items():
+            dataset.upload(f"gs://{os.environ["TEST_BUCKET_NAME"]}/openfast/deployment_tests/{key}")
 
         with ServicePatcher():
             service_topic = MockTopic(name="octue.services", project_name="mock_project")
             service_topic.create()
 
-            with patch("octue.runner.Child", side_effect=emulated_children):
-                # Mock running an OpenFAST analysis by creating an empty output file.
-                with patch("openfast_service.routines.run_logged_subprocess", self._create_mock_output_file):
-                    analysis = runner.run(input_manifest=input_manifest.serialise())
+            # Mock running an OpenFAST analysis by creating an empty output file.
+            with patch("octue.utils.processes.run_logged_subprocess", self._create_mock_output_file):
+                analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
         # manifest after serialisation.
