@@ -6,10 +6,11 @@ from octue.resources import Child, Manifest
 
 from openfast_service import REPOSITORY_ROOT
 
+
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:externalise-turb"
+SRUID = "octue/openfast-service:0.5.0"
 DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
 
 
