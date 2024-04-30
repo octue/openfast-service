@@ -15,6 +15,9 @@ from openfast_service import REPOSITORY_ROOT
 apply_log_handler()
 
 
+DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
+
+
 class TestApp(unittest.TestCase):
     def test_app(self):
         """Test that the app takes in an input manifest of openfast files, uploads the output dataset to the cloud, and
@@ -33,13 +36,13 @@ class TestApp(unittest.TestCase):
 
         input_manifest = Manifest(
             datasets={
-                "turbsim": f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/turbsim",
-                **{
-                    name: f"gs://{os.environ['TEST_BUCKET_NAME']}/openfast/{name}"
-                    for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
-                },
+                name: os.path.join(DATA_DIR, name)
+                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
             }
         )
+
+        for key, dataset in input_manifest.datasets.items():
+            dataset.upload(f"gs://{os.environ["TEST_BUCKET_NAME"]}/openfast/deployment_tests/{key}")
 
         with ServicePatcher():
             service_topic = MockTopic(name="octue.services", project_name="mock_project")
