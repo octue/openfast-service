@@ -3,9 +3,6 @@
     "description": "Use the OpenFAST service to model a wind turbine with BEM theory",
     "input_manifest": {
         "datasets": {
-            "turbsim": {
-                "purpose": "A dataset containing a single TurbSim.inp file."
-            },
             "openfast": {
                 "purpose": "A dataset containing just the main OpenFAST file."
             },

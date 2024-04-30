@@ -24,7 +24,6 @@ def run(analysis):
             "elastodyn": os.path.join(temporary_directory, "elastodyn"),
             "beamdyn": os.path.join(temporary_directory, "beamdyn"),
             "inflow": os.path.join(temporary_directory, "inflow"),
-            "turbsim": os.path.join(temporary_directory, "inflow"),
             "aerodyn": os.path.join(temporary_directory, "aerodyn"),
             "servodyn": os.path.join(temporary_directory, "servodyn"),
             # "hydro": None,
