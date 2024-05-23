@@ -21,20 +21,14 @@ def run(analysis):
     with tempfile.TemporaryDirectory() as temporary_directory:
         dataset_download_locations = {
             "openfast": temporary_directory,
-            "elastodyn": os.path.join(temporary_directory, "elastodyn"),
-            "beamdyn": os.path.join(temporary_directory, "beamdyn"),
             "inflow": os.path.join(temporary_directory, "inflow"),
-            "aerodyn": os.path.join(temporary_directory, "aerodyn"),
-            "servodyn": os.path.join(temporary_directory, "servodyn"),
-            # "hydro": None,
-            # "subdyn": None,
-            # "mooring": None,
-            # "ice": None,
         }
 
-        analysis.input_manifest.download(paths=dataset_download_locations, download_all=False)
+        analysis.input_manifest.download(paths=dataset_download_locations)
 
-        main_openfast_input_file = analysis.input_manifest.get_dataset("openfast").files.one()
+        main_openfast_input_file = (
+            analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
+        )
         os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
 
         logger.info("Beginning openfast analysis.")

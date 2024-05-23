@@ -4,38 +4,10 @@
     "input_manifest": {
         "datasets": {
             "openfast": {
-                "purpose": "A dataset containing just the main OpenFAST file."
-            },
-            "elastodyn":{
-                "purpose": "A dataset containing the files to run elastodyn."
-            },
-            "beamdyn": {
-                "purpose": "A dataset containing the files to run beamdyn."
+                "purpose": "A dataset containing the main OpenFAST file and all other related files except inflow files."
             },
             "inflow": {
                 "purpose": "A dataset containing the files to run inflow."
-            },
-            "aerodyn": {
-                "purpose": "A dataset containing the files to run aerodyn."
-            },
-            "servodyn": {
-                "purpose": "A dataset containing the files to run servodyn"
-            },
-            "hydro": {
-                "purpose": "A dataset containing hydro files.",
-                "optional": true
-            },
-            "subdyn": {
-                "purpose": "A dataset containing the files to run subdyn.",
-                "optional": true
-            },
-            "mooring": {
-                "purpose": "A dataset containing mooring files.",
-                "optional": true
-            },
-            "ice": {
-                "purpose": "A dataset containing ice files.",
-                "optional": true
             }
         }
     },
