@@ -1,15 +1,17 @@
 import os
-import unittest
 from unittest.mock import patch
 
 from octue import Runner
+from octue.cloud import storage
 from octue.cloud.emulators._pub_sub import MockTopic
 from octue.cloud.emulators.child import ServicePatcher
+from octue.cloud.storage import GoogleCloudStorageClient
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
-from octue.resources import Manifest
+from octue.resources import Dataset, Manifest
 
 from openfast_service import REPOSITORY_ROOT
+from tests.base import BaseTestCase
 
 
 apply_log_handler()
@@ -18,11 +20,16 @@ apply_log_handler()
 DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
 
 
-class TestApp(unittest.TestCase):
+class TestApp(BaseTestCase):
     def test_app(self):
         """Test that the app takes in an input manifest of openfast files, uploads the output dataset to the cloud, and
         returns an output manifest with a signed URL to the dataset.
         """
+        # Make expected storage buckets in cloud storage emulator.
+        client = GoogleCloudStorageClient()
+        client.create_bucket("octue-openfast-service")
+        client.create_bucket("octue-openfast-data")
+
         service_configuration, app_configuration = load_service_and_app_configuration(
             service_configuration_path=os.path.join(REPOSITORY_ROOT, "octue.yaml")
         )
@@ -34,15 +41,16 @@ class TestApp(unittest.TestCase):
             service_id="octue/openfast-service:some-tag",
         )
 
+        main_dataset = Dataset(path=DATA_DIR, recursive=True)
+        main_dataset_cloud_path = storage.path.generate_gs_path(os.environ["TEST_BUCKET_NAME"], "openfast")
+        main_dataset.upload(cloud_path=main_dataset_cloud_path)
+
         input_manifest = Manifest(
             datasets={
-                name: os.path.join(DATA_DIR, name)
-                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
+                "openfast": main_dataset,
+                "inflow": storage.path.join(main_dataset_cloud_path, "inflow"),
             }
         )
-
-        for key, dataset in input_manifest.datasets.items():
-            dataset.upload(f"gs://{os.environ["TEST_BUCKET_NAME"]}/openfast/deployment_tests/{key}")
 
         with ServicePatcher():
             service_topic = MockTopic(name="octue.services", project_name="mock_project")
