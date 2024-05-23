@@ -49,7 +49,7 @@ class TestApp(BaseTestCase):
             datasets={
                 "openfast": main_dataset,
                 "inflow": storage.path.join(main_dataset_cloud_path, "inflow"),
-            }
+            },
         )
 
         with ServicePatcher():
