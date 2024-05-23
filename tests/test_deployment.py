@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from octue.cloud import storage
 from octue.log_handlers import apply_log_handler
 from octue.resources import Child, Manifest
 
@@ -10,7 +11,7 @@ from openfast_service import REPOSITORY_ROOT
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.5.0"
+SRUID = "octue/openfast-service:0.6.0"
 DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
 
 
@@ -25,13 +26,15 @@ class TestDeployment(unittest.TestCase):
         """
         input_manifest = Manifest(
             datasets={
-                name: os.path.join(DATA_DIR, name)
-                for name in ("openfast", "aerodyn", "beamdyn", "elastodyn", "inflow", "servodyn")
-            }
+                "openfast": storage.path.generate_gs_path(
+                    os.environ["TEST_BUCKET_NAME"], "openfast", "deployment_tests"
+                ),
+                "inflow": storage.path.generate_gs_path(
+                    os.environ["TEST_BUCKET_NAME"], "openfast", "deployment_tests", "inflow"
+                ),
+            },
+            ignore_stored_metadata=True,
         )
-
-        for key, dataset in input_manifest.datasets.items():
-            dataset.upload(f"gs://{os.environ["TEST_BUCKET_NAME"]}/openfast/deployment_tests/{key}")
 
         child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]})
 
