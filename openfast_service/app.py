@@ -1,10 +1,10 @@
 import logging
 import os
-import tempfile
 
 import coolname
 from octue.cloud import storage
 from octue.resources import Dataset
+from octue.utils.files import RegisteredTemporaryDirectory
 from octue.utils.processes import run_logged_subprocess
 
 
@@ -18,33 +18,30 @@ def run(analysis):
     :return None:
     """
     # Download all the datasets' files so they're available for the openfast CLI.
-    with tempfile.TemporaryDirectory() as temporary_directory:
-        dataset_download_locations = {
-            "openfast": temporary_directory,
-            "inflow": os.path.join(temporary_directory, "inflow"),
-        }
+    temporary_directory = RegisteredTemporaryDirectory().name
 
-        analysis.input_manifest.download(paths=dataset_download_locations)
+    dataset_download_locations = {
+        "openfast": temporary_directory,
+        "inflow": os.path.join(temporary_directory, "inflow"),
+    }
 
-        main_openfast_input_file = (
-            analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
-        )
-        os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
+    analysis.input_manifest.download(paths=dataset_download_locations)
 
-        logger.info("Beginning openfast analysis.")
-        run_logged_subprocess(command=["openfast", main_openfast_input_file.name], logger=logger)
+    main_openfast_input_file = (
+        analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
+    )
+    os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
 
-        output_filename = os.path.splitext(main_openfast_input_file.name)[0]
-        old_output_file_path = os.path.splitext(main_openfast_input_file.local_path)[0] + ".out"
+    logger.info("Beginning OpenFAST analysis.")
+    run_logged_subprocess(command=["openfast", main_openfast_input_file.name], logger=logger)
 
-        with tempfile.TemporaryDirectory() as new_temporary_directory:
-            new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
-            os.rename(old_output_file_path, new_output_file_path)
+    output_filename = os.path.splitext(main_openfast_input_file.name)[0]
+    old_output_file_path = os.path.splitext(main_openfast_input_file.local_path)[0] + ".out"
 
-            analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
+    new_temporary_directory = RegisteredTemporaryDirectory().name
+    new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
+    os.rename(old_output_file_path, new_output_file_path)
 
-            analysis.finalise(
-                upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug())
-            )
-
-        logger.info("Finished openfast analysis.")
+    analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
+    analysis.finalise(upload_output_datasets_to=storage.path.join(analysis.output_location, coolname.generate_slug()))
+    logger.info("Finished OpenFAST analysis.")
