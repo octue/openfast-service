@@ -20,7 +20,7 @@ def run(analysis):
 
     dataset_download_locations = {
         "openfast": temporary_directory,
-        "inflow": os.path.join(temporary_directory, "inflow"),
+        "inflow": temporary_directory,
     }
 
     analysis.input_manifest.download(paths=dataset_download_locations)
