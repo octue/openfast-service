@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-octue = { git = "https://github.com/octue/octue-sdk-python", branch = "investigate-filenotfounderrors" }
+octue = "0.56.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.2"
