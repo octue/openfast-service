@@ -11,7 +11,7 @@ from openfast_service import REPOSITORY_ROOT
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.6.0"
+SRUID = "octue/openfast-service:0.7.0"
 DATA_DIR = os.path.join(REPOSITORY_ROOT, "tests", "data")
 
 
