@@ -4,7 +4,7 @@
     "input_manifest": {
         "datasets": {
             "openfast": {
-                "purpose": "A dataset containing the main OpenFAST file and all other related files except inflow files."
+                "purpose": "A dataset containing the main OpenFAST file and all other related files."
             }
         }
     },
