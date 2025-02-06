@@ -17,18 +17,26 @@ def run(analysis):
     # Download all the datasets' files so they're available for the openfast CLI.
     analysis.input_manifest.download()
 
-    openfast_entry_file = analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
-    os.chdir(os.path.abspath(os.path.dirname(openfast_entry_file.local_path)))
+    # Change directory into openfast dataset so relative paths work.
+    openfast_dataset = analysis.input_manifest.get_dataset("openfast")
+    openfast_entry_file = openfast_dataset.files.filter(name__ends_with=".fst").one()
+    openfast_dataset_local_path = os.path.abspath(os.path.dirname(openfast_entry_file.local_path))
+    os.chdir(openfast_dataset_local_path)
 
     logger.info("Beginning OpenFAST analysis.")
     run_logged_subprocess(command=["openfast", openfast_entry_file.name], logger=logger)
-
-    output_filename = os.path.splitext(openfast_entry_file.name)[0]
-    old_output_file_path = os.path.splitext(openfast_entry_file.local_path)[0] + ".out"
-
-    new_temporary_directory = TemporaryDirectory().name
-    new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
-    os.rename(old_output_file_path, new_output_file_path)
-
-    analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
     logger.info("Finished OpenFAST analysis.")
+
+    # Get output path.
+    output_filename = os.path.splitext(openfast_entry_file.name)[0]
+    output_file_path = os.path.splitext(openfast_entry_file.local_path)[0] + ".out"
+    logger.info("Output create¢ at %r.", output_file_path)
+
+    # Move output into its own dataset directory
+    new_temporary_directory = TemporaryDirectory(delete=False).name
+    new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
+    os.rename(output_file_path, new_output_file_path)
+    logger.info("Output moved to %r for upload.", new_output_file_path)
+
+    # Prepare the output for upload.
+    analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
