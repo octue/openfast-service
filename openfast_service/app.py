@@ -17,16 +17,14 @@ def run(analysis):
     # Download all the datasets' files so they're available for the openfast CLI.
     analysis.input_manifest.download()
 
-    main_openfast_input_file = (
-        analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
-    )
-    os.chdir(os.path.abspath(os.path.dirname(main_openfast_input_file.local_path)))
+    openfast_entry_file = analysis.input_manifest.get_dataset("openfast").files.filter(name__ends_with=".fst").one()
+    os.chdir(os.path.abspath(os.path.dirname(openfast_entry_file.local_path)))
 
     logger.info("Beginning OpenFAST analysis.")
-    run_logged_subprocess(command=["openfast", main_openfast_input_file.name], logger=logger)
+    run_logged_subprocess(command=["openfast", openfast_entry_file.name], logger=logger)
 
-    output_filename = os.path.splitext(main_openfast_input_file.name)[0]
-    old_output_file_path = os.path.splitext(main_openfast_input_file.local_path)[0] + ".out"
+    output_filename = os.path.splitext(openfast_entry_file.name)[0]
+    old_output_file_path = os.path.splitext(openfast_entry_file.local_path)[0] + ".out"
 
     new_temporary_directory = TemporaryDirectory().name
     new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
