@@ -33,10 +33,11 @@ def run(analysis):
     logger.info("Output create¢ at %r.", output_file_path)
 
     # Move output into its own dataset directory
-    new_temporary_directory = TemporaryDirectory(delete=False).name
-    new_output_file_path = os.path.join(new_temporary_directory, output_filename) + ".out"
-    os.rename(output_file_path, new_output_file_path)
-    logger.info("Output moved to %r for upload.", new_output_file_path)
+    with TemporaryDirectory() as output_dataset_path:
+        new_output_file_path = os.path.join(output_dataset_path, output_filename) + ".out"
+        os.rename(output_file_path, new_output_file_path)
+        logger.info("Output moved to %r for upload.", new_output_file_path)
 
-    # Prepare the output for upload.
-    analysis.output_manifest.datasets["openfast"] = Dataset(path=new_temporary_directory, name="openfast")
+        # Prepare the output for upload.
+        analysis.output_manifest.datasets["openfast"] = Dataset(path=output_dataset_path, name="openfast")
+        analysis.finalise()
