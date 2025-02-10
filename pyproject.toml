@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "openfast-service"
-version = "0.7.2"
+version = "0.8.0"
 description = ""
 authors = ["Marcus Lugg <marcus@octue.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-octue = "0.59.1"
+octue = "0.61.2"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.2"
@@ -17,3 +17,15 @@ gcp-storage-emulator = "2022.06.11"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes.
+lint.select = ["E", "F"]
+# Ignore E501 line-too-long - see https://docs.astral.sh/ruff/faq/#is-the-ruff-linter-compatible-with-black for why
+lint.ignore = ["F405", "E501", "E203", "E731", "N818"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["octue", "app", "fractal", "test", "tests", "twined"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+force-sort-within-sections = true
