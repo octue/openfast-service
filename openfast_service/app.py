@@ -16,11 +16,13 @@ def run(analysis):
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    # Download the dataset's files so they're available for the OpenFAST CLI.
-    analysis.input_manifest.download()
+    openfast_dataset = analysis.input_manifest.get_dataset("openfast")
+
+    if openfast_dataset.exists_in_cloud:
+        # Download the dataset's files so they're available for the OpenFAST CLI.
+        analysis.input_manifest.download()
 
     # Get the OpenFAST entrypoint file.
-    openfast_dataset = analysis.input_manifest.get_dataset("openfast")
     openfast_entry_file = openfast_dataset.files.filter(name__ends_with=".fst").one()
 
     # Run the analysis.
