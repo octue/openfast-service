@@ -13,7 +13,7 @@ def run(analysis):
     :param octue.resources.Analysis analysis:
     :return None:
     """
-    # Download all the datasets' files so they're available for the openfast CLI.
+    # Download the dataset's files so they're available for the OpenFAST CLI.
     analysis.input_manifest.download()
 
     # Get the OpenFAST entrypoint file.
@@ -22,7 +22,7 @@ def run(analysis):
 
     # Run the analysis.
     logger.info("Beginning OpenFAST analysis.")
-    run_logged_subprocess(command=["openfast", openfast_entry_file.name], logger=logger)
+    run_logged_subprocess(command=["openfast", openfast_entry_file.local_path], logger=logger)
     logger.info("Finished OpenFAST analysis.")
 
     # Get output file and prepare it for upload.
