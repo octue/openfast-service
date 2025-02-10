@@ -55,24 +55,26 @@ class TestApp(BaseTestCase):
             service_topic.create()
 
             # Mock running an OpenFAST analysis by creating an empty output file.
-            with patch("octue.utils.processes.run_logged_subprocess", self._create_mock_output_file):
+            with patch("octue.utils.processes.run_logged_subprocess", self._create_mock_output_files):
                 analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
         # manifest after serialisation.
         downloaded_output_manifest = Manifest.deserialise(analysis.output_manifest.to_primitive())
 
-        # Check that the output dataset and its files can be accessed.
-        with downloaded_output_manifest.datasets["openfast"].files.one() as (datafile, f):
-            self.assertEqual(f.read(), "This is a mock OpenFAST output file.")
+        # Check that the output datasets and its files can be accessed.
+        for file in downloaded_output_manifest.datasets["openfast"].files:
+            with file as (datafile, f):
+                self.assertEqual(f.read(), "This is a mock OpenFAST output file.")
 
     @staticmethod
-    def _create_mock_output_file(command, logger):
+    def _create_mock_output_files(command, logger):
         """Create a mock OpenFAST output file.
 
         :param list(str) command:
         :param logging.Logger logger:
         :return None:
         """
-        with open(os.path.splitext(command[1])[0] + ".out", "w") as f:
-            f.write("This is a mock OpenFAST output file.")
+        for ext in {".out", ".outb"}:
+            with open(os.path.splitext(command[1])[0] + ext, "w") as f:
+                f.write("This is a mock OpenFAST output file.")
