@@ -38,7 +38,7 @@ def _prepare_output_dataset(analysis, openfast_entry_file):
     uploaded later.
 
     :param octue.resources.Analysis analysis: the analysis object containing the input data
-    :param octue.resources.dataset.Dataset openfast_entry_file: the main input file for the OpenFAST analysis
+    :param octue.resources.datafile.Datafile openfast_entry_file: the main input file for the OpenFAST analysis
     :raise ValueError: if no output files are found
     :return None:
     """
