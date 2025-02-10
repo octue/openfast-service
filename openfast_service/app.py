@@ -27,17 +27,5 @@ def run(analysis):
     logger.info("Finished OpenFAST analysis.")
 
     # Get output path.
-    output_filename = os.path.splitext(openfast_entry_file.name)[0]
     output_file_path = os.path.splitext(openfast_entry_file.local_path)[0] + ".out"
-    logger.info("Output created at %r.", output_file_path)
-
-    # Move output into its own dataset directory.
-    output_dataset_path = f"{analysis.id}-output"
-    os.mkdir(output_dataset_path)
-
-    new_output_file_path = os.path.join(output_dataset_path, output_filename) + ".out"
-    os.rename(output_file_path, new_output_file_path)
-    logger.info("Output moved to %r for upload.", new_output_file_path)
-
-    # Prepare the output for upload.
-    analysis.output_manifest.datasets["openfast"] = Dataset(path=output_dataset_path, name="openfast")
+    analysis.output_manifest.datasets["openfast"] = Dataset(files=[output_file_path], name="openfast")
