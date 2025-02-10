@@ -1,0 +1,105 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
+{
+  "name": "Python 3",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  // Set *default* container specific settings.json values on container create.
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "austin.mode": "Wall time",
+        "debugpy.debugJustMyCode": false,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "esbonio.server.enabled": true,
+        "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
+        "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
+        "prettier.prettierPath": "/usr/local/prettier",
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "black-formatter.args": ["--line-length", "120"],
+        "isort.args": ["--settings-path", "${workspaceFolder}/setup.cfg"],
+        "python.languageServer": "Pylance",
+        // Line length to match black settings
+        // Disabling specific messages:
+        //  - To find the details do: /usr/local/py-utils/bin/pylint --list-msgs
+        //  - Disable missing-module-docstring (C0114) because we don't document modules routinely, just their members
+        //  - Disable invalid-name (C0103) because pylint thinks that eg 'x', 'df', 'np' are invalid due to their lengths
+        "pylint.args": [
+          "--max-line-length=120",
+          "--disable=missing-module-docstring,invalid-name",
+        ],
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestPath": "/usr/local/bin/pytest",
+        "python.testing.pytestArgs": [],
+        "python.testing.cwd": "/workspace",
+        // Scrolling the editor is a nice idea but it doesn't work, always out of sync and impossible to manage
+        "restructuredtext.preview.scrollEditorWithPreview": false,
+        "restructuredtext.preview.scrollPreviewWithEditor": false,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "erikphansen.vscode-toggle-column-selection",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "irongeek.vscode-env",
+        "mikestead.dotenv",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-python.mypy-type-checker",
+        "ms-python.pylint",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-renderers",
+        "ms-toolsai.jupyter-keymap",
+        "ms-vsliveshare.vsliveshare",
+        "p403n1x87.austin-vscode",
+        "ritwickdey.liveserver",
+        "trond-snekvik.simple-rst"
+      ]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [80, 443, 7045, 7046, 7047, 7048, 7049, 8080],
+
+  // Use 'postAttachCommand' to run commands after the container is created and attached (ie git is available).
+  // This is preferential to postCreateCommand as invoking git (eg for private poetry installs or addition of
+  // git config preferences) doesn't override injected git configs
+  // https://stackoverflow.com/a/73097009/3556110
+  "postAttachCommand": ". .devcontainer/postattach.sh",
+
+  // Set to "root" if using a non-microsoft base image. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "root",
+
+  // Allow ptrace based debuggers (like austin) to work in the container
+  "runArgs": [
+    "--name",
+    "openfast-service",
+//    "--env-file",
+//    "${localWorkspaceFolder}/.env",
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+
+  // Mount gcloud configuration directory
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gcloud,target=/gcp/config,type=bind,consistency=cached"
+  ]
+}
