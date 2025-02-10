@@ -19,3 +19,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+## Third party licenses
+
+### IEA-3.4-130-RWT
+Citation:
+```
+@techreport{RWT,
+Author = {Pietro Bortolotti and Helena Canet Tarres and Katherine Dykes and Karl Merz and Latha Sethuraman and David Verelst and Frederik Zahle},
+Howpublished = {NREL/TP-73492},
+Institution = {International Energy Agency},
+Title = {IEA Wind Task 37 on Systems Engineering in Wind Energy -- WP2.1 Reference Wind Turbines},
+Url ={https://www.nrel.gov/docs/fy19osti/73492.pdf},
+Year = {2019}}
+```
+
+[Licensed under Apache 2.0](https://github.com/IEAWindSystems/IEA-3.4-130-RWT/blob/master/LICENSE).
