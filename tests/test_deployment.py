@@ -7,7 +7,7 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:update-service"
+SRUID = "octue/openfast-service:0.8.0"
 
 
 class TestDeployment(unittest.TestCase):
