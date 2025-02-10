@@ -3,6 +3,14 @@ A simple wrapper around [OpenFAST](https://openfast.readthedocs.io) to run it as
 cloud. Uses the [official OpenFAST docker image architected by Octue](https://github.com/OpenFAST/openfast/pull/2124) as a base image.
 
 ## Installation
+
+### Install the client
+```shell
+pip install octue
+```
+
+### Set up the data service
+
 There are two main options:
 - Self-hosting - use our open-source tools to spin up an OpenFAST service in your own private cloud:
   - [Twined Terraform module](https://github.com/octue/terraform-octue-twined) to spin up the cloud infrastructure
@@ -17,7 +25,7 @@ from octue.resources import Child, Manifest
 
 # Point to your data service
 child = Child(
-    id="my-org/openfast-service:0.8.0",
+    id="my-org/openfast-service:0.8.1",
     backend={"name": "GCPPubSubBackend", "project_name": "my-project"},
 )
 
