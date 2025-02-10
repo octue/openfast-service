@@ -2,7 +2,6 @@ import os
 from unittest.mock import patch
 
 from octue import Runner
-from octue.cloud.emulators.service import ServicePatcher
 from octue.cloud.storage import GoogleCloudStorageClient
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
@@ -38,10 +37,9 @@ class TestApp(BaseTestCase):
 
         input_manifest = Manifest(datasets={"openfast": DATA_DIR})
 
-        with ServicePatcher():
-            # Mock running an OpenFAST analysis by creating an empty output file.
-            with patch("octue.utils.processes.run_logged_subprocess", self._mock_run_openfast):
-                analysis = runner.run(input_manifest=input_manifest.serialise())
+        # Mock running an OpenFAST analysis by creating an empty output file.
+        with patch("octue.utils.processes.run_logged_subprocess", self._mock_run_openfast):
+            analysis = runner.run(input_manifest=input_manifest.serialise())
 
         # Test that the signed URLs for the dataset and its files work and can be used to reinstantiate the output
         # manifest after serialisation.
