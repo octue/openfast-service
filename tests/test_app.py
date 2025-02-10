@@ -1,12 +1,14 @@
 import os
+import tempfile
 from unittest.mock import patch
 
 from octue import Runner
 from octue.cloud.storage import GoogleCloudStorageClient
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
-from octue.resources import Manifest
+from octue.resources import Analysis, Datafile, Manifest
 from openfast_service import REPOSITORY_ROOT
+from openfast_service.app import _prepare_output_dataset
 from tests.base import BaseTestCase
 
 apply_log_handler()
@@ -49,6 +51,16 @@ class TestApp(BaseTestCase):
         for file in downloaded_output_manifest.datasets["openfast"].files:
             with file as (datafile, f):
                 self.assertEqual(f.read(), "This is a mock OpenFAST output file.")
+
+    def test_error_raised_if_no_output_files_found(self):
+        """Test that an error is raised if no output files are found."""
+        analysis = Analysis(twine={})
+
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            datafile = Datafile(temporary_file.name)
+
+            with self.assertRaises(ValueError):
+                _prepare_output_dataset(analysis, openfast_entry_file=datafile)
 
     @staticmethod
     def _mock_run_openfast(command, logger):
