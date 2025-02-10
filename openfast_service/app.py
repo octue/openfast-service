@@ -13,7 +13,7 @@ POSSIBLE_OUTPUT_EXTENSIONS = {".out", ".outb"}
 def run(analysis):
     """Run an OpenFAST analysis on the files in the input manifest and upload the output file to the cloud.
 
-    :param octue.resources.Analysis analysis:
+    :param octue.resources.Analysis analysis: the analysis object containing the input data
     :return None:
     """
     openfast_dataset = analysis.input_manifest.get_dataset("openfast")
@@ -34,7 +34,14 @@ def run(analysis):
 
 
 def _prepare_output_dataset(analysis, openfast_entry_file):
-    # Get output files and prepare them for upload.
+    """Check which output files have been produced by the analysis and add them to the output dataset so they can be
+    uploaded later.
+
+    :param octue.resources.Analysis analysis: the analysis object containing the input data
+    :param octue.resources.dataset.Dataset openfast_entry_file: the main input file for the OpenFAST analysis
+    :raise ValueError: if no output files are found
+    :return None:
+    """
     output_path_without_extension = os.path.splitext(openfast_entry_file.local_path)[0]
     output_files = []
 
