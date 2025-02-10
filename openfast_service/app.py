@@ -7,7 +7,7 @@ from octue.utils.processes import run_logged_subprocess
 logger = logging.getLogger(__name__)
 
 
-POSSIBLE_OUTPUT_EXTENSIONS = {".out", ".outb"}
+POSSIBLE_OUTPUT_EXTENSIONS = {".out", ".outb", ".ech", ".sum"}
 
 
 def run(analysis):
