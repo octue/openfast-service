@@ -4,15 +4,13 @@ from unittest.mock import patch
 from octue import Runner
 from octue.cloud import storage
 from octue.cloud.emulators._pub_sub import MockTopic
-from octue.cloud.emulators.child import ServicePatcher
+from octue.cloud.emulators.service import ServicePatcher
 from octue.cloud.storage import GoogleCloudStorageClient
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
 from octue.resources import Dataset, Manifest
-
 from openfast_service import REPOSITORY_ROOT
 from tests.base import BaseTestCase
-
 
 apply_log_handler()
 
