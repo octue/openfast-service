@@ -7,7 +7,34 @@ on:
     branches:
       - main
 
+
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install package
+        run: poetry install
+
+      - name: Authenticate with Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/86611255144/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider"
+          service_account: "github-actions@octue-openfast.iam.gserviceaccount.com"
+
+      - name: Run tests
+        run: poetry run python -m unittest
+
+
   release:
     if: "github.event.pull_request.merged == true"
     runs-on: ubuntu-latest
@@ -33,3 +60,19 @@ jobs:
         body: ${{ github.event.pull_request.body }}
         draft: false
         prerelease: false
+
+
+  deploy:
+    uses: octue/workflows/.github/workflows/deploy-cloud-run-service.yml@main
+    permissions:
+      id-token: write
+      contents: read
+    with:
+      gcp_project_name: octue-openfast
+      gcp_project_number: 86611255144
+      gcp_region: europe-west3
+      gcp_resource_affix: octue
+      gcp_service_name: openfast-service
+      local_dockerfile: ./Dockerfile
+      cloud_run_flags: '--ingress=all --allow-unauthenticated --execution-environment=gen2 --max-instances=10 --memory=2048Mi --concurrency=1 --service-account=openfast-service@octue-openfast.iam.gserviceaccount.com'
+      env_vars: 'OCTUE_SERVICE_CONFIGURATION_PATH=/workspace/octue.yaml'

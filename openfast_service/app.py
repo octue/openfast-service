@@ -7,7 +7,7 @@ from octue.utils.processes import run_logged_subprocess
 logger = logging.getLogger(__name__)
 
 
-POSSIBLE_OUTPUT_EXTENSIONS = {".out", ".outb"}
+POSSIBLE_OUTPUT_EXTENSIONS = {".out", ".outb", ".ech", ".sum"}
 
 
 def run(analysis):
@@ -51,6 +51,8 @@ def _prepare_output_dataset(analysis, openfast_entry_file):
         if os.path.exists(output_file_path):
             output_files.append(output_file_path)
             logger.info("%r found.", output_file_path)
+        else:
+            logger.info("No %r files found.", ext)
 
     if not output_files:
         raise ValueError(f"No output files found with extensions {POSSIBLE_OUTPUT_EXTENSIONS!r}.")

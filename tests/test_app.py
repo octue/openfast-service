@@ -3,7 +3,6 @@ import tempfile
 from unittest.mock import patch
 
 from octue import Runner
-from octue.cloud.storage import GoogleCloudStorageClient
 from octue.configuration import load_service_and_app_configuration
 from octue.log_handlers import apply_log_handler
 from octue.resources import Analysis, Datafile, Manifest
@@ -22,10 +21,6 @@ class TestApp(BaseTestCase):
         """Test that the app takes in an input manifest of openfast files, uploads the output dataset to the cloud, and
         returns an output manifest with a signed URL to the dataset.
         """
-        # Make expected storage bucket in cloud storage emulator.
-        client = GoogleCloudStorageClient()
-        client.create_bucket("octue-openfast-data")
-
         service_configuration, app_configuration = load_service_and_app_configuration(
             service_configuration_path=os.path.join(REPOSITORY_ROOT, "octue.yaml")
         )
@@ -33,7 +28,7 @@ class TestApp(BaseTestCase):
         runner = Runner.from_configuration(
             service_configuration=service_configuration,
             app_configuration=app_configuration,
-            project_name=os.environ["TEST_PROJECT_NAME"],
+            project_name="test-project",
             service_id="octue/openfast-service:some-tag",
         )
 

@@ -1,0 +1,107 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
+{
+  "name": "Python 3",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  // Set *default* container specific settings.json values on container create.
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "always",
+            "source.fixAll": "always"
+          },
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "austin.mode": "Wall time",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "python.locator": "native",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "ruff.lineLength": 120,
+        "ruff.importStrategy": "fromEnvironment"
+      },
+
+      // IN ALPHABETIC ORDER: Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "4ops.terraform",
+        "charliermarsh.ruff",
+        "erikphansen.vscode-toggle-column-selection",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "irongeek.vscode-env",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vsliveshare.vsliveshare",
+        "p403n1x87.austin-vscode",
+        "ritwickdey.liveserver",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [80, 443, 7045, 7046, 7047, 7048, 7049, 8080],
+
+  // Use 'postAttachCommand' to run commands after the container is created and attached (ie git is available).
+  // This is preferential to postCreateCommand as invoking git (eg for private poetry installs or addition of
+  // git config preferences) doesn't override injected git configs
+  // https://stackoverflow.com/a/73097009/3556110
+  "postAttachCommand": ". .devcontainer/postattach.sh",
+
+  // Set to "root" if using a non-microsoft base image. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "root",
+
+    // Use devcontainer features
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "vscode",
+      "userUid": "automatic",
+      "userGid": "automatic"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "os-provided"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest"
+    }
+  },
+
+  // Allow ptrace based debuggers (like austin) to work in the container
+  "runArgs": [
+    "--name",
+    "openfast-service",
+//    "--env-file",
+//    "${localWorkspaceFolder}/.env",
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+
+  // Mount gcloud configuration directory
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gcloud,target=/gcp/config,type=bind,consistency=cached"
+  ]
+}
