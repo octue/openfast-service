@@ -12,65 +12,39 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "austin.mode": "Wall time",
-        "debugpy.debugJustMyCode": false,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "esbonio.server.enabled": true,
-        "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
-        "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
-        "prettier.prettierPath": "/usr/local/prettier",
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
         "[python]": {
-          "editor.defaultFormatter": "ms-python.black-formatter",
           "editor.formatOnSave": true,
           "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
-          }
+            "source.organizeImports": "always",
+            "source.fixAll": "always"
+          },
+          "editor.defaultFormatter": "charliermarsh.ruff"
         },
-        "black-formatter.args": ["--line-length", "120"],
-        "isort.args": ["--settings-path", "${workspaceFolder}/setup.cfg"],
-        "python.languageServer": "Pylance",
-        // Line length to match black settings
-        // Disabling specific messages:
-        //  - To find the details do: /usr/local/py-utils/bin/pylint --list-msgs
-        //  - Disable missing-module-docstring (C0114) because we don't document modules routinely, just their members
-        //  - Disable invalid-name (C0103) because pylint thinks that eg 'x', 'df', 'np' are invalid due to their lengths
-        "pylint.args": [
-          "--max-line-length=120",
-          "--disable=missing-module-docstring,invalid-name",
-        ],
+        "austin.mode": "Wall time",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "python.locator": "native",
         "python.testing.pytestEnabled": true,
-        "python.testing.pytestPath": "/usr/local/bin/pytest",
-        "python.testing.pytestArgs": [],
-        "python.testing.cwd": "/workspace",
-        // Scrolling the editor is a nice idea but it doesn't work, always out of sync and impossible to manage
-        "restructuredtext.preview.scrollEditorWithPreview": false,
-        "restructuredtext.preview.scrollPreviewWithEditor": false,
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "python.testing.unittestEnabled": false,
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "ruff.lineLength": 120,
+        "ruff.importStrategy": "fromEnvironment"
       },
 
-      // Add the IDs of extensions you want installed when the container is created.
+      // IN ALPHABETIC ORDER: Add the IDs of extensions you want installed when the container is created.
       "extensions": [
+        "4ops.terraform",
+        "charliermarsh.ruff",
         "erikphansen.vscode-toggle-column-selection",
         "esbenp.prettier-vscode",
         "github.vscode-github-actions",
         "irongeek.vscode-env",
-        "mikestead.dotenv",
         "ms-python.python",
-        "ms-python.black-formatter",
-        "ms-python.flake8",
-        "ms-python.isort",
-        "ms-python.mypy-type-checker",
-        "ms-python.pylint",
         "ms-python.vscode-pylance",
-        "ms-toolsai.jupyter",
-        "ms-toolsai.jupyter-renderers",
-        "ms-toolsai.jupyter-keymap",
         "ms-vsliveshare.vsliveshare",
         "p403n1x87.austin-vscode",
         "ritwickdey.liveserver",
-        "trond-snekvik.simple-rst"
+        "tamasfe.even-better-toml"
       ]
     }
   },
@@ -86,6 +60,34 @@
 
   // Set to "root" if using a non-microsoft base image. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "root",
+
+    // Use devcontainer features
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "vscode",
+      "userUid": "automatic",
+      "userGid": "automatic"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "os-provided"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest"
+    }
+  },
 
   // Allow ptrace based debuggers (like austin) to work in the container
   "runArgs": [
