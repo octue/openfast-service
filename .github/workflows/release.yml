@@ -37,6 +37,7 @@ jobs:
 
   release:
     if: "github.event.pull_request.merged == true"
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -64,6 +65,7 @@ jobs:
 
   deploy:
     uses: octue/workflows/.github/workflows/deploy-cloud-run-service.yml@main
+    needs: release
     permissions:
       id-token: write
       contents: read
