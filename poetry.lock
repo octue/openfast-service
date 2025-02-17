@@ -1040,7 +1040,7 @@ hdf5 = ["h5py (>=3.6,<4.0)"]
 type = "git"
 url = "https://github.com/octue/octue-sdk-python"
 reference = "rc-kueue"
-resolved_reference = "f0b689fbb3b86dbb1d619a21b9a347123ed12305"
+resolved_reference = "cd02dd15f6b8693f3d41c8468e05bf8da932393d"
 
 [[package]]
 name = "opentelemetry-api"
