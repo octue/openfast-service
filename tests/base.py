@@ -5,6 +5,9 @@ from octue.cloud.emulators.cloud_storage import GoogleCloudStorageEmulatorTestRe
 
 class BaseTestCase(unittest.TestCase):
     # Add a cloud storage emulator.
-    test_result_modifier = GoogleCloudStorageEmulatorTestResultModifier(default_bucket_name="octue-openfast-data")
+    test_result_modifier = GoogleCloudStorageEmulatorTestResultModifier(
+        default_bucket_name="main-octue-octue-openfast-octue-twined"
+    )
+
     setattr(unittest.TestResult, "startTestRun", test_result_modifier.startTestRun)
     setattr(unittest.TestResult, "stopTestRun", test_result_modifier.stopTestRun)
