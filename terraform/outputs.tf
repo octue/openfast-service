@@ -14,3 +14,9 @@ output "services_topic" {
   description = "The Pub/Sub topic that all Octue Twined service events are published to."
   value       = module.octue_twined.services_topic
 }
+
+
+output "storage_bucket" {
+  description = "The `gs://` URL of the storage bucket used to store service inputs, outputs, and diagnostics."
+  value = module.octue_twined.storage_bucket
+}
