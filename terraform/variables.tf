@@ -1,44 +1,46 @@
-variable "project" {
+variable "google_cloud_project_id" {
   type    = string
   default = "octue-openfast"
 }
 
-variable "project_number" {
-  type = string
-  default = "86611255144"
-}
 
-variable "region" {
+variable "google_cloud_region" {
   type = string
   default = "europe-west3"
 }
+
 
 variable "github_organisation" {
   type    = string
   default = "octue"
 }
 
-variable "credentials_file" {
-  type    = string
-  default = "gcp-credentials.json"
+
+variable "service_account_names" {
+  type = set(string)
+  default = ["cortadocodes", "thclark"]
 }
 
-variable "service_namespace" {
-  type    = string
-  default = "octue"
+
+variable "deletion_protection" {
+  type    = bool
+  default = false
 }
 
-variable "openfast_service_name" {
-  type    = string
-  default = "openfast-service"
-}
 
-variable "turbsim_service_name" {
-  type    = string
-  default = "turbsim-service"
-}
-
-variable "environment" {
-  type    = string
-  default = "main"
+variable "cluster_queue" {
+  type = object(
+    {
+      name                 = string
+      max_cpus              = number
+      max_memory            = string
+      max_ephemeral_storage = string
+    }
+  )
+  default = {
+    name                  = "cluster-queue"
+    max_cpus              = 100
+    max_memory            = "256Gi"
+    max_ephemeral_storage = "256Gi"
+  }
 }
