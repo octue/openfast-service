@@ -40,10 +40,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Poetry
-      uses: snok/install-poetry@v1.3.2
+      uses: snok/install-poetry@v1
 
     - name: Check pyproject.toml file
       run: poetry check
@@ -64,7 +64,7 @@ jobs:
 
 
   deploy:
-    uses: octue/workflows/.github/workflows/deploy-cloud-run-service.yml@main
+    uses: octue/workflows/.github/workflows/build-octue-service.yml@support-kueue
     needs: release
     permissions:
       id-token: write
@@ -76,5 +76,3 @@ jobs:
       gcp_resource_affix: octue
       gcp_service_name: openfast-service
       local_dockerfile: ./Dockerfile
-      cloud_run_flags: '--ingress=all --allow-unauthenticated --execution-environment=gen2 --max-instances=10 --memory=2048Mi --concurrency=1 --service-account=openfast-service@octue-openfast.iam.gserviceaccount.com'
-      env_vars: 'OCTUE_SERVICE_CONFIGURATION_PATH=/workspace/octue.yaml'
