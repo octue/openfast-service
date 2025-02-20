@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.8.0"
+  required_version = ">= 1.8.0, <2"
 
   required_providers {
     google = {
@@ -36,7 +36,6 @@ data "google_client_config" "default" {}
 
 
 provider "kubernetes" {
-  # config_path = "~/.kube/config"
   host                   = "https://${module.octue_twined.kubernetes_cluster.endpoint}"
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.octue_twined.kubernetes_cluster.master_auth[0].cluster_ca_certificate)
