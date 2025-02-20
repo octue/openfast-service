@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     if: "!contains(github.event.head_commit.message, 'skipci')"
-    uses: octue/workflows/.github/workflows/deploy-cloud-run-service.yml@main
+    uses: octue/workflows/.github/workflows/build-twined-service.yml@0.4.0
     permissions:
       id-token: write
       contents: read
@@ -19,5 +19,3 @@ jobs:
       gcp_resource_affix: octue
       gcp_service_name: openfast-service
       local_dockerfile: ./Dockerfile
-      cloud_run_flags: '--ingress=all --allow-unauthenticated --execution-environment=gen2 --max-instances=10 --memory=2048Mi --concurrency=1 --service-account=openfast-service@octue-openfast.iam.gserviceaccount.com'
-      env_vars: 'OCTUE_SERVICE_CONFIGURATION_PATH=/workspace/octue.yaml'

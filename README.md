@@ -20,17 +20,19 @@ There are two main options:
 
 ## Usage
 ```python
-from octue.resources import Child, Manifest
+from octue.resources import Child, Dataset, Manifest
 
 
 # Point to your data service
 child = Child(
-    id="my-org/openfast-service:0.9.0",
+    id="my-org/openfast-service:0.10.0",
     backend={"name": "GCPPubSubBackend", "project_name": "my-project"},
 )
 
-# Point to your input data
-input_manifest = Manifest(datasets={"openfast": "gs://my-bucket/path/to/openfast_dataset"})
+# Upload your input data
+dataset = Dataset(path="tests/data/openfast_iea")
+dataset.upload(cloud_path="gs://my-bucket/path/to/openfast_dataset")
+input_manifest = Manifest(datasets={"openfast": dataset})
 
 # Run the OpenFAST analysis
 answer, _ = child.ask(input_manifest=input_manifest, timeout=3600)
@@ -46,4 +48,4 @@ the service supports.
 
 | `openfast-service` versions | OpenFAST version |
 |-----------------------------| ---------------- |
-| `<=0.9.0`                   | `3.5.3`          |
+| `<=0.10.0`                  | `3.5.3`          |
