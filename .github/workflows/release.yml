@@ -64,7 +64,7 @@ jobs:
 
 
   deploy:
-    uses: octue/workflows/.github/workflows/build-twined-service.yml@0.4.0
+    uses: octue/workflows/.github/workflows/build-twined-service.yml@0.4.1
     needs: release
     permissions:
       id-token: write
