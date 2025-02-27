@@ -13,9 +13,9 @@ jobs:
       id-token: write
       contents: read
     with:
-      gcp_project_name: octue-openfast
-      gcp_project_number: 86611255144
-      gcp_region: europe-west3
+      gcp_project_name: octue-twined-services
+      gcp_project_number: 13074362726
+      gcp_region: europe-west9
       gcp_resource_affix: octue
       gcp_service_name: openfast-service
       local_dockerfile: ./Dockerfile
