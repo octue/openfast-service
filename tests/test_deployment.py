@@ -7,7 +7,8 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.10.1"
+SRUID = "octue/openfast-service:0.10.2"
+PROJECT_ID = "octue-twined-services"
 
 
 @unittest.skipUnless(
@@ -19,8 +20,11 @@ class TestDeployment(unittest.TestCase):
         """Test that the Kubernetes/Kueue deployment works, providing a service that can be asked questions and send
         responses. Datasets from Google Cloud Storage are used for this test.
         """
-        input_manifest = Manifest(datasets={"openfast": "gs://octue-openfast-test-data/openfast_iea"})
-        child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]})
+        input_manifest = Manifest(
+            datasets={"openfast": "gs://octue-octue-twined-services-octue-twined/openfast-service/testing/openfast_iea"}
+        )
+
+        child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_ID})
 
         answer, question_uuid = child.ask(input_manifest=input_manifest, timeout=3600)
         self.assertEqual(len(answer["output_manifest"].datasets), 1)
@@ -33,7 +37,7 @@ class TestDeployment(unittest.TestCase):
         """Test that multiple parallel questions are answered correctly."""
         number_of_questions = 50
         input_manifest = Manifest(datasets={"openfast": "gs://octue-openfast-test-data/openfast_iea"})
-        child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]})
+        child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_ID})
 
         questions = [{"input_manifest": input_manifest, "timeout": 3600} for _ in range(number_of_questions)]
         answers = child.ask_multiple(*questions, max_workers=50)

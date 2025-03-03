@@ -25,7 +25,7 @@ from octue.resources import Child, Dataset, Manifest
 
 # Point to your data service
 child = Child(
-    id="my-org/openfast-service:0.10.1",
+    id="my-org/openfast-service:0.10.2",
     backend={"name": "GCPPubSubBackend", "project_name": "my-project"},
 )
 
@@ -48,4 +48,4 @@ the service supports.
 
 | `openfast-service` versions | OpenFAST version |
 |-----------------------------| ---------------- |
-| `<=0.10.1`                  | `3.5.3`          |
+| `<=0.10.2`                  | `3.5.3`          |

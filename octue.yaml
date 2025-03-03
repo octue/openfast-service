@@ -3,8 +3,8 @@ services:
     name: openfast-service
     app_source_path: openfast_service
     app_configuration_path: app_configuration.json
-    diagnostics_cloud_path: gs://octue-openfast-service/diagnostics
+    diagnostics_cloud_path: gs://octue-octue-twined-services-octue-twined/openfast-service/diagnostics
     event_store_table_id: main_octue_twined.service-events
     service_registries:
-      - name: OpenFAST service registry
-        endpoint: https://europe-west3-octue-openfast.cloudfunctions.net/main-octue-twined-service-registry
+      - name: Octue service registry
+        endpoint: https://europe-west9-octue-twined-services.cloudfunctions.net/main-octue-twined-service-registry

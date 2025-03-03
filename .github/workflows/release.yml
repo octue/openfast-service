@@ -28,8 +28,8 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: "projects/86611255144/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider"
-          service_account: "github-actions@octue-openfast.iam.gserviceaccount.com"
+          workload_identity_provider: "projects/13074362726/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider"
+          service_account: "github-actions@octue-twined-services.iam.gserviceaccount.com"
 
       - name: Run tests
         run: poetry run python -m unittest
@@ -70,9 +70,9 @@ jobs:
       id-token: write
       contents: read
     with:
-      gcp_project_name: octue-openfast
-      gcp_project_number: 86611255144
-      gcp_region: europe-west3
+      gcp_project_name: octue-twined-services
+      gcp_project_number: 13074362726
+      gcp_region: europe-west9
       gcp_resource_affix: octue
       gcp_service_name: openfast-service
       local_dockerfile: ./Dockerfile
