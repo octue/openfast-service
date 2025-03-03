@@ -19,7 +19,10 @@ class TestDeployment(unittest.TestCase):
         """Test that the Kubernetes/Kueue deployment works, providing a service that can be asked questions and send
         responses. Datasets from Google Cloud Storage are used for this test.
         """
-        input_manifest = Manifest(datasets={"openfast": "gs://octue-openfast-test-data/openfast_iea"})
+        input_manifest = Manifest(
+            datasets={"openfast": "gs://octue-octue-twined-services-octue-twined/openfast-service/testing/openfast_iea"}
+        )
+
         child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": os.environ["TEST_PROJECT_NAME"]})
 
         answer, question_uuid = child.ask(input_manifest=input_manifest, timeout=3600)
