@@ -7,7 +7,7 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.10.1"
+SRUID = "octue/openfast-service:0.10.2"
 
 
 @unittest.skipUnless(
