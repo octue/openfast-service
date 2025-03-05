@@ -7,7 +7,7 @@ from octue.resources import Child, Manifest
 apply_log_handler()
 
 
-SRUID = "octue/openfast-service:0.10.2"
+SRUID = "octue/openfast-service:0.10.3"
 PROJECT_ID = "octue-twined-services"
 
 
@@ -21,7 +21,7 @@ class TestDeployment(unittest.TestCase):
         responses. Datasets from Google Cloud Storage are used for this test.
         """
         input_manifest = Manifest(
-            datasets={"openfast": "gs://octue-octue-twined-services-octue-twined/openfast-service/testing/openfast_iea"}
+            datasets={"openfast": "gs://octue-twined-services-octue-twined/openfast-service/testing/openfast_iea"}
         )
 
         child = Child(id=SRUID, backend={"name": "GCPPubSubBackend", "project_name": PROJECT_ID})

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "openfast-service"
-version = "0.10.2"
+version = "0.10.3"
 description = ""
 authors = ["Marcus Lugg <marcus@octue.com>"]
 readme = "README.md"
